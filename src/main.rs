@@ -245,10 +245,438 @@
 //     assert_eq!([x,y], [3,2]);
 // }
 
-
 // 类型推导与标注
-fn main() {
-    // let guess = "42".parse().expect("Not a number!");
-    let guess: i32 = "42".parse().expect("Not a number!");
+// fn main() {
+//     // let guess = "42".parse().expect("Not a number!");
+//     let guess: i32 = "42".parse().expect("Not a number!");
 
-}
+// }
+
+// 整型溢出
+// fn main() {
+//     let a: u8 = 255;
+//     let b = a.wrapping_add(20);
+//     println!("{}", b);
+// }
+
+// 浮点类型
+// fn main() {
+//     // let x = 2.0;
+//     // let y: f32 = 3.0;
+
+//     // assert!(0.1+0.2==0.3);
+//     // assert!((0.1_f64 + 0.2 - 0.3).abs() < 0.0001);
+
+//     // let abc: (f32,f32,f32) = (0.1,0.2,0.3);
+//     // let xyz: (f64,f64,f64) = (0.1,0.2,0.3);
+
+//     // println!("abc (f32)");
+//     // println!("   0.1 + 0.2: {:x}", (abc.0 + abc.1).to_bits());
+//     // println!("         0.3: {:x}", (abc.2).to_bits());
+//     // println!();
+
+//     // println!("xyz (f64)");
+//     // println!("   0.1 + 0.2: {:x}", (xyz.0 + xyz.1).to_bits());
+//     // println!("         0.3: {:x}", (xyz.2).to_bits());
+//     // println!();
+
+//     // assert!(abc.0 + abc.1 == abc.2);
+//     // assert!(xyz.0 + xyz.1 == xyz.2);
+
+//     // NAN
+//     // let x = (-42.0_f32).sqrt();
+//     // // assert_eq!(x,x);
+
+//     // if x.is_nan() {
+//     //     println!("未定义的数学行为")
+//     // }
+
+//     // 数字运算
+//         // 加法
+//         let sum = 5 + 10;
+
+//         // 减法
+//         let difference = 95.5 - 4.3;
+
+//         // 乘法
+//         let product = 4 * 30;
+
+//         // 除法
+//         let quotient = 56.7 / 32.2;
+
+//         // 求余
+//         let remainder = 43 % 5;
+
+// }
+
+// fn main() {
+//     // 编译器会进行自动推导，给予twenty i32的类型
+//     let twenty = 20;
+//     // 类型标注
+//     let twenty_one: i32 = 21;
+//     // 通过类型后缀的方式进行类型标注：22是i32类型
+//     let twenty_two = 22i32;
+
+//     // 只有同样类型，才能运算
+//     let addition = twenty + twenty_one + twenty_two;
+//     println!("{} + {} + {} = {}", twenty, twenty_one, twenty_two, addition);
+
+//     // 对于较长的数字，可以用_进行分割，提升可读性
+//     let one_million: i64 = 1_000_000;
+//     println!("{}", one_million.pow(2));
+
+//     // 定义一个f32数组，其中42.0会自动被推导为f32类型
+//     let forty_twos = [
+//       42.0,
+//       42f32,
+//       42.0_f32,
+//     ];
+
+//     // 打印数组中第一个值，并控制小数位为2位
+//     println!("{:.2}", forty_twos[0]);
+//   }
+
+// 位运算
+// fn main() {
+//     // 二进制为00000010
+//     let a:i32 = 2;
+//     // 二进制为00000011
+//     let b:i32 = 3;
+
+//     println!("(a & b) value is {}", a & b);
+
+//     println!("(a | b) value is {}", a | b);
+
+//     println!("(a ^ b) value is {}", a ^ b);
+
+//     println!("(!b) value is {} ", !b);
+
+//     println!("(a << b) value is {}", a << b);
+
+//     println!("(a >> b) value is {}", a >> b);
+
+//     let mut a = a;
+//     // 注意这些计算符除了!之外都可以加上=进行赋值 (因为!=要用来判断不等于)
+//     a <<= b;
+//     println!("(a << b) value is {}", a);
+// }
+
+// 序列
+// fn main() {
+//     for i in 1..=5 {
+//         // println!("{}",i);
+//     }
+
+//     for i in 'a'..='z' {
+//         println!("{}",i);
+//     }
+
+// }
+
+// 有理数和复数
+// use num::complex::Complex;
+
+// fn main() {
+//     let a = Complex {re: 2.1, im: -1.2};
+//     let b = Complex::new(11.1,22.2);
+//     let result = a+b;
+//     println!("{}+{}", result.re, result.im);
+
+// }
+
+// practice
+
+// 移除某个部分让代码工作
+// fn main() {
+//     let x: i32 = 5;
+//     let mut y = 5;
+
+//     y = x;
+
+//     let z = 10; // 这里 z 的类型是?
+// }
+
+// // 填空
+// fn main() {
+//     let v: u16 = 38_u8 as u16;
+// }
+
+// 修改 `assert_eq!` 让代码工作
+// fn main() {
+//     let x = 5;
+//     assert_eq!("i32".to_string(), type_of(&x));
+// }
+
+// // 以下函数可以获取传入参数的类型，并返回类型的字符串形式，例如  "i8", "u8", "i32", "u32"
+// fn type_of<T>(_: &T) -> String {
+//     format!("{}", std::any::type_name::<T>())
+// }
+
+// 填空，让代码工作
+// fn main() {
+//     assert_eq!(i8::MAX, 127);
+//     assert_eq!(u8::MAX, 255);
+// }
+
+// 解决代码中的错误和 `panic`
+// fn main() {
+//     let v1 = 247_u8 + 8;
+//     let v2 = i8::checked_add(119, 8).unwrap();
+//     println!("{},{}",v1,v2);
+//  }
+
+// // 修改 `assert!` 让代码工作
+// fn main() {
+//     let v = 1_024 + 0xff + 0o77 + 0b1111_1111;
+//     assert!(v == 1597);
+// }
+
+// 将 ? 替换成你的答案
+// fn main() {
+//     let x = 1_000.000_1; // f64
+//     let y: f32 = 0.12; // f32
+//     let z = 0.01_f64; // f64
+// }
+
+// use num::complex::ComplexFloat;
+
+// use num::Float;
+
+// fn main() {
+//     // assert!(0.1+0.2==0.3);
+//     assert!((0.1+0.2-0.3).abs()< 0.0001);
+//     assert!(0.1_f32+0.2_f32==0.3_f32);
+// }
+
+// fn main() {
+//     let mut sum = 0;
+//     for i in -3..2 {
+//         sum += i
+//     }
+
+//     assert!(sum == -5);
+
+//     for c in 'a'..='z' {
+//         println!("{}",c as u8);
+//     }
+// }
+
+// 填空
+// use std::ops::{Range, RangeInclusive};
+// fn main() {
+//     assert_eq!((1..5), Range{ start: 1, end: 5 });
+//     assert_eq!((1..=5), RangeInclusive::new(1, 5));
+// }
+
+// // // 填空，并解决错误
+// fn main() {
+//     // 整数加法
+//     assert!(1u32 + 2 == 3);
+
+//     // 整数减法
+//     assert!(1i32 - 2 == -1);
+//     assert!(1i8 - 2 == -1);
+
+//     assert!(3 * 50 == 150);
+
+//     assert!(9 / 3 == 3); // error ! 修改它让代码工作
+
+//     assert!(24 % 5 == 4);
+
+//     // 逻辑与或非操作
+//     assert!(true && false == false);
+//     assert!(true || false == true);
+//     assert!(!true == false);
+
+//     // 位操作
+//     println!("0011 AND 0101 is {:04b}", 0b0011u32 & 0b0101);
+//     println!("0011 OR 0101 is {:04b}", 0b0011u32 | 0b0101);
+//     println!("0011 XOR 0101 is {:04b}", 0b0011u32 ^ 0b0101);
+//     println!("1 << 5 is {}", 1u32 << 5);
+//     println!("0x80 >> 2 is 0x{:x}", 0x80u32 >> 2);
+// }
+
+// 字符
+// fn main() {
+//     // let c = 'z';
+//     // let z = 'ℤ';
+//     // let g = '国';
+//     // let heart_eyed_cat = '😻';
+
+//     let x = '中';
+//     println!("字符'中'占用了{}字节的内存大小",std::mem::size_of_val(&x));
+// }
+
+// 布尔
+// fn main() {
+//     let t = true;
+
+//     let f: bool = false; // 使用类型标注,显式指定f的类型
+
+//     if f {
+//         println!("这是段毫无意义的代码");
+//     }
+// }
+
+// practice
+// 修改2处 `assert_eq!` 让代码工作
+
+// use std::mem::size_of_val;
+// fn main() {
+//     let c1 = 'a';
+//     assert_eq!(size_of_val(&c1),4);
+
+//     let c2 = '中';
+//     assert_eq!(size_of_val(&c2),4);
+
+//     println!("Success!")
+// }
+
+// // 修改一行让代码正常打印
+// fn main() {
+//     let c1 = '中';
+//     print_char(c1);
+// }
+
+// fn print_char(c : char) {
+//     println!("{}", c);
+// }
+
+// 使成功打印
+// fn main() {
+//     let _f: bool = false;
+
+//     let t = true;
+//     if t {
+//         println!("Success!")
+//     }
+// }
+
+// fn main() {
+//     let f = true;
+//     let t = true && false;
+//     assert_eq!(!t, f);
+
+//     println!("Success!")
+// }
+
+// 让代码工作，但不要修改 `implicitly_ret_unit` !
+// fn main() {
+//     let v0: () = ();
+
+//     let v = (2, 3);
+//     assert_eq!(v0, implicitly_ret_unit());
+
+//     println!("Success!")
+// }
+
+// fn implicitly_ret_unit() {
+//     println!("I will return a ()")
+// }
+
+// // 不要使用下面的函数，它只用于演示！
+// fn explicitly_ret_unit() -> () {
+//     println!("I will return a ()")
+// }
+
+// 让代码工作：修改 `assert!` 中的 `4`
+// use std::mem::size_of_val;
+// fn main() {
+//     let unit: () = ();
+//     assert!(size_of_val(&unit) == 0);
+
+//     println!("Success!")
+// }
+
+// 语句和表达式
+// fn add_with_extra(x: i32, y: i32) -> i32 {
+//     let x = x + 1; //语句
+//     let y = y + 5; //语句
+//     x + y //表达式
+// }
+
+// fn main() {
+//     let y = {
+//         let x = 3;
+//         x + 1
+//     };
+
+//     println!("The value of y is: {}", y);
+// }
+
+// fn main() {
+//     assert_eq!(ret_unit_type(), ())
+// }
+
+// fn ret_unit_type() {
+//     let x = 1;
+//     // if 语句块也是一个表达式，因此可以用于赋值，也可以直接返回
+//     // 类似三元运算符，在Rust里我们可以这样写
+//     let y = if x % 2 == 1 {
+//         "odd"
+//     } else {
+//         "even"
+//     };
+//     // 或者写成一行
+//     let z = if x % 2 == 1 { "odd" } else { "even" };
+// }
+
+// practice
+// fn main() {
+//     let x = 5u32;
+
+//     let y = {
+//         let x_squared = x * x;
+//         let x_cube = x_squared * x;
+
+//         // 下面表达式的值将被赋给 `y`
+//         x_cube + x_squared + x
+//     };
+
+//     let z = {
+//         // 分号让表达式变成了语句，因此返回的不再是表达式 `2 * x` 的值，而是语句的值 `()`
+//         2 * x;
+//     };
+
+//     println!("x is {:?}", x);
+//     println!("y is {:?}", y);
+//     println!("z is {:?}", z);
+// }
+
+// 使用两种方法让代码工作起来
+// fn main() {
+//     let v = {
+//         let mut x = 1;
+//         x += 2;
+//         x
+//     };
+
+//     assert_eq!(v, 3);
+//  }
+
+ fn main() {
+    let v = {
+        let mut x = 1;
+        x += 2
+    };
+
+    assert_eq!(v, ());
+ }
+
+// fn main() {
+//     let v = {
+//         let x = 3;
+//         x
+//     };
+
+//     assert!(v == 3);
+// }
+
+// fn main() {
+//     let s = sum(1 , 2);
+//     assert_eq!(s, 3);
+// }
+
+// fn sum(x: i32, y: i32) -> i32 {
+//     x + y
+// }
