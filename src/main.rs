@@ -654,6 +654,7 @@
 //     assert_eq!(v, 3);
 //  }
 
+<<<<<<< HEAD
 //  fn main() {
 //     let v = {
 //         let mut x = 1;
@@ -662,6 +663,16 @@
 
 //     assert_eq!(v, ());
 //  }
+=======
+ fn main() {
+    let v = {
+        let mut x = 1;
+        x += 2
+    };
+
+    assert_eq!(v, ());
+ }
+>>>>>>> 78d0e15060f96a74797910cd06ec6f0eb5827222
 
 // fn main() {
 //     let v = {
@@ -680,6 +691,7 @@
 // fn sum(x: i32, y: i32) -> i32 {
 //     x + y
 // }
+<<<<<<< HEAD
 
 // 函数参数
 // fn main() {
@@ -836,3 +848,5 @@ fn main() {
 
   println!("{}", s)
 }
+=======
+>>>>>>> 78d0e15060f96a74797910cd06ec6f0eb5827222
