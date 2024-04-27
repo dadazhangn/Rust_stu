@@ -670,7 +670,6 @@
 //     assert_eq!(v, ());
 //  }
 
-
 // fn main() {
 //     let v = {
 //         let x = 3;
@@ -755,7 +754,6 @@
 //     x + y
 // }
 
-
 // fn main() {
 //   print();
 // }
@@ -807,7 +805,7 @@
 //           // TODO
 //       }
 //   };
-  
+
 //   // 这里与其返回一个 None，不如使用发散函数替代
 //   never_return_fn()
 // }
@@ -816,8 +814,6 @@
 // fn never_return_fn() -> ! {
 //     panic!()
 // }
-
-
 
 // fn main() {
 //   // 填空
@@ -836,12 +832,431 @@
 // }
 
 // String
-fn main() {
+// fn main() {
 
-  let mut s = String::from("hello");
+//   let mut s = String::from("hello");
 
-  s.push_str(", world");  // push_str() 在字符串后追加字面值
+//   s.push_str(", world");  // push_str() 在字符串后追加字面值
 
-  println!("{}", s)
-}
+//   // let s1 =s;
 
+//   // println!("{}", s)
+
+//   let s2 = "hello world";
+//   let s3 = s2;
+//   println!("{}",s3);
+//   // 深拷贝
+//   let s4 = s.clone();
+
+// }
+
+// fn main() {
+//   let s = String::from("hello world");
+
+//   takes_ownership(s);
+
+//   // println!("{}",s); // s 的值移动到函数里 ...
+//   // ... 所以到这里不再有效
+
+//   let x = 5;
+
+//   makes_copy(x);
+//     // x 应该移动函数里，
+//     // 但 i32 是 Copy 的，所以在后面可继续使用 x
+
+// }// 这里, x 先移出了作用域，然后是 s。但因为 s 的值已被移走，
+//   // 所以不会有特殊操作
+
+// fn takes_ownership(some_string: String) { // some_string 进入作用域
+//   println!("{}", some_string);
+// } // 这里，some_string 移出作用域并调用 `drop` 方法。占用的内存被释放
+
+// fn makes_copy(some_integer: i32) { // some_integer 进入作用域
+//   println!("{}", some_integer);
+// } // 这里，some_integer 移出作用域。不会有特殊操作
+
+// fn main() {
+//     let s1 = gives_owernship();
+//     // println!("{}",s1);
+
+//     let s2 = String::from("hello world");
+
+//     let s3 = takes_and_gives_back(s2);
+//     // println!("{}",s3);
+//   }
+
+// fn gives_owernship() -> String {
+//   let owership = String::from("hello");
+//   owership
+// }
+
+// fn takes_and_gives_back(s :String) -> String{
+//   s
+// }
+
+// practice
+
+// 1
+// fn main() {
+//   // 使用尽可能多的方法来通过编译
+//   let x = String::from("hello, world");
+//   let y = x.clone();
+//   println!("{},{}",x,y);
+// }
+
+// fn main() {
+//   // 使用尽可能多的方法来通过编译
+//   let x = "hello, world";
+//   let y = x;
+//   println!("{},{}",x,y);
+// }
+
+// 2
+// 不要修改 main 中的代码
+// fn main() {
+//   let s1 = String::from("hello, world");
+//   let s2 = take_ownership(s1);
+
+//   println!("{}", s2);
+// }
+
+// // 只能修改下面的代码!
+// fn take_ownership(s: String) ->String{
+//   // println!("{}", s);
+//   s
+// }
+
+// 3
+
+// fn main() {
+//   let s = give_ownership();
+//   println!("{}", s);
+// }
+
+// // // 只能修改下面的代码!
+// fn give_ownership() -> String {
+//   let s = String::from("hello, world");
+//   // convert String to Vec
+//   // 将 String 转换成 Vec 类型
+//   // let s1 = s.clone();
+//   // let _s = s.into_bytes();
+//   s
+// }
+
+// 4
+// 修复错误，不要删除任何代码行
+// fn main() {
+//   let s = String::from("hello, world");
+
+//   let s1 = s.clone();
+//   print_str(s);
+
+//   println!("{}", s1);
+// }
+
+// fn print_str(s: String)  {
+//   println!("{}",s)
+// }
+
+// 5
+
+// 不要使用 clone，使用 copy 的方式替代
+// fn main() {
+//   let x = (1, 2, (), "hello");
+//   // let y = x.clone();
+//   // let y = x.3;
+//   let y = x;
+//   println!("{:?}, {:?}", x, y);
+// }
+
+// 6
+
+// fn main() {
+//   let s = String::from("hello, ");
+
+//   // 只修改下面这行代码 !
+//   let mut s1 = s;
+
+//   s1.push_str("world")
+// }
+
+// 7
+
+// fn main() {
+//   let x = Box::new(5);
+
+//   let let mut y = Box::new(3);     // 完成该行代码，不要修改其它行！
+
+//   *y = 4;
+
+//   assert_eq!(*x, 5);
+// }
+
+// 8
+
+// fn main() {
+//   let t = (String::from("hello"), String::from("world"));
+
+//   let _s = t.0;
+
+//   // 仅修改下面这行代码，且不要使用 `_s`
+//   println!("{:?}", t.1);
+// }
+
+// 9
+
+// fn main() {
+//   let t = (String::from("hello"), String::from("world"));
+
+//   // 填空，不要修改其它代码
+//   // let (t, s1, s2) = (t.clone(), t.0, t.1);
+//   let(s1, s2) = t.clone();
+
+//   println!("{:?}, {:?}, {:?}", s1, s2, t); // -> "hello", "world", ("hello", "world")
+// }
+
+//引用与解引用
+// fn main() {
+//     let x = 5;
+//     let y = &x;
+
+//     assert_eq!(5, x);
+//     assert_eq!(5, *y);
+// }
+
+// 不可变引用
+// fn main() {
+//   let x = String::from("hello world");
+
+//   let y = calculate_length(&x);
+
+//   println!("{}",y);
+// }
+
+// fn calculate_length(s: &String) -> usize { // s 是对 String 的引用
+//     s.len()
+// }// 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，
+// 所以什么也不会发生
+
+// fn main() {
+//   let s1 = String::from("hello");
+//   let s1 = String::from("hello");
+
+//   change_str(&s1);
+// }
+
+// fn change_str(s: &String) {
+//   s.push_str(".world");
+// }
+
+// fn main() {
+//   let mut s1 = String::from("hello");
+//   // let s1 = String::from("hello");
+
+//   change_str(&mut s1);
+// }
+
+// fn change_str(s: &mut String) {
+//   s.push_str(".world");
+// }
+// 可变引用同时只能存在一个
+// fn main() {
+//     let mut s = String::from("hello");
+
+//     // let r1 = &mut s;
+//     let r2 = &mut s;
+
+//     {
+//       let r1 = &mut s;
+  
+//   } // r1 在这里离开了作用域，所以我们完全可以创建一个新的引用
+  
+
+//     // println!("{}, {}", r1, r2);
+// }
+
+// fn main() {
+//   // 可变引用与不可变引用不能同时存在
+//   let mut s = String::from("hello");
+
+//   let r1 = &mut s;
+//   let r2 = &s;
+//   let r3 = &s;
+
+//   println!("{}, {}, and {}", r1, r2, r3);
+// }
+
+// fn main() {
+//   let mut s = String::from("hello");
+
+//    let r1 = &s;
+//    let r2 = &s;
+//    println!("{} and {}", r1, r2);
+//    // 新编译器中，r1,r2作用域在这里结束
+
+//    let r3 = &mut s;
+//    println!("{}", r3);
+// } // 老编译器中，r1、r2、r3作用域在这里结束
+//  // 新编译器中，r3作用域在这里结束
+
+// 悬垂引用
+// fn main() {
+//   // let reference_to_nothing = dangle1();
+//   let reference_to_nothing = dangle2();
+// }
+
+// // fn dangle1() -> &String {
+// //   let s = String::from("hello");
+
+// //   &s
+// // } // 这里 s 离开作用域并被丢弃。其内存被释放。
+// // // 危险！
+
+// fn dangle2() -> String {
+//   let s = String::from("hello");
+//   s
+// }
+
+// practice
+// 1
+
+// fn main() {
+//   let x = 5;
+//   // 填写空白处
+//   let p = &x;
+
+//   println!("x 的内存地址是 {:p}", p); // output: 0x16fa3ac84
+// }
+
+// 2
+
+// fn main() {
+//   let x = 5;
+//   let y = &x;
+
+//   // 只能修改以下行
+//   assert_eq!(5, *y);
+// }
+
+// 3
+
+// 修复错误
+// fn main() {
+//   let mut s = String::from("hello, ");
+
+//   borrow_object(&s)
+// }
+
+// fn borrow_object(s: &String) {}
+
+// 4
+
+// 修复错误
+// fn main() {
+//   let mut s = String::from("hello, ");
+
+//   push_str(& mut s)
+// }
+
+// fn push_str(s: &mut String) {
+//   s.push_str("world")
+// }
+
+// 5
+
+// fn main() {
+//   let mut s = String::from("hello, ");
+
+//   // 填写空白处，让代码工作
+//   let p = & mut s;
+  
+//   p.push_str("world");
+// }
+
+// 6
+
+// fn main() {
+//   let c = '中';
+
+//   let r1 = &c;
+//   // 填写空白处，但是不要修改其它行的代码
+//   let ref r2 = c;
+
+//   assert_eq!(*r1, *r2);
+  
+//   // 判断两个内存地址的字符串是否相等
+//   assert_eq!(get_addr(r1),get_addr(r2));
+// }
+
+// // 获取传入引用的内存地址的字符串形式
+// fn get_addr(r: &char) -> String {
+//   format!("{:p}", r)
+// }
+
+// 7
+
+// 移除代码某个部分，让它工作
+// 你不能移除整行的代码！
+// fn main() {
+//   let mut s = String::from("hello");
+
+//   let r1 = &s;
+//   let r2 = &s;
+
+//   println!("{}, {}", r1, r2);
+// }
+
+// 8
+
+// fn main() {
+//   // 通过修改下面一行代码来修复错误
+//   let mut s = String::from("hello, ");
+
+//   borrow_object(&mut s)
+// }
+
+// fn borrow_object(s: &mut String) {}
+
+// 9
+
+// 从可变对象借用不可变
+
+// 下面的代码没有任何错误
+// fn main() {
+//   let mut s = String::from("hello, ");
+
+//   borrow_object(&s);
+  
+//   s.push_str("world");
+// }
+
+// fn borrow_object(s: &String) {}
+
+// 10
+
+// 注释掉一行代码让它工作
+// fn main() {
+//   let mut s = String::from("hello, ");
+
+//   let r1 = &mut s;
+//   r1.push_str("world");
+//   let r2 = &mut s;
+//   r2.push_str("!");
+  
+//   // println!("{}",r1);
+// }
+
+// 11
+
+// fn main() {
+//   let mut s = String::from("hello, ");
+
+//   let r1 = &mut s;
+//   let r2 = &mut s;
+
+//   // 在下面增加一行代码人为制造编译错误：cannot borrow `s` as mutable more than once at a time
+//   // 你不能同时使用 r1 和 r2
+//   println!("{},{}",r1,r2);
+// }
+
+// 复合类型
