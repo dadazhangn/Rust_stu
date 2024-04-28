@@ -1068,9 +1068,8 @@
 
 //     {
 //       let r1 = &mut s;
-  
+
 //   } // r1 在这里离开了作用域，所以我们完全可以创建一个新的引用
-  
 
 //     // println!("{}, {}", r1, r2);
 // }
@@ -1169,7 +1168,7 @@
 
 //   // 填写空白处，让代码工作
 //   let p = & mut s;
-  
+
 //   p.push_str("world");
 // }
 
@@ -1183,7 +1182,7 @@
 //   let ref r2 = c;
 
 //   assert_eq!(*r1, *r2);
-  
+
 //   // 判断两个内存地址的字符串是否相等
 //   assert_eq!(get_addr(r1),get_addr(r2));
 // }
@@ -1226,7 +1225,7 @@
 //   let mut s = String::from("hello, ");
 
 //   borrow_object(&s);
-  
+
 //   s.push_str("world");
 // }
 
@@ -1242,7 +1241,7 @@
 //   r1.push_str("world");
 //   let r2 = &mut s;
 //   r2.push_str("!");
-  
+
 //   // println!("{}",r1);
 // }
 
@@ -1260,3 +1259,429 @@
 // }
 
 // 复合类型
+// #![allow(unused_variables)]
+// type File = String;
+
+// fn open(f: &mut File) -> bool {
+//     true
+// }
+// fn close(f: &mut File) -> bool {
+//     true
+// }
+
+// fn read(f: &mut File, save_to: &mut Vec<u8>) -> ! {
+//     unimplemented!()
+// }
+
+// fn main() {
+//     let mut f1 = File::from("f1.txt");
+//     open(&mut f1);
+//     //read(&mut f1, &mut vec![]);
+//     close(&mut f1);
+// }
+
+// fn main() {
+//   let name = "pascal";
+//   greey(name);
+// }
+
+// fn greey(name: String) {
+//   println!("hello, {}", name);
+// }
+
+// 切片 按字节切
+// fn main() {
+//   let s = String::from("hello world");
+//   let hello = &s[0..5];
+//   let world = &s[6..11];
+
+//   println!("{},{}",hello,world);
+
+//   // 从索引0开始
+//   let slice1 = &s[0..2];
+//   let slice2 = &s[..2];
+
+//   // 如果你的切片想要包含 String 的最后一个字节
+//   let len = s.len();
+//   let slice3 = &s[10..len];
+//   // println!("{}",slice3)
+
+//   // 截取完整的 String 切片
+//   let slice4 = &s[0..len];
+//   let slice5 = &s[..];
+
+//   // 中文切片
+//   let chinese = String::from("中国人");
+//   let a = &chinese[0..3];
+//   println!("{}",a)
+
+// }
+
+// fn main() {
+//   let mut s = String::from("hello");
+//   let word = first_word(&s);
+//   // s.clear();
+//   println!("{}",word);
+
+// }
+
+// fn first_word(s: &String) -> &str {
+//     &s[..1]
+// }
+
+// // 其他切片
+// fn main() {
+//   let a = [1,2,3,4,5,6];
+//   let slice = &a[1..3];
+//   assert_eq!(slice,[2,3]);
+// }
+
+// String 与 &str 的转换
+// String::from("hello,world")
+// "hello,world".to_string()
+
+// fn main() {
+//   let s = String::from("hello,world");
+//   say_hello(&s);
+//   say_hello(&s[..10]);
+//   say_hello(s.as_str());
+// }
+// fn say_hello(s: &str) {
+//     println!("{}",s);
+// }
+
+// 字符串索引 Rust 不允许去索引字符串
+
+// 操作字符串
+// 追加
+// fn main() {
+//   let mut s = "hello".to_string();
+//   s.push_str(" rust");
+
+//   println!("追加字符串{}",s);
+
+//   s.push('!');
+//   println!("追加字符{}",s);
+// }
+
+// 插入
+// fn main() {
+//   let mut s = String::from("hello world");
+//   // 插入字符
+//   s.insert(5, ',');
+//   println!("插入字符：{}", s);
+//   // 插入字符串
+//   s.insert_str(6, "i like");
+//    println!("插入字符串：{}", s);
+// }
+
+// 替换
+// fn main() {
+//   // replace 返回一个新串
+//   let string_replace = String::from("I like rust. Learning rust is my favorite!");
+//   let new_string_replace = string_replace.replace("rust", "Rust");
+//   dbg!(new_string_replace);
+
+//   // replacen 返回一个新串
+//   let new_string_replacen = string_replace.replacen("rust", "RUST", 2);
+//   dbg!(new_string_replacen);
+
+//   // replace_range 仅适用于 String 类型 直接操作原来的字符串
+//   let mut string_replace_range = String::from("I like rust!");
+//   string_replace_range.replace_range(7..8, "R");
+//   dbg!(string_replace_range);
+
+// }
+
+// 删除
+
+// pop —— 删除并返回字符串的最后一个字符 直接操纵原来字符串
+// fn main() {
+//   let mut s = String::from("rust pop 中文");
+//   let p1 = s.pop();
+//   let p2 = s.pop();
+
+//   dbg!(p1);
+//   dbg!(p2);
+//   dbg!(s);
+// }
+
+// remove —— 删除并返回字符串中指定位置的字符 直接操纵原来字符串
+// fn main() {
+//     let mut s = String::from("测试remove方法");
+
+//     println!(
+//         "string_remove 占 {} 个字节",
+//         std::mem::size_of_val(s.as_str())
+//     );
+
+//     // 删除第一个汉字
+//     let p1 = s.remove(0);
+//     // 按照字节来处理字符串
+//     // let p2 = s.remove(1);
+//     // let p3 = s.remove(2);
+//     // let p3 = s.remove(3);
+
+//     dbg!(p1);
+//     dbg!(s);
+
+// }
+
+// truncate —— 删除字符串中从指定位置开始到结尾的全部字符 直接操纵原来字符串
+// fn main() {
+//   let mut s = String::from("测试truncate");
+//   s.truncate(3);
+
+//   dbg!(s);
+
+// }
+
+// clear —— 清空字符串 直接操纵原来字符串
+// fn main() {
+//   let mut s = String::from("string clear");
+//   s.clear();
+
+//   dbg!(s);
+// }
+
+// Concatenate
+// fn main() {
+//   let string_append = String::from("hello ");
+//   let string_rust = String::from("rust");
+
+//   let result = string_append + &string_rust;
+
+//   let mut result = result+ "!";
+
+//   result+="!!!";
+//   println!("连接字符串 + -> {}", result);
+// }
+
+// fn main() {
+//     let s1 = String::from("hello,");
+//     let s2 = String::from("world!");
+//     // 在下句中，s1的所有权被转移走了，因此后面不能再使用s1
+//     let s3 = s1 + &s2;
+//     assert_eq!(s3, "hello,world!");
+//     // 下面的语句如果去掉注释，就会报错
+//     // println!("{}",s1);
+
+//     let s1 = String::from("tic");
+//     let s2 = String::from("tac");
+//     let s3 = String::from("toe");
+
+//     // String = String + &str + &str + &str + &str
+//     let s = s1 + "-" + &s2 + "-" + &s3;
+// }
+
+// fn main() {
+//   let s1 = "hello";
+//   let s2 = String::from("rust");
+
+//   let s = format!("{},{}",s1,s2);
+
+//   dbg!(s);
+// }
+
+
+// // 字符串转义
+// fn main() {
+//   // 通过 \ + 字符的十六进制表示，转义输出一个字符
+//   let byte_escape = "I'm writing \x52\x75\x73\x74!";
+//   println!("What are you doing\x3F (\\x3F means ?) {}", byte_escape);
+
+//   // \u 可以输出一个 unicode 字符
+//   let unicode_codepoint = "\u{211D}";
+//   let character_name = "\"DOUBLE-STRUCK CAPITAL R\"";
+
+//   println!(
+//       "Unicode character {} (U+211D) is called {}",
+//       unicode_codepoint, character_name
+//   );
+
+//   // 换行了也会保持之前的字符串格式
+//   // 使用\忽略换行符
+//   let long_string = "String literals
+//                       can span multiple lines.
+//                       The linebreak and indentation here ->\
+//                       <- can be escaped too!";
+//   println!("{}", long_string);
+// }
+
+// fn main() {
+//   println!("{}", "hello \\x52\\x75\\x73\\x74");
+//   let raw_str = r"Escapes don't work here: \x3F \u{211D}";
+//   println!("{}", raw_str);
+
+//   // 如果字符串包含双引号，可以在开头和结尾加 #
+//   let quotes = r#"And then I said: "There is no escape!""#;
+//   println!("{}", quotes);
+
+//   // 如果还是有歧义，可以继续增加，没有限制
+//   let longer_delimiter = r###"A string with "# in it. And even "##!"###;
+//   println!("{}", longer_delimiter);
+// }
+
+//操作字符串
+// fn main() {
+//   for c in "中国人" .chars() {
+//     // println!("{}",c);
+//   }
+
+//   // 返回字节数组
+//   for b in "中国人".bytes() {
+//     println!("{}",b);
+//   }
+//  }
+
+// practice 
+
+// 修复错误，不要新增代码行
+// 1
+// fn main() {
+//   let s: &str = "hello, world";
+// }
+
+// 2
+
+// 使用至少两种方法来修复错误
+// fn main() {
+//   let s: Box<str> = "hello, world".into();
+//   greetings(&s);
+// }
+
+// fn greetings(s: &str) {
+//   println!("{}",s)
+// }
+
+// fn main() {
+//   // let s: Box<str> = "hello, world".into();
+//   let s: &str = "hello, world";
+//   greetings(s);
+// }
+
+// fn greetings(s: &str) {
+//   println!("{}",s)
+// }
+
+// 3
+
+// 填空
+// fn main() {
+//   let mut s = "".to_string();
+//   s.push_str("hello, world");
+//   s.push('!');
+
+//   assert_eq!(s, "hello, world!");
+// }
+
+// 4
+
+// 修复所有错误，并且不要新增代码行
+// fn main() {
+//   let mut s = String::from("hello");
+//   s.push(',');
+//   s.push_str(" world");
+//   s += &"!".to_string();
+
+//   println!("{}", s)
+// }
+
+// 5
+
+// 填空
+// fn main() {
+//   let s = String::from("I like dogs");
+//   // 以下方法会重新分配一块内存空间，然后将修改后的字符串存在这里
+//   let s1 = s.replace("dogs", "cats");
+
+//   assert_eq!(s1, "I like cats")
+// }
+
+// 6
+
+// 修复所有错误，不要删除任何一行代码
+// fn main() {
+//   let s1 = String::from("hello,");
+//   let s2 = String::from("world!");
+//   let s3 = s1 + &s2; 
+//   assert_eq!(s3,"hello,world!");
+//   println!("{}",&s3[0..6]);
+// }
+
+// 7
+
+// 使用至少两种方法来修复错误
+// fn main() {
+//   let s = "hello, world".to_string();
+//   greetings(s)
+// }
+
+// fn greetings(s: String) {
+//   println!("{}",s)
+// }
+
+// fn main() {
+//   let s = String::from("hello, world");
+//   greetings(s)
+// }
+
+// fn greetings(s: String) {
+//   println!("{}",s)
+// }
+
+// 8
+
+// 使用两种方法来解决错误，不要新增代码行
+// fn main() {
+//   let s = "hello, world".to_string();
+//   let s1: &str = &s;
+// }
+
+// fn main() {
+//   let s = "hello, world";
+//   let s1: &str = s;
+// }
+
+// 9
+// fn main() {
+//   // 你可以使用转义的方式来输出想要的字符，这里我们使用十六进制的值，例如 \x73 会被转义成小写字母 's'
+//   // 填空以输出 "I'm writing Rust"
+//   let byte_escape = "I'm writing Ru\x73__!";
+//   println!("What are you doing\x3F (\\x3F means ?) {}", byte_escape);
+
+//   // 也可以使用 Unicode 形式的转义字符
+//   let unicode_codepoint = "\u{211D}";
+//   let character_name = "\"DOUBLE-STRUCK CAPITAL R\"";
+
+//   println!("Unicode character {} (U+211D) is called {}",
+//               unicode_codepoint, character_name );
+
+//   // 还能使用 \ 来连接多行字符串
+//   let long_string = "String literals
+//                       can span multiple lines.
+//                       The linebreak and indentation here \
+//                        can be escaped too!";
+//   println!("{}", long_string);
+// }
+
+// 10
+/* 填空并修复所有错误 */
+// fn main() {
+//   let raw_str = r"Escapes don't work here: \x3F \u{211D}";
+//   // 修改上面的行让代码工作
+//   assert_eq!(raw_str, r"Escapes don't work here: \x3F \u{211D}");
+
+//   // 如果你希望在字符串中使用双引号，可以使用以下形式
+//   let quotes = r#"And then I said: "There is no escape!""#;
+//   println!("{}", quotes);
+
+//   // 如果希望在字符串中使用 # 号，可以如下使用：
+//   let  delimiter = r###"A string with "# in it. And even "##!"###;
+//   println!("{}", delimiter);
+
+//   // 填空
+//   // let long_delimiter = r####"hello, \##\"""####;
+//   let long_delimiter = "Hello, \"##\"".to_string();
+//   assert_eq!(long_delimiter, "Hello, \"##\"")
+// }
