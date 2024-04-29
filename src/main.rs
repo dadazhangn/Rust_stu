@@ -1483,7 +1483,6 @@
 //   dbg!(s);
 // }
 
-
 // // 字符串转义
 // fn main() {
 //   // 通过 \ + 字符的十六进制表示，转义输出一个字符
@@ -1534,7 +1533,7 @@
 //   }
 //  }
 
-// practice 
+// practice
 
 // 修复错误，不要新增代码行
 // 1
@@ -1555,9 +1554,9 @@
 // }
 
 // fn main() {
-//   // let s: Box<str> = "hello, world".into();
-//   let s: &str = "hello, world";
-//   greetings(s);
+//   let s: Box<&str> = "hello, world".into();
+//   // let s: &str = "hello, world";
+//   greetings(*s);
 // }
 
 // fn greetings(s: &str) {
@@ -1582,7 +1581,8 @@
 //   let mut s = String::from("hello");
 //   s.push(',');
 //   s.push_str(" world");
-//   s += &"!".to_string();
+//   // s += &"!".to_string();
+//   s += "!";
 
 //   println!("{}", s)
 // }
@@ -1604,9 +1604,9 @@
 // fn main() {
 //   let s1 = String::from("hello,");
 //   let s2 = String::from("world!");
-//   let s3 = s1 + &s2; 
+//   let s3 = s1.clone() + &s2;
 //   assert_eq!(s3,"hello,world!");
-//   println!("{}",&s3[0..6]);
+//   println!("{}",s1);
 // }
 
 // 7
@@ -1641,6 +1641,11 @@
 // fn main() {
 //   let s = "hello, world";
 //   let s1: &str = s;
+// }
+
+// fn main() {
+//   let s = "hello, world".to_string();
+//   let s1: &String = s;
 // }
 
 // 9
@@ -1681,7 +1686,211 @@
 //   println!("{}", delimiter);
 
 //   // 填空
-//   // let long_delimiter = r####"hello, \##\"""####;
+//   // let long_delimiter = r####"hello, ##""####;
 //   let long_delimiter = "Hello, \"##\"".to_string();
 //   assert_eq!(long_delimiter, "Hello, \"##\"")
 // }
+
+// 11
+
+// fn main() {
+//   let s1 = String::from("hi,中国");
+//   let h = &s1[0..1]; // 修改当前行来修复错误，提示: `h` 字符在 UTF-8 格式中只需要 1 个字节来表示
+//   assert_eq!(h, "h");
+
+//   let h1 = &s1[3..6];// 修改当前行来修复错误，提示: `中` 字符在 UTF-8 格式中需要 3 个字节来表示
+//   assert_eq!(h1, "中");
+// }
+
+// 12
+//
+// fn main() {
+//   // 填空，打印出 "你好，世界" 中的每一个字符
+//   for c in "你好，世界".chars() {
+//       println!("{}", c)
+//   }
+// }
+
+// 13
+// use utf8_slice;
+// fn main() {
+//     let s = "The 🚀 goes to the 🌑!";
+
+//     let rocket = utf8_slice::slice(s, 4, 5);
+//     // 结果是 "🚀"
+//     dbg!(rocket);
+// }
+
+// Slice practice
+
+// 1
+// 修复代码中的错误，不要新增代码行!
+// fn main() {
+//   let arr = [1, 2, 3];
+//   let s1: &[i32] = &arr[0..2];
+
+//   let s2: &str = "hello, world" as &str;
+// }
+
+// 2
+
+// fn main() {
+//   let arr: [char; 3] = ['中', '国', '人'];
+
+//   let slice = &arr[..2];
+
+//   // 修改数字 `8` 让代码工作
+//   // 小提示: 切片和数组不一样，它是引用。如果是数组的话，那下面的 `assert!` 将会通过： '中'和'国'是char类型，char类型是Unicode编码，大小固定为4字节，两个字符为8字节。
+//   assert!(std::mem::size_of_val(&slice) == 16);
+//   dbg!(slice);
+// }
+
+// 3
+
+// fn main() {
+//   let arr: [i32; 5] = [1, 2, 3, 4, 5];
+//  // 填空让代码工作起来
+//  let slice:&[i32] = &arr[1..4];
+//  assert_eq!(slice, &[2, 3, 4]);
+// }
+
+// 4
+
+// fn main() {
+//   let s = String::from("hello");
+
+//   let slice1 = &s[0..2];
+//   // 填空，不要再使用 0..2
+//   let slice2 = &s[..2];
+
+//   assert_eq!(slice1, slice2);
+// }
+
+// 5
+
+// fn main() {
+//   let s = "你好，世界";
+//   // 修改以下代码行，让代码工作起来
+//   let slice = &s[0..3];
+
+//   assert!(slice == "你");
+// }
+
+// 6
+
+// 修复所有错误
+// fn main() {
+//   let mut s = String::from("hello world");
+
+//   // 这里, &s 是 `&String` 类型，但是 `first_character` 函数需要的是 `&str` 类型。
+//   // 尽管两个类型不一样，但是代码仍然可以工作，原因是 `&String` 会被隐式地转换成 `&str` 类型，如果大家想要知道更多，可以看看 Deref 章节: https://course.rs/advance/smart-pointer/deref.html
+//   let ch = first_character(&s);
+
+//   println!("the first character is: {}", ch);
+//   s.clear(); // error!
+
+// }
+// fn first_character(s: &str) -> &str {
+//   &s[..1]
+// }
+// 元组
+// fn main() {
+//     let tup: (i32, f64, u8) = (500, 6.4, 1);
+//     let (x,y,z) = tup;
+//     println!("the value of y is {}",y);
+
+//     let five_hundred = tup.0;
+
+//     let six_point_four = tup.1;
+
+//     let one  =tup.2;
+
+
+// }
+
+// use std::usize;
+
+// fn main() {
+//   let s1 = String::from("hello");
+//   // let tup: (String, usize) =  calculate_length(s1);
+//   // println!("{},{}",tup.0,tup.1);
+
+
+//   let (s2, len) = calculate_length(s1);
+
+//   println!("The length of '{}' is {}.", s2, len);
+
+// }
+
+// fn calculate_length(s:String) -> (String, usize) {
+//   let len = s.len();
+//   (s, len)
+// } 
+
+// tuple practice 
+// 1
+
+// fn main() {
+//   let _t0: (u8,i16) = (0, -1);
+//   // 元组的成员还可以是一个元组
+//   let _t1: (u8, (i16, u32)) = (0, (-1, 1));
+//   // 填空让代码工作
+//   let t: (u8, u16, i64, &str,String) = (1u8, 2u16, 3i64, "hello", String::from(", world"));
+// }
+
+// 2
+
+// 修改合适的地方，让代码工作
+// fn main() {
+//   let t = ("i", "am", "sunface");
+//   assert_eq!(t.2, "sunface");
+// }
+
+// 3
+
+// 修复代码错误
+// fn main() {
+//   let too_long_tuple = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+//   println!("too long tuple: {:?}", too_long_tuple);
+// }
+
+// 4
+
+// fn main() {
+//   let tup = (1, 6.4, "hello");
+
+//   // 填空
+//   let (x,z,y) = tup;
+
+//   assert_eq!(x, 1);
+//   assert_eq!(y, "hello");
+//   assert_eq!(z, 6.4);
+// }
+
+// 5
+// fn main() {
+//   let (x, y, z);
+
+//   // 填空
+//   (y, z, x) = (1, 2, 3);
+  
+//   assert_eq!(x, 3);
+//   assert_eq!(y, 1);
+//   assert_eq!(z, 2);
+// }
+
+
+// 6
+// fn main() {
+//   // 填空，需要稍微计算下
+//   let (x, y) = sum_multiply((2,3));
+
+//   assert_eq!(x, 5);
+//   assert_eq!(y, 6);
+// }
+
+// fn sum_multiply(nums: (i32, i32)) -> (i32, i32) {
+//   (nums.0 + nums.1, nums.0 * nums.1)
+// }
+
+// 结构体
