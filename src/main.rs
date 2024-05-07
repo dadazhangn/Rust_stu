@@ -2317,16 +2317,104 @@
 //           Some(i) => Some(i + 1),
 //       }
 //   }
-  
+
 //   let five = Some(5);
 //   let six = plus_one(five);
 //   let none = plus_one(None);
 
-
 //   dbg!(six);
 //   dbg!(none);
-  
+
 // }
 
 // enum practice
 
+// 1
+// // 修复错误
+// enum Number {
+//   Zero,
+//   One,
+//   Two,
+// }
+
+// enum Number1 {
+//   Zero = 0,
+//   One,
+//   Two,
+// }
+
+// // C语言风格的枚举定义
+// enum Number2 {
+//   Zero = 0,
+//   One = 1,
+//   Two = 2,
+// }
+
+// fn main() {
+//   // 通过 `as` 可以将枚举值强转为整数类型
+
+//   assert_eq!(Number::One as u8, Number1::One as u8);
+//   assert_eq!(Number1::One as u8 , Number2::One as u8);
+// }
+
+// 2
+
+// // 填空
+// enum Message {
+//     Quit,
+//     Move { x: i32, y: i32 },
+//     Write(String),
+//     ChangeColor(i32, i32, i32),
+// }
+
+// fn main() {
+//     let msg1 = Message::Move { x: 1, y: 2 }; // 使用x = 1, y = 2 来初始化
+//     let msg2 = Message::Write("hello, world!".to_string()); // 使用 "hello, world!" 来初始化
+// }
+
+
+// 3
+
+// 仅填空并修复错误
+// enum Message {
+//   Quit,
+//   Move { x: i32, y: i32 },
+//   Write(String),
+//   ChangeColor(i32, i32, i32),
+// }
+
+// fn main() {
+//   let msg = Message::Move{x: 1, y: 2};
+
+//   if let Message::Move{x: 1, y: 2} = msg {
+//       assert_eq!(a, b);
+//   } else {
+//       panic!("不要让这行代码运行！");
+//   }
+// } 
+
+// 4
+
+// 填空，并修复错误
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn main() {
+    let msgs: __ = [
+        Message::Quit,
+        Message::Move{x:1, y:3},
+        Message::ChangeColor(255,255,0)
+    ];
+
+    for msg in msgs {
+        show_message(msg)
+    }
+} 
+
+fn show_message(msg: Message) {
+    println!("{}", msg);
+}
