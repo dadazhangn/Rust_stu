@@ -2384,9 +2384,9 @@
 // }
 
 // fn main() {
-//   let msg = Message::Move{x: 1, y: 2};
+//   let msg = Message::Move{x: 2, y: 2};
 
-//   if let Message::Move{x: 1, y: 2} = msg {
+//   if let Message::Move{x: a, y: b} = msg {
 //       assert_eq!(a, b);
 //   } else {
 //       panic!("不要让这行代码运行！");
@@ -2396,25 +2396,86 @@
 // 4
 
 // 填空，并修复错误
-enum Message {
-    Quit,
-    Move { x: i32, y: i32 },
-    Write(String),
-    ChangeColor(i32, i32, i32),
-}
+// #[derive(Debug)]
+// enum Message {
+//     Quit,
+//     Move { x: i32, y: i32 },
+//     Write(String),
+//     ChangeColor(i32, i32, i32),
+// }
 
+// fn main() {
+//     let msgs:[Message; 3]  = [
+//         Message::Quit,
+//         Message::Move{x:1, y:3},
+//         Message::ChangeColor(255,255,0)
+//     ];
+
+//     for msg in msgs {
+//         show_message(msg)
+//     }
+// } 
+
+// fn show_message(msg: Message) {
+//     println!("{:?}", msg);
+// }
+
+
+// 填空让 `println` 输出，同时添加一些代码不要让最后一行的 `panic` 执行到
+// fn main() {
+//     let five = Some(5);
+//     let six = plus_one(five);
+//     let none = plus_one(None);
+
+//     if let Some(n) = six {
+//         println!("{}", n);
+//         return
+//     } 
+        
+//     panic!("不要让这行代码运行！");
+// } 
+
+// fn plus_one(x: Option<i32>) -> Option<i32> {
+//     match x {
+//         None => None,
+//         Some(i) => Some(i + 1),
+//     }
+// }
+
+// 数组
+// fn main() {
+//     // let a = [1,2,3,45,];
+//     // let b: [i32;5] = [1,2,3,4,5];
+//     // // 某个值重复出现 N 次的数组
+//     // let c = [3;5];
+
+//     let a = [9,8,7,6,5];
+//     let first = a[0];
+//     let second = a[1];
+
+
+// }
+
+// 数组越界访问
+use std::io;
 fn main() {
-    let msgs: __ = [
-        Message::Quit,
-        Message::Move{x:1, y:3},
-        Message::ChangeColor(255,255,0)
-    ];
+  let a = [1,2,3,4,5];
+  println!("Please enter an array index");
+  let mut index = String::new();
+  // 读取控制台
+  io::stdin()
+    .read_line(&mut index)
+    .expect("Fail to read line");
 
-    for msg in msgs {
-        show_message(msg)
-    }
-} 
+  let index: usize = index
+      .trim()
+      .parse()
+      .expect("Index entered was not a number");
 
-fn show_message(msg: Message) {
-    println!("{}", msg);
+  let element =a[index];
+  println!(
+    "The value of the element at index {} is {}",
+    index, element
+  );
 }
+
