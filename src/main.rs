@@ -2999,17 +2999,17 @@
 //   }
 // }
 // 用一个变量来承载其他情况
-#[derive(Debug)]
-enum Direction {
-    East,
-    West,
-    North,
-    South,
-}
-fn main() {
-  let dire = Direction::South;
-  match dire {
-      Direction::East => println!("East"),
-      other => println!("{:?}", other),
-  };
-}
+// #[derive(Debug)]
+// enum Direction {
+//     East,
+//     West,
+//     North,
+//     South,
+// }
+// fn main() {
+//   let dire = Direction::South;
+//   match dire {
+//       Direction::East => println!("East"),
+//       other => println!("{:?}", other),
+//   };
+// }
