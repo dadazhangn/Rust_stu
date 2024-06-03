@@ -2372,7 +2372,6 @@
 //     let msg2 = Message::Write("hello, world!".to_string()); // 使用 "hello, world!" 来初始化
 // }
 
-
 // 3
 
 // 仅填空并修复错误
@@ -2391,7 +2390,7 @@
 //   } else {
 //       panic!("不要让这行代码运行！");
 //   }
-// } 
+// }
 
 // 4
 
@@ -2414,12 +2413,11 @@
 //     for msg in msgs {
 //         show_message(msg)
 //     }
-// } 
+// }
 
 // fn show_message(msg: Message) {
 //     println!("{:?}", msg);
 // }
-
 
 // 填空让 `println` 输出，同时添加一些代码不要让最后一行的 `panic` 执行到
 // fn main() {
@@ -2430,10 +2428,10 @@
 //     if let Some(n) = six {
 //         println!("{}", n);
 //         return
-//     } 
-        
+//     }
+
 //     panic!("不要让这行代码运行！");
-// } 
+// }
 
 // fn plus_one(x: Option<i32>) -> Option<i32> {
 //     match x {
@@ -2452,7 +2450,6 @@
 //     let a = [9,8,7,6,5];
 //     let first = a[0];
 //     let second = a[1];
-
 
 // }
 
@@ -2531,7 +2528,7 @@
 //   // 很多时候，我们可以忽略数组的部分类型，也可以忽略全部类型，让编译器帮助我们推导
 //   let arr0 = [1, 2, 3];
 //   let arr: [char; 3] = ['a', 'b', 'c'];
-  
+
 //   // 填空
 //   // 数组分配在栈上， `std::mem::size_of_val` 函数会返回整个数组占用的内存空间
 //   // 数组中的每个 char 元素占用 4 字节的内存空间，因为在 Rust 中， char 是 Unicode 字符
@@ -2539,7 +2536,7 @@
 // }
 
 //3
- 
+
 // fn main() {
 //   // 填空
 //   let list: [i32; 100] = [1;100] ;
@@ -2559,7 +2556,7 @@
 
 // fn main() {
 //   let arr = ['a', 'b', 'c'];
-  
+
 //   let ele = arr[0]; // 只修改此行来让代码工作
 
 //   assert!(ele == 'a');
@@ -2570,7 +2567,7 @@
 // 修复代码中的错误
 // fn main() {
 //   let names = [String::from("Sunfei"), "Sunface".to_string()];
-  
+
 //   // `get` 返回 `Option<T>` 类型，因此它的使用非常安全
 //   let name0 = names.get(0).unwrap();
 //   println!("{}",name0);
@@ -2614,7 +2611,7 @@
 //   // }
 //   for _ in 0..10 {
 
-//   } 
+//   }
 // }
 
 // fn main() {
@@ -2624,7 +2621,7 @@
 //   // }
 
 //     for i in collection {
-      
+
 //     }
 // }
 
@@ -2650,7 +2647,7 @@
 //   println!("The result is {}", result);
 // }
 
-// practice 
+// practice
 //1
 
 // 填空
@@ -2664,7 +2661,7 @@
 //   } else {
 //       println!("{} is zero", n);
 //   }
-// } 
+// }
 
 // 2
 
@@ -2684,7 +2681,7 @@
 //       };
 
 //   println!("{} -> {}", n, big_n);
-// } 
+// }
 
 // 3
 
@@ -2694,7 +2691,7 @@
 //           panic!("NEVER LET THIS RUN")
 //       }
 //   }
-// } 
+// }
 
 // 4
 
@@ -2706,21 +2703,20 @@
 //     }
 //   println!("{:?}", names);
 
-
 //   let numbers = [1, 2, 3];
 //   // numbers中的元素实现了 Copy，因此无需转移所有权
 //   for n in numbers {
 //       // do something with name...
 //     }
-    
+
 //     println!("{:?}", numbers);
-// } 
+// }
 
 // 5
 // fn main() {
 //   let a = [4,3,2,1];
 
-//   // 通过索引和值的方式迭代数组 `a` 
+//   // 通过索引和值的方式迭代数组 `a`
 //   for (i,v) in a.iter().enumerate() {
 //       println!("第{}个元素是{}",i+1,v);
 //   }
@@ -2744,7 +2740,6 @@
 //       } else {
 //           println!("{}", n);
 //       }
-
 
 //       n+=1;
 //   }
@@ -2775,13 +2770,12 @@
 //   for i in 0..=100 {
 //      if n != 66 {
 //          n+=1;
-//          continue;     
+//          continue;
 //      }
-     
-    
+
 //     break;
 //   }
-  
+
 //   assert_eq!(n, 66);
 // }
 
@@ -3013,10 +3007,25 @@
 //       other => println!("{:?}", other),
 //   };
 // }
+// if let 匹配
+// fn main() {
+//     let v = Some(3u8);
+//     // match v {
+//     //     Some(3) => println!("three"),
+//     //     _ => (),
+//     // }
+
+//     if let Some(3) = v {
+//         println!("three");
+//     }
+// }
+
+// matches!宏
+enum MyEnum {
+    Foo,
+    Bar
+}
+
 fn main() {
-            let v = Some(3u8);
-    match v {
-        Some(3) => println!("three"),
-        _ => (),
-    }
+    let v = vec![MyEnum::Foo, MyEnum::Bar,MyEnum::Foo];
 }
