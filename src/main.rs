@@ -3021,11 +3021,265 @@
 // }
 
 // matches!宏
-enum MyEnum {
-    Foo,
-    Bar
-}
+// enum MyEnum {
+//     Foo,
+//     Bar,
+// }
+
+// fn main() {
+//     // let v = vec![MyEnum::Foo, MyEnum::Bar,MyEnum::Foo];
+//     // v.iter().filter(|x| x == MyEnum::Foo);
+//     // v.iter().filter(|x| matches!(x, MyEnum::Foo));
+
+//     let foo = 'f';
+//     assert!(matches!(foo, 'A'..='Z' | 'a'..='z'));
+
+//     let bar = Some(4);
+//     assert!(matches!(bar, Some(x) if x>2));
+// }
+
+// 变量遮蔽
+// fn main() {
+//     let age = Some(30);
+//     println!("在匹配之前,age是{:?}",age);
+//     // if let Some(age) = age {
+//     //     println!("匹配出来的age是{}", age);
+//     // }
+//     // println!("在匹配之后,age是{:?}",age);
+
+//     // match age {
+//     //     Some(age) => println!("匹配出来的age是{}",age),
+//     //     _ => (),
+//     // }
+//     // println!("在匹配之后,age是{:?}",age);
+
+//     match age {
+//         Some(x) => println!("匹配出来的age是{}",x),
+//         _ => (),
+//     }
+//     println!("在匹配之后,age是{:?}",age);
+// }
+
+// practice
+// 1
+
+// 填空
+// enum Direction {
+//     East,
+//     West,
+//     North,
+//     South,
+// }
+
+// fn main() {
+//     let dire = Direction::South;
+//     match dire {
+//         Direction::East => println!("East"),
+//         Direction::North | Direction::South  => { // 在这里匹配 South 或 North
+//             println!("South or North");
+//         },
+//         _ => println!("West"),
+//     };
+// }
+
+// 2
+
+// fn main() {
+//     let boolean = true;
+
+//     // 使用 match 表达式填空，并满足以下条件
+//     //
+//     // boolean = true => binary = 1
+//     // boolean = false => binary = 0
+//     let binary = match boolean {
+//         true => 1,
+//         false => 0,
+//     };
+
+//     assert_eq!(binary, 1);
+// }
+
+// 3
+
+// 填空
+// enum Message {
+//     Quit,
+//     Move { x: i32, y: i32 },
+//     Write(String),
+//     ChangeColor(i32, i32, i32),
+// }
+
+// fn main() {
+//     let msgs = [
+//         Message::Quit,
+//         Message::Move{x:1, y:3},
+//         Message::ChangeColor(255,255,0)
+//     ];
+
+//     for msg in msgs {
+//         show_message(msg)
+//     }
+// }
+
+// fn show_message(msg: Message) {
+//     match msg {
+//         Message::Move { x: a, y: b } => { // 这里匹配 Message::Move
+//             assert_eq!(a, 1);
+//             assert_eq!(b, 3);
+//         },
+//         Message::ChangeColor(_, g, b) => {
+//             assert_eq!(g, 255);
+//             assert_eq!(b, 0);
+//         }
+//         __ => println!("no data in these variants")
+//     }
+// }
+
+// 4
+
+// fn main() {
+//     let alphabets = ['a', 'E', 'Z', '0', 'x', '9' , 'Y'];
+
+//     // 使用 `matches` 填空
+//     for ab in alphabets {
+//         assert!(matches!(ab, 'A'..='Z' | 'a'..='z' | '0'..='9'));
+//     }
+// }
+
+// 5
+
+// enum MyEnum {
+//     Foo,
+//     Bar
+// }
+
+// fn main() {
+//     let mut count = 0;
+
+//     let v = vec![MyEnum::Foo,MyEnum::Bar,MyEnum::Foo];
+//     for e in v {
+//         // if  e == MyEnum::Foo { // 修复错误，只能修改本行代码
+//         //     count += 1;
+//         // }
+//         if matches!(e, MyEnum::Foo) {
+//             count+=1;
+//         }
+//     }
+
+//     assert_eq!(count, 2);
+// }
+
+// 6
+
+// fn main() {
+//     let o = Some(7);
+
+//     // 移除整个 `match` 语句块，使用 `if let` 替代
+//     if let Some(i)= o {
+//         println!("This is a really long string and `{:?}`", i);
+//     }
+// }
+
+// 7
+
+// 填空
+// enum Foo {
+//     Bar(u8)
+// }
+
+// fn main() {
+//     let a = Foo::Bar(1);
+
+//     if let Foo::Bar(i) = a {
+//         println!("foobar 持有的值是: {}", i);
+//     }
+// }
+
+// 8
+
+// enum Foo {
+//     Bar,
+//     Baz,
+//     Qux(u32)
+// }
+
+// fn main() {
+//     let a = Foo::Qux(10);
+
+//     // 移除以下代码，使用 `match` 代替
+//     // if let Foo::Bar = a {
+//     //     println!("match foo::bar")
+//     // } else if let Foo::Baz = a {
+//     //     println!("match foo::baz")
+//     // } else {
+//     //     println!("match others")
+//     // }
+
+//     match a {
+//         Foo::Bar => {
+//             println!("match foo::bar")
+//         },
+//         Foo::Baz => {
+//             println!("match foo::baz")
+//         },
+//         _ => {
+//             println!("match others")
+//         },
+//     }
+// }
+
+// 9
+
+// // // 就地修复错误
+// fn main() {
+//     let age = Some(30);
+//     if let Some(age) = age { // 创建一个新的变量，该变量与之前的 `age` 变量同名
+//        assert_eq!(age, 30);
+//     } // 新的 `age` 变量在这里超出作用域
+
+//     match age {
+//         // `match` 也能实现变量遮蔽
+//         Some(age) =>  println!("age 是一个新的变量，它的值是 {}",age),
+//         _ => ()
+//     }
+//  }
+
+// 解构 Option
+// fn plus_one(x: Option<i32>) -> Option<i32> {
+//     match x {
+//         Some(x) => Some(x + 1),
+//         None => None,
+//     }
+// }
+
+// fn main() {
+//     let five = Some(5);
+//     let six = plus_one(five);
+//     let none = plus_one(None);
+// }
+
+// 模式适用场景
+// while let 条件循环
+
+// fn main() {
+//     let mut stack = Vec::new();
+//     // 向尾部插入元素
+//     stack.push(1);
+//     stack.push(2);
+//     stack.push(3);
+
+//     // 向尾部弹出元素
+//     while let Some(top) = stack.pop() {
+//         println!("{}", top);
+//     }
+
+// }
+
+use std::vec;
 
 fn main() {
-    let v = vec![MyEnum::Foo, MyEnum::Bar,MyEnum::Foo];
+    let v = vec!['a', 'b','c'];
+    for (index, value) in v.iter().enumerate() {
+        println!("{} is at index {}", value, index);
+    }
 }
