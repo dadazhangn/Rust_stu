@@ -3013,3 +3013,10 @@
 //       other => println!("{:?}", other),
 //   };
 // }
+fn main() {
+            let v = Some(3u8);
+    match v {
+        Some(3) => println!("three"),
+        _ => (),
+    }
+}
