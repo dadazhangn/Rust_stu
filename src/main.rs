@@ -3284,8 +3284,6 @@
 //     }
 // }
 
-
-
 // 全模式列表
 
 // 匹配字面值
@@ -3497,4 +3495,131 @@
 //             println!("Some numbers: {}, {}, {}", first, third, fifth)
 //         },
 //     }
+// }
+
+// 使用下划线开头忽略未使用的变量
+// fn main() {
+//   // let _x = 5;
+//   // let y = 10;
+
+//   let s = Some(String::from("Hello!"));
+//   // if let Some(_s) = s {
+//   if let Some(_) = s {
+//     println!("found a string");
+//   }
+//   println!("{:?}", s);
+
+// }
+
+// 用 .. 忽略剩余值
+// struct Point {
+//     x: i32,
+//     y: i32,
+//     z: i32,
+// }
+
+// fn main() {
+//     // let origin = Point{x:0, y:0,z:0};
+//     // match origin {
+//     //     Point {x, ..} => {
+//     //       println!("x is {}",x);
+//     //     }
+//     // }
+
+//     let numbers = (2, 4, 8, 16, 32);
+//     // match numbers {
+//     //     (first, .., last) => {
+//     //         println!("Some numbers {}, {}", first, last);
+//     //     },
+//     // }
+
+//     match numbers {
+//       (.., second, ..) => {
+//           println!("Some numbers: {}", second)
+//       },
+//   }
+// }
+
+// 匹配守卫提供的额外条件
+// fn main() {
+//   let num = Some(4);
+
+//   match num {
+//       Some(x) if x<5 => println!("less than five {}",x),
+//       Some(x) => println!("{}",x),
+//       None => (),
+//   }
+// }
+
+// fn main() {
+//   let x = Some(5);
+//   let y = 10;
+
+//   match x {
+//       Some(50) => println!("Got 50"),
+//       Some(n) if n ==y => println!("Mached, n= {}", n),
+//       _ => println!("Default case, x = {:?}",x),
+//   }
+//   println!("at the end: x={:?}, y = {}", x, y);
+// }
+
+// 匹配守卫的条件会作用于所有的模式
+// fn main() {
+//     let x = 4;
+//     let y = false;
+
+//     match x {
+//         4 | 5 | 6 if y => println!("yes"),
+//         _ => println!("no"),
+//     }
+// }
+
+// @绑定
+// enum Message {
+//     Hello {id:i32},
+// }
+// fn main() {
+//   let msg = Message::Hello { id: 5 };
+//   match msg {
+//       Message::Hello { id: id_variable @ 3..=7 } => {
+//         println!("Found an id in range: {}", id_variable);
+//       },
+//       Message::Hello { id: 10..=12 } => {
+//         println!("Founf an id in range");
+//       },
+//       Message::Hello { id } => {
+//         println!("Found some other id: {}",id)
+//       },
+//   }
+// }
+
+// @前绑定后解构(Rust 1.56 新增)
+// #[derive(Debug)]
+// struct Point {
+//     x: i32,
+//     y: i32,
+// }
+// fn main() {
+//     // 绑定新变量 `p`，同时对 `Point` 进行解构
+//     let p @ Point { x: px, y: py } = Point { x: 10, y: 22 };
+//     println!("x:{}, y:{}", px, py);
+//     println!("{:?}", p);
+
+//     let point = Point { x: 10, y: 5 };
+
+//     if let p @ Point { x: 10, y } = point {
+//         println!("x is 10 and y is {} in {:?}", y, p);
+//     } else {
+//         println!("x was not 10");
+//     }
+// }
+
+// @新特性(Rust 1.53 新增)
+// fn main() {
+//   match 1 {
+//       num @ (1 | 2) => {
+//         println!("{}", num);
+//       },
+//       _ => {}
+//   }
 // }
