@@ -3755,11 +3755,11 @@
 //     }
 // }
 
-#[derive(Debug)]
-struct Rectangle {
-  width: u32,
-  height: u32,
-}
+// #[derive(Debug)]
+// struct Rectangle {
+//   width: u32,
+//   height: u32,
+// }
 
 // impl Rectangle {
 //     fn area(&self) -> u32{
@@ -3779,21 +3779,39 @@ struct Rectangle {
 // }
 
 // 方法名跟结构体字段名相同
-impl Rectangle {
-    fn width(&self) -> bool {
-      self.width>0
-    }
+// impl Rectangle {
+//     fn width(&self) -> bool {
+//       self.width>0
+//     }
+// }
+
+// fn main() {
+//   let rect1 = Rectangle {
+//     width: 30,
+//     height: 50,
+//   };
+
+//   if rect1.width() {
+//     println!("The rectangle has a nonzero width; it is {}", rect1.width);
+//   }
+//   // 使用 rect1.width() 时，我们调用的是它的方法，如果使用 rect1.width，则是访问它的字段。
+
+// }
+// 实现 getter 访问器
+pub struct Rectangle {
+  width: u32,
+  height: u32,
 }
 
-fn main() {
-  let rect1 = Rectangle {
-    width: 30,
-    height: 50,
-  };
-
-  if rect1.width() {
-    println!("The rectangle has a nonzero width; it is {}", rect1.width);
+impl Rectangle {
+  pub fn new(width: u32, height: u32) -> Self{
+    Rectangle { width, height}
   }
-  // 使用 rect1.width() 时，我们调用的是它的方法，如果使用 rect1.width，则是访问它的字段。
-
+  pub fn width(&self) ->u32 {
+    return self.width;
+  }
+}
+fn main() {
+  let rect1 = Rectangle::new(30, 50);
+  println!("{}", rect1.width())
 }
