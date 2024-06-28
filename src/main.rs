@@ -4000,9 +4000,8 @@
 //     assert_eq!(rect1.area(), 1500);
 // }
 
-
 // 2
-  // 只填空，不要删除任何代码行!
+// 只填空，不要删除任何代码行!
 // #[derive(Debug)]
 // struct TrafficLight {
 //     color: String,
@@ -4054,7 +4053,6 @@
 //     pub fn new() -> Self {
 //       Self { color: "red".to_string() }
 
-
 //     }
 
 //     pub fn get_state(&self) -> &str {
@@ -4083,7 +4081,6 @@
 //       self.width > other.width && self.height > other.height
 //   }
 // }
-
 
 // fn main() {}
 
@@ -4116,3 +4113,33 @@
 
 //     println!("{:?}",c);
 // }
+
+// 泛型
+// fn add<T>(x: T, y: T) -> T {
+//     x + y
+// }
+// fn main() {
+//     println!("add i8: {}", add(2i8, 4i8));
+//     println!("add i32: {}", add(20, 30)); 
+//     println!("add i64: {}", add(1.23, 1.24));
+// }
+fn largest<T> (list: &[T]) -> T{
+  let mut largest = list[0];
+  for &item in list.iter() {
+    if item > largest {
+      largest = item;
+    }
+  }
+  largest
+}
+fn main() {
+  let number_list = vec![34, 50, 25, 100, 65];
+
+  let result = largest(&number_list);
+  println!("The largest number is {}", result);
+
+  let char_list = vec!['y', 'm', 'a', 'q'];
+
+  let result = largest(&char_list);
+  println!("The largest char is {}", result);
+}
