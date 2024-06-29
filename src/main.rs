@@ -4123,23 +4123,146 @@
 //     println!("add i32: {}", add(20, 30)); 
 //     println!("add i64: {}", add(1.23, 1.24));
 // }
-fn largest<T> (list: &[T]) -> T{
-  let mut largest = list[0];
-  for &item in list.iter() {
-    if item > largest {
-      largest = item;
-    }
-  }
-  largest
+// fn largest<T> (list: &[T]) -> T{
+//   let mut largest = list[0];
+//   for &item in list.iter() {
+//     if item > largest {
+//       largest = item;
+//     }
+//   }
+//   largest
+// }
+// fn main() {
+//   let number_list = vec![34, 50, 25, 100, 65];
+
+//   let result = largest(&number_list);
+//   println!("The largest number is {}", result);
+
+//   let char_list = vec!['y', 'm', 'a', 'q'];
+
+//   let result = largest(&char_list);
+//   println!("The largest char is {}", result);
+// }
+
+// // 结构体泛型
+// struct Point<T>{
+//   x: T,
+//   y: T,
+// }
+// fn main() {
+//   let interger = Point{x:2,y:4};
+//   let float = Point{x:2.2,y:3.2};
+
+// }
+// struct Point<T, U>{
+//   x: T,
+//   y: U,
+// }
+// fn main() {
+//   let i = Point{x:2,y:4.2};
+//   // let float = Point{x:2.2,y:3.2};
+  
+// }
+
+// enum Option<T> {
+//     Some(T),
+//     None,
+// }
+
+// enum Result<T, E> {
+//     Ok(T),
+//     Err(E),
+// }
+
+// 方法中使用泛型
+// struct Point<T> {
+//   x: T,
+//   y: T,
+// }
+// impl<T> Point<T> {
+//   fn x(&self) -> &T {
+//     &self.x
+//   }
+    
+// }
+
+// fn main() {
+//   let p = Point{x: 22,y:43};
+//   println!("p.x = {}", p.x());
+// }
+
+// struct Point<T,U> {
+//   x: T,
+//   y: U,
+// }
+// impl<T, U> Point<T, U> {
+//   fn mixup<V, W>(self, other: Point<V,W>) -> Point<T,W> {
+//     Point {
+//       x: self.x,
+//       y: other.y,
+//     }
+//   }   
+// }
+
+// fn main() {
+//   let p1 = Point{x: 3, y: 2.3};
+//   let p2 = Point{x: "hello", y: 'c'};
+
+//   let p3 = p1.mixup(p2);
+//   println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+
+// }
+
+// 为具体的泛型类型实现方法
+// struct Point<T> {
+//   x: T,
+//   y: T,
+// }
+
+// impl Point<f32> {
+//     fn distance_from_origin(&self) -> f32 {
+//       (self.x.powi(2)+ self.y.powi(2)).sqrt()
+//     }
+// } 
+
+// fn main() {
+//   let p:Point<f32> = Point{x:3.0,y:4.0};
+//   println!("{}", p.distance_from_origin())
+//   }
+
+// fn display_array(arr: &[i32]) {
+//   println!("{:?}",arr);
+// }
+
+// fn main() {
+//   let arr: [i32; 3] = [1, 2, 3];
+//     display_array(&arr);
+
+//     let arr: [i32;2] = [1,2];
+//     display_array(&arr);
+// }
+
+// 将 i32 改成所有类型的数组
+// fn display_array<T: std::fmt::Debug>(arr: &[T]) {
+//   println!("{:?}",arr);
+// }
+
+// fn main() {
+//   let arr: [i32; 3] = [1, 2, 3];
+//     display_array(&arr);
+
+//     let arr: [i32;2] = [1,2];
+//     display_array(&arr);
+// }
+
+fn display_array<T: std::fmt::Debug, const N: usize>(arr: [T; N]) {
+  println!("{:?}",arr);
 }
+
 fn main() {
-  let number_list = vec![34, 50, 25, 100, 65];
+  let arr: [i32; 3] = [1, 2, 3];
+    display_array(arr);
 
-  let result = largest(&number_list);
-  println!("The largest number is {}", result);
-
-  let char_list = vec!['y', 'm', 'a', 'q'];
-
-  let result = largest(&char_list);
-  println!("The largest char is {}", result);
+    let arr: [i32;2] = [1,2];
+    display_array(arr);
 }
