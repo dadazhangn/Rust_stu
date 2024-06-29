@@ -4255,14 +4255,77 @@
 //     display_array(&arr);
 // }
 
-fn display_array<T: std::fmt::Debug, const N: usize>(arr: [T; N]) {
-  println!("{:?}",arr);
-}
+// fn display_array<T: std::fmt::Debug, const N: usize>(arr: [T; N]) {
+//   println!("{:?}",arr);
+// }
+
+// fn main() {
+//   let arr: [i32; 3] = [1, 2, 3];
+//     display_array(arr);
+
+//     let arr: [i32;2] = [1,2];
+//     display_array(arr);
+// }
+
+// const 泛型表达式
+// 目前只能在nightly版本下使用
+// #![allow(incomplete_features)]
+// #![feature(generic_const_exprs)]
+
+// fn something<T>(val: T)
+// where
+//     Assert<{ core::mem::size_of::<T>() < 768 }>: IsTrue,
+//     //       ^-----------------------------^ 这里是一个 const 表达式，换成其它的 const 表达式也可以
+// {
+//     //
+// }
+
+// fn main() {
+//     something([0u8; 0]); // ok
+//     something([0u8; 512]); // ok
+//     something([0u8; 1024]); // 编译错误，数组长度是1024字节，超过了768字节的参数长度限制
+// }
+
+// // ---
+
+// pub enum Assert<const CHECK: bool> {
+//     //
+// }
+
+// pub trait IsTrue {
+//     //
+// }
+
+// impl IsTrue for Assert<true> {
+//     //
+// }
+
+// practice
+
+// 1
+
+// 填空
+struct A;          // 具体的类型 `A`.
+struct S(A);       // 具体的类型 `S`.
+struct SGen<T>(T); // 泛型 `SGen`.
+
+fn reg_fn(_s: S) {}
+
+fn gen_spec_t(_s: SGen<A>) {}
+
+fn gen_spec_i32(_s: SGen<i32>) {}
+
+fn generic<T>(_s: SGen<T>) {}
 
 fn main() {
-  let arr: [i32; 3] = [1, 2, 3];
-    display_array(arr);
+    // 使用非泛型函数
+    reg_fn(__);          // 具体的类型
+    gen_spec_t(__);   // 隐式地指定类型参数  `A`.
+    gen_spec_i32(__); // 隐式地指定类型参数`i32`.
 
-    let arr: [i32;2] = [1,2];
-    display_array(arr);
+    // 显式地指定类型参数 `char`
+    generic::<char>(__);
+
+    // 隐式地指定类型参数 `char`.
+    generic(__);
 }
