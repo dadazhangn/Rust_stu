@@ -4436,23 +4436,120 @@
 
 
 // const
-pub struct MinSlice<T, const N: usize> {
-    pub head: [T; N],
-    pub tail: [T],
+// pub struct MinSlice<T, const N: usize> {
+//     pub head: [T; N],
+//     pub tail: [T],
+// }
+
+// fn main() {
+//     let slice: &[u8] = b"Hello, world";
+//     let reference: Option<&u8> = slice.get(6);
+//     // 我们知道 `.get` 返回的是 `Some(b' ')`
+//     // 但编译器不知道
+//     assert!(reference.is_some());
+
+//     let slice: &[u8] = b"Hello, world";
+
+//     // 当编译构建 MinSlice 时会进行长度检查，也就是在编译期我们就知道它的长度是 12
+//     // 在运行期，一旦 `unwrap` 成功，在 `MinSlice` 的作用域内，就再无需任何检查    
+//     let minslice = MinSlice::<u8, 12>::from_slice(slice).unwrap();
+//     let value: u8 = minslice.head[6];
+//     assert_eq!(value, b' ')
+// }
+
+
+// 1
+// 修复错误
+// struct Array<T, const N: usize> {
+//     data : [T; N]
+// }
+
+// fn main() {
+//     let arrays = [
+//         Array{
+//             data: [1, 2, 3],
+//         },
+//         Array {
+//             data: [1, 0, 0],
+//         },
+//         Array {
+//             data: [1, 2, 2],
+//         }
+//     ];
+// }
+
+// 2
+
+// 填空
+// fn print_array<T: std::fmt::Debug, const N: usize>(arr: [T; N]) {
+//     println!("{:?}", arr);
+// }
+// fn main() {
+//     let arr = [1, 2, 3];
+//     print_array(arr);
+
+//     let arr = ["hello", "world"];
+//     print_array(arr);
+// }
+
+// 3
+// #![allow(incomplete_features)]
+// #![feature(generic_const_exprs)]
+
+// fn check_size<T>(val: T)
+// where
+//     Assert<{ core::mem::size_of::<T>() < 768 }>: IsTrue,
+// {
+//     //...
+// }
+
+// // 修复 main 函数中的错误
+// fn main() {
+//     check_size([0u8; 767]); 
+//     check_size([0i32; 191]);
+//     check_size(["hello你好"; 2]); // size of &str ?
+//     check_size([(); __].map(|_| "hello你好".to_string()));  // size of String?
+//     check_size(['中'; __]); // size of char ?
+// }
+
+
+
+// pub enum Assert<const CHECK: bool> {}
+
+// pub trait IsTrue {}
+
+// impl IsTrue for Assert<true> {}
+
+// 定义特征
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+// 为类型实现特征
+pub struct Post {
+    pub title: String, //标题
+    pub content: String, //内容
+    pub author: String, //作者
+}
+impl Summary for Post {
+    fn summarize(&self) -> String {
+        format!("文章是:{},作者是{}",self.title, self.author)
+    }
+}
+pub struct Wibo {
+    pub username: String,
+    pub content: String,
+}
+impl Summary for Wibo {
+    fn summarize(&self) -> String {
+        format!("{}发表了微博{}", self.username, self.content)
+    }
 }
 
 fn main() {
-    let slice: &[u8] = b"Hello, world";
-    let reference: Option<&u8> = slice.get(6);
-    // 我们知道 `.get` 返回的是 `Some(b' ')`
-    // 但编译器不知道
-    assert!(reference.is_some());
-
-    let slice: &[u8] = b"Hello, world";
-
-    // 当编译构建 MinSlice 时会进行长度检查，也就是在编译期我们就知道它的长度是 12
-    // 在运行期，一旦 `unwrap` 成功，在 `MinSlice` 的作用域内，就再无需任何检查    
-    let minslice = MinSlice::<u8, 12>::from_slice(slice).unwrap();
-    let value: u8 = minslice.head[6];
-    assert_eq!(value, b' ')
+    let post = Post{title: "Rust语言".to_string(), content: "trait特征".to_string(), author: "me".to_string()};
+    let wibo = Wibo{username: "sunface".to_string(), content: "weibo不好用".to_string()};
+    
+    println!("{}", post.summarize());
+    println!("{}", wibo.summarize());
 }
