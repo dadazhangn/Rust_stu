@@ -4332,12 +4332,127 @@
 
 
 // 实现下面的泛型函数 sum
-fn sum<T:std::ops::Add<Output = T>>(x: T, y:T) -> T{
-    x+y
+// fn sum<T:std::ops::Add<Output = T>>(x: T, y:T) -> T{
+//     x+y
+// }
+
+// fn main() {
+//     assert_eq!(5, sum(2i8, 3i8));
+//     assert_eq!(50, sum(20, 30));
+//     assert_eq!(2.46, sum(1.23, 1.23));
+// }
+
+// 3
+
+// 实现一个结构体 Point 让代码工作
+// struct Point<T, V> {
+//     x:T,
+//     y:V,
+// }
+
+// fn main() {
+//     let integer = Point { x: 5, y: 10 };
+//     let float = Point { x: 1.0, y: 4.0 };
+// }
+
+// 4
+
+// 修改以下结构体让代码工作
+// struct Point<T, V> {
+//     x: T,
+//     y: V,
+// }
+
+// fn main() {
+//     // 不要修改这行代码！
+//     let p = Point{x: 5, y : "hello".to_string()};
+// }
+
+// 5
+
+// 为 Val 增加泛型参数，不要修改 `main` 中的代码
+// struct Val<T> {
+//     val: T,
+// }
+
+// impl<T> Val<T> {
+//     fn value(&self) -> &T {
+//         &self.val
+//     }
+// }
+
+
+// fn main() {
+//     let x = Val{ val: 3.0 };
+//     let y = Val{ val: "hello".to_string()};
+//     println!("{}, {}", x.value(), y.value());
+// }
+
+// 6
+// struct Point<T, U> {
+//     x: T,
+//     y: U,
+// }
+
+// impl<T, U> Point<T, U> {
+//     // 实现 mixup，不要修改其它代码！
+//     fn mixup<V,W>(self, other: Point<V, W>) -> Point<T, W> {
+//         Point {
+//             x: self.x,
+//             y: other.y,
+//         }
+//     }
+// }
+
+// fn main() {
+//     let p1 = Point { x: 5, y: 10 };
+//     let p2 = Point { x: "Hello", y: '中'};
+
+//     // println!("{}",p1.x);
+//     let p3 = p1.mixup(p2);
+    
+//     assert_eq!(p3.x, 5);
+//     assert_eq!(p3.y, '中');
+// }
+
+// 7
+
+// 修复错误，让代码工作
+// struct Point<T> {
+//     x: T,
+//     y: T,
+// }
+
+// impl Point<f32> {
+//     fn distance_from_origin(&self) -> f32 {
+//         (self.x.powi(2) + self.y.powi(2)).sqrt()
+//     }
+// }
+
+// fn main() {
+//     let p = Point{x: 5.0, y: 10.0};
+//     println!("{}",p.distance_from_origin())
+// }
+
+
+// const
+pub struct MinSlice<T, const N: usize> {
+    pub head: [T; N],
+    pub tail: [T],
 }
 
 fn main() {
-    assert_eq!(5, sum(2i8, 3i8));
-    assert_eq!(50, sum(20, 30));
-    assert_eq!(2.46, sum(1.23, 1.23));
+    let slice: &[u8] = b"Hello, world";
+    let reference: Option<&u8> = slice.get(6);
+    // 我们知道 `.get` 返回的是 `Some(b' ')`
+    // 但编译器不知道
+    assert!(reference.is_some());
+
+    let slice: &[u8] = b"Hello, world";
+
+    // 当编译构建 MinSlice 时会进行长度检查，也就是在编译期我们就知道它的长度是 12
+    // 在运行期，一旦 `unwrap` 成功，在 `MinSlice` 的作用域内，就再无需任何检查    
+    let minslice = MinSlice::<u8, 12>::from_slice(slice).unwrap();
+    let value: u8 = minslice.head[6];
+    assert_eq!(value, b' ')
 }
