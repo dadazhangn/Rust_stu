@@ -4583,3 +4583,12 @@
 //     println!("i new wibo: {}", wibo.summarize());
 // }
 // 使用特征作为函数参数
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+// pub fn notify(item: &impl Summary) {
+//     println!("Breaking news! {}", item.summarize());
+// }
+
+// 特征约束(trait bound)
