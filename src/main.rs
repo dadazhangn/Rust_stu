@@ -4120,7 +4120,7 @@
 // }
 // fn main() {
 //     println!("add i8: {}", add(2i8, 4i8));
-//     println!("add i32: {}", add(20, 30)); 
+//     println!("add i32: {}", add(20, 30));
 //     println!("add i64: {}", add(1.23, 1.24));
 // }
 // fn largest<T> (list: &[T]) -> T{
@@ -4161,7 +4161,7 @@
 // fn main() {
 //   let i = Point{x:2,y:4.2};
 //   // let float = Point{x:2.2,y:3.2};
-  
+
 // }
 
 // enum Option<T> {
@@ -4183,7 +4183,7 @@
 //   fn x(&self) -> &T {
 //     &self.x
 //   }
-    
+
 // }
 
 // fn main() {
@@ -4201,7 +4201,7 @@
 //       x: self.x,
 //       y: other.y,
 //     }
-//   }   
+//   }
 // }
 
 // fn main() {
@@ -4223,7 +4223,7 @@
 //     fn distance_from_origin(&self) -> f32 {
 //       (self.x.powi(2)+ self.y.powi(2)).sqrt()
 //     }
-// } 
+// }
 
 // fn main() {
 //   let p:Point<f32> = Point{x:3.0,y:4.0};
@@ -4330,7 +4330,6 @@
 //     generic(SGen('a'));
 // }
 
-
 // 实现下面的泛型函数 sum
 // fn sum<T:std::ops::Add<Output = T>>(x: T, y:T) -> T{
 //     x+y
@@ -4381,7 +4380,6 @@
 //     }
 // }
 
-
 // fn main() {
 //     let x = Val{ val: 3.0 };
 //     let y = Val{ val: "hello".to_string()};
@@ -4410,7 +4408,7 @@
 
 //     // println!("{}",p1.x);
 //     let p3 = p1.mixup(p2);
-    
+
 //     assert_eq!(p3.x, 5);
 //     assert_eq!(p3.y, '中');
 // }
@@ -4434,7 +4432,6 @@
 //     println!("{}",p.distance_from_origin())
 // }
 
-
 // const
 // pub struct MinSlice<T, const N: usize> {
 //     pub head: [T; N],
@@ -4451,12 +4448,11 @@
 //     let slice: &[u8] = b"Hello, world";
 
 //     // 当编译构建 MinSlice 时会进行长度检查，也就是在编译期我们就知道它的长度是 12
-//     // 在运行期，一旦 `unwrap` 成功，在 `MinSlice` 的作用域内，就再无需任何检查    
+//     // 在运行期，一旦 `unwrap` 成功，在 `MinSlice` 的作用域内，就再无需任何检查
 //     let minslice = MinSlice::<u8, 12>::from_slice(slice).unwrap();
 //     let value: u8 = minslice.head[6];
 //     assert_eq!(value, b' ')
 // }
-
 
 // 1
 // 修复错误
@@ -4505,14 +4501,12 @@
 
 // // 修复 main 函数中的错误
 // fn main() {
-//     check_size([0u8; 767]); 
+//     check_size([0u8; 767]);
 //     check_size([0i32; 191]);
 //     check_size(["hello你好"; 2]); // size of &str ?
 //     check_size([(); __].map(|_| "hello你好".to_string()));  // size of String?
 //     check_size(['中'; __]); // size of char ?
 // }
-
-
 
 // pub enum Assert<const CHECK: bool> {}
 
@@ -4521,35 +4515,71 @@
 // impl IsTrue for Assert<true> {}
 
 // 定义特征
-pub trait Summary {
-    fn summarize(&self) -> String;
-}
+// pub trait Summary {
+//     fn summarize(&self) -> String;
+// }
+
+// use std::str::pattern::SearchStep;
 
 // 为类型实现特征
-pub struct Post {
-    pub title: String, //标题
-    pub content: String, //内容
-    pub author: String, //作者
-}
-impl Summary for Post {
-    fn summarize(&self) -> String {
-        format!("文章是:{},作者是{}",self.title, self.author)
-    }
-}
-pub struct Wibo {
-    pub username: String,
-    pub content: String,
-}
-impl Summary for Wibo {
-    fn summarize(&self) -> String {
-        format!("{}发表了微博{}", self.username, self.content)
-    }
-}
+// pub struct Post {
+//     pub title: String,   //标题
+//     pub content: String, //内容
+//     pub author: String,  //作者
+// }
+// pub struct Wibo {
+//     pub username: String,
+//     pub content: String,
+// }
+// impl Summary for Post {
+//     fn summarize(&self) -> String {
+//         format!("文章是:{},作者是{}",self.title, self.author)
+//     }
+// }
 
-fn main() {
-    let post = Post{title: "Rust语言".to_string(), content: "trait特征".to_string(), author: "me".to_string()};
-    let wibo = Wibo{username: "sunface".to_string(), content: "weibo不好用".to_string()};
-    
-    println!("{}", post.summarize());
-    println!("{}", wibo.summarize());
-}
+// impl Summary for Wibo {
+//     fn summarize(&self) -> String {
+//         format!("{}发表了微博{}", self.username, self.content)
+//     }
+// }
+
+// fn main() {
+//     let post = Post{title: "Rust语言".to_string(), content: "trait特征".to_string(), author: "me".to_string()};
+//     let wibo = Wibo{username: "sunface".to_string(), content: "weibo不好用".to_string()};
+
+//     println!("{}", post.summarize());
+//     println!("{}", wibo.summarize());
+// }
+// // 默认实现
+// pub trait Summary {
+//     fn summarize(&self) -> String {
+//         String::from("read more..")
+//     }
+// }
+// impl Summary for Post {}
+
+// impl Summary for Wibo {
+//     fn summarize(&self) -> String {
+//         format!("{}发表了微博{}", self.username, self.content)
+//     }
+// }
+
+// pub trait Summary {
+//     fn summarize_author(&self) -> String;
+
+//     fn summarize(&self) -> String {
+//         format!("read more from..{}", self.summarize_author())
+//     }
+// }
+
+// impl Summary for Wibo {
+//     fn summarize_author(&self) -> String {
+//         format!("@{}", self.username)
+//     }
+// }
+
+// fn main() {
+//     let wibo = Wibo{username: "sunface".to_string(), content: "weibo不好用".to_string()};
+//     println!("i new wibo: {}", wibo.summarize());
+// }
+// 使用特征作为函数参数
