@@ -4564,6 +4564,8 @@
 //     }
 // }
 
+// use std::fmt::{Debug, Display};
+
 // pub trait Summary {
 //     fn summarize_author(&self) -> String;
 
@@ -4583,12 +4585,32 @@
 //     println!("i new wibo: {}", wibo.summarize());
 // }
 // 使用特征作为函数参数
-pub trait Summary {
-    fn summarize(&self) -> String;
-}
+// pub trait Summary {
+//     fn summarize(&self) -> String;
+// }
 
 // pub fn notify(item: &impl Summary) {
 //     println!("Breaking news! {}", item.summarize());
 // }
 
 // 特征约束(trait bound)
+// pub fn notify<T: Summary>(item: &T) {
+//     println!("Breaking news! {}", item.summarize());
+// }
+// 多重约束
+// pub fn notify(item: &(impl Summary + Display)) {}
+
+// pub fn notify<T: Summary + Display>(item: &T) {}
+
+// Where 约束
+// fn some_function<T: Display+Clone, U: Clone + Debug>(t: &T, u: &U) ->i32{}
+
+// fn some_function<T, U>(t: &T, u: &U) -> i32 
+//     where T: Display+Clone,
+//           U: Clone+ Debug
+//     {}
+// fn main() {
+
+// }
+
+// 使用特征约束有条件地实现方法或特征
