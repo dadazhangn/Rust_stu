@@ -4605,15 +4605,232 @@
 // Where 约束
 // fn some_function<T: Display+Clone, U: Clone + Debug>(t: &T, u: &U) ->i32{}
 
-// fn some_function<T, U>(t: &T, u: &U) -> i32 
+// fn some_function<T, U> (t: &T, u: &U) -> i32
 //     where T: Display+Clone,
 //           U: Clone+ Debug
-//     {}
+//     { }
 // fn main() {
 
 // }
 
 // 使用特征约束有条件地实现方法或特征
-fn main() {
-    println!("hello")
+
+// use std::fmt::Display;
+
+// struct Pair<T> {
+//     x: T,
+//     y: T,
+// }
+// impl <T: Display + PartialOrd> Pair<T> {
+//     fn cmp_display(&self) {
+//         if self.x>=self.y {
+//             println!("The largest member is x = {}", self.x);
+
+//         } else {
+//             println!("The largest member is y = {}", self.y);
+//         }
+//     }
+// }
+
+// 函数返回中的 impl Trait
+// pub trait Summary {
+//     fn summarize(&self) -> String;
+// }
+// pub struct Post {
+//     pub title: String, // 标题
+//     pub author: String, // 作者
+//     pub content: String, // 内容
+// }
+
+// impl Summary for Post {
+//     fn summarize(&self) -> String {
+//         format!("文章{}, 作者是{}", self.title, self.author)
+//     }
+// }
+
+// pub struct Weibo {
+//     pub username: String,
+//     pub content: String
+// }
+
+// impl Summary for Weibo {
+//     fn summarize(&self) -> String {
+//         format!("{}发表了微博{}", self.username, self.content)
+//     }
+// }
+
+// // fn return_summarizable() -> impl Summary {
+// //     Weibo {
+// //         username: String::from("sunface"),
+// //         content: String::from("
+// //             电脑好卡
+// //         ")
+// //     }
+// // }
+
+// fn return_summarizable(switch: bool) -> impl Summary {
+//     if switch {
+//         Post {
+//             title: String::from(
+//                 "Penguins win the Stanley Cup Championship!",
+//             ),
+//             author: String::from("Iceburgh"),
+//             content: String::from(
+//                 "The Pittsburgh Penguins once again are the best \
+//                  hockey team in the NHL.",
+//             ),
+//         }
+//     } else {
+//         Weibo {
+//             username: String::from("horse_ebooks"),
+//             content: String::from(
+//                 "of course, as you probably already know, people",
+//             ),
+//         }
+//     }
+// }
+
+// fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
+//     let mut largest = list[0];
+//     for &item in list.iter() {
+//         if item > largest {
+//             largest = item;
+//         }
+//     }
+//     largest
+// }
+// fn main() {
+//     let number_list = vec![100,22,34,55,43];
+//     let result = largest(&number_list);
+//     println!("The largest number is {}", result);
+
+//     let char_list = vec!['w', 'e','c', 'g'];
+//     let result = largest(&char_list);
+//     println!("The largest char is {}", result);
+// }
+
+// fn largest<T: PartialOrd>(list: &[T]) -> &T {
+//     let mut largest = list[0];
+//     for &item in list.iter() {
+//         if item > largest {
+//             largest = item;
+//         }
+//     }
+//     &largest
+// }
+
+// fn main() {
+//     let number_list = vec![100,22,34,55,43];
+//     let result = largest(&number_list);
+//     println!("The largest number is {}", &result);
+
+//     let char_list = vec!['w', 'e','c', 'g'];
+//     let result = largest(&char_list);
+//     println!("The largest char is {}", &result);
+// }
+
+// 调用方法需要引入特征
+// fn main() {
+//     let a: i32 = 10;
+//     let b: u16 = 100;
+//     let b_ = b.try_into()
+//             .unwrap();
+//     if a < b_ {
+//         println!("Ten is less than one hundred.");
+//     }
+// }
+
+// use std::process::Output;
+
+// // 示例
+// // 为自定义类型实现 + 操作
+// use std::ops::Add;
+// #[derive(Debug)]
+// struct Point<T: Add<T, Output = T>> {
+//     x: T,
+//     y: T,
+// }
+// impl<T: Add<T, Output = T>> Add for Point<T> {
+//     type Output = Point<T>;
+
+//     fn add(self, p: Point<T>) -> Point<T> {
+//         Point {
+//             x: self.x + p.x,
+//             y: self.y + p.y,
+//         }
+//     }
+// }
+// fn add<T: Add<T, Output = T>>(a: T, b: T) -> T {
+//     a + b
+// }
+// fn main() {
+//     let p1 = Point {
+//         x: 1.1f32,
+//         y: 1.1f32,
+//     };
+//     let p2 = Point {
+//         x: 2.1f32,
+//         y: 2.1f32,
+//     };
+//     println!("{:?}", add(p1, p2));
+
+//     let p3 = Point { x: 1i32, y: 1i32 };
+//     let p4 = Point { x: 2i32, y: 2i32 };
+//     println!("{:?}", add(p3, p4));
+// }
+
+
+// 自定义类型的打印输出
+
+#![allow(dead_code)]
+
+use core::fmt;
+use std::fmt::Display;
+
+#[derive(Debug,PartialEq)]
+enum FileState {
+    Open,
+    Closed,
 }
+
+#[derive(Debug)]
+struct File {
+    name: String,
+    data: Vec<u8>,
+    state: FileState,
+}
+
+impl Display for FileState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            FileState::Open => write!(f, "OPEN"),
+            FileState::Closed => write!(f, "CLOSED"),
+        }
+    }
+}
+
+impl Display for File {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "<{} ({})>", self.name, self.state)
+    }
+}
+
+impl File {
+    fn new(name: &str) -> File{
+        File {
+            name: String::from(name),
+            data: Vec::new(),
+            state: FileState::Closed,
+        }
+    }
+}
+
+fn main() {
+    let f6 = File::new("f6.txt");
+
+    println!("{:?}", f6);
+    println!("{}", f6);
+}
+
+
+
