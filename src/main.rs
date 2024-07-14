@@ -4779,58 +4779,270 @@
 //     println!("{:?}", add(p3, p4));
 // }
 
-
 // 自定义类型的打印输出
 
-#![allow(dead_code)]
+// #![allow(dead_code)]
 
-use core::fmt;
-use std::fmt::Display;
+// use core::fmt;
+// use std::fmt::Display;
 
-#[derive(Debug,PartialEq)]
-enum FileState {
-    Open,
-    Closed,
-}
+// #[derive(Debug,PartialEq)]
+// enum FileState {
+//     Open,
+//     Closed,
+// }
 
-#[derive(Debug)]
-struct File {
-    name: String,
-    data: Vec<u8>,
-    state: FileState,
-}
+// #[derive(Debug)]
+// struct File {
+//     name: String,
+//     data: Vec<u8>,
+//     state: FileState,
+// }
 
-impl Display for FileState {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            FileState::Open => write!(f, "OPEN"),
-            FileState::Closed => write!(f, "CLOSED"),
-        }
+// impl Display for FileState {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         match *self {
+//             FileState::Open => write!(f, "OPEN"),
+//             FileState::Closed => write!(f, "CLOSED"),
+//         }
+//     }
+// }
+
+// impl Display for File {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         write!(f, "<{} ({})>", self.name, self.state)
+//     }
+// }
+
+// impl File {
+//     fn new(name: &str) -> File{
+//         File {
+//             name: String::from(name),
+//             data: Vec::new(),
+//             state: FileState::Closed,
+//         }
+//     }
+// }
+
+// fn main() {
+//     let f6 = File::new("f6.txt");
+
+//     println!("{:?}", f6);
+//     println!("{}", f6);
+// }
+
+// practice
+
+// struct Sheep {
+//     naked: bool,
+//     name: String,
+// }
+
+// impl Sheep {
+//     fn is_naked(&self) -> bool{
+//         self.naked
+//     }
+
+//     fn shear(&mut self) {
+//         if self.is_naked() {
+//             // `Sheep` 结构体上定义的方法可以调用 `Sheep` 所实现的特征的方法
+//             println!("{} is already naked...", self.name);
+//         } else {
+//             println!("{} get a haircut!", self.name);
+
+//             self.naked = true;
+//         }
+//     }
+// }
+
+// trait Animal {
+//     // 关联函数签名；`Self` 指代实现者的类型
+//     // 例如我们在为 Pig 类型实现特征时，那 `new` 函数就会返回一个 `Pig` 类型的实例，这里的 `Self` 指代的就是 `Pig` 类型
+//     fn new(name: String) -> Self;
+
+//     // 方法签名
+//     fn name(&self) -> String;
+
+//     fn noise(&self) -> String;
+
+//     // 方法还能提供默认的定义实现
+//     fn talk(&self) {
+//         println!("{} says {}", self.name(), self.noise());
+//     }
+// }
+// impl Animal for Sheep  {
+//     // `Self` 被替换成具体的实现者类型： `Sheep`
+//     fn new(name: String) -> Sheep {
+//         Sheep { naked: false, name: name }
+//     }
+
+//     fn name(&self) -> String {
+//         self.name.clone()
+//     }
+
+//     fn noise(&self) -> String {
+//         if self.is_naked() {
+//             "baaah?".to_string()
+//         } else {
+//             "baah!".to_string()
+//         }
+//     }
+
+//     fn talk(&self) {
+//         println!("{} pauses briefly... {}", self.name, self.noise());
+//     }
+// }
+
+// fn main() {
+//     // 这里的类型注释时必须的
+//     let mut dolly: Sheep = Animal::new("Dolly".to_string());
+
+//     dolly.talk();
+//     dolly.shear();
+//     dolly.talk();
+// }
+
+// 1
+
+// 完成两个 `impl` 语句块
+// 不要修改 `main` 中的代码
+// trait Hello {
+//     fn say_hi(&self) -> String {
+//         String::from("hi")
+//     }
+
+//     fn say_something(&self) -> String;
+// }
+
+// struct Student {}
+// impl Hello for Student {
+//     fn say_hi(&self) -> String {
+//         String::from("hi")
+//     }
+//     fn say_something(&self) -> String {
+//         String::from("I'm a good student")
+//     }
+// }
+// struct Teacher {}
+// impl Hello for Teacher {
+//     fn say_hi(&self) -> String {
+//         String::from("Hi, I'm your new teacher")
+//     }
+//     fn say_something(&self) -> String {
+//         String::from("I'm not a bad teacher")
+//     }
+// }
+
+// fn main() {
+//     let s = Student {};
+//     assert_eq!(s.say_hi(), "hi");
+//     assert_eq!(s.say_something(), "I'm a good student");
+
+//     let t = Teacher {};
+//     assert_eq!(t.say_hi(), "Hi, I'm your new teacher");
+//     assert_eq!(t.say_something(), "I'm not a bad teacher");
+
+//     println!("Success!")
+// }
+
+// 2
+
+// `Centimeters`, 一个元组结构体，可以被比较大小
+// #[derive(PartialEq, PartialOrd)]
+// struct Centimeters(f64);
+
+// // `Inches`, 一个元组结构体可以被打印
+// #[derive(Debug)]
+// struct Inches(i32);
+
+// impl Inches {
+//     fn to_centimeters(&self) -> Centimeters {
+//         let &Inches(inches) = self;
+
+//         Centimeters(inches as f64 * 2.54)
+//     }
+// }
+
+// // 添加一些属性让代码工作
+// // 不要修改其它代码！
+// struct Seconds(i32);
+
+// fn main() {
+//     let _one_second = Seconds(1);
+
+//     println!("One second looks like: {:?}", _one_second);
+//     let _this_is_true = _one_second == _one_second;
+//     let _this_is_false = _one_second > _one_second;
+
+//     let foot = Inches(12);
+
+//     println!("One foot equals {:?}", foot);
+
+//     let meter = Centimeters(100.0);
+
+//     let cmp =
+//         if foot.to_centimeters() < meter {
+//             "smaller"
+//         } else {
+//             "bigger"
+//         };
+
+//     println!("One foot is {} than one meter.", cmp);
+// }
+
+// 3
+
+// use std::ops::Mul;
+
+// // 实现 fn multiply 方法
+// // 如上所述，`+` 需要 `T` 类型实现 `std::ops::Add` 特征
+// // 那么, `*` 运算符需要实现什么特征呢? 你可以在这里找到答案: https://doc.rust-lang.org/core/ops/
+// fn multiply<T: Mul<T, Output = T>>(a: T, b: T) -> T {
+//     a * b
+// }
+
+// fn main() {
+//     assert_eq!(6, multiply(2u8, 3u8));
+//     assert_eq!(5.0, multiply(1.0, 5.0));
+
+//     println!("Success!")
+// }
+
+
+// 4
+
+// 修复错误，不要修改 `main` 中的代码!
+use std::ops;
+
+struct Foo;
+struct Bar;
+
+struct FooBar;
+
+struct BarFoo;
+
+// 下面的代码实现了自定义类型的相加： Foo + Bar = FooBar
+impl ops::Add<Bar> for Foo {
+    type Output = FooBar;
+
+    fn add(self, _rhs: Bar) -> FooBar {
+        FooBar
     }
 }
 
-impl Display for File {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "<{} ({})>", self.name, self.state)
-    }
-}
+impl ops::Sub<Foo> for Bar {
+    type Output = BarFoo;
 
-impl File {
-    fn new(name: &str) -> File{
-        File {
-            name: String::from(name),
-            data: Vec::new(),
-            state: FileState::Closed,
-        }
+    fn sub(self, _rhs: Foo) -> BarFoo {
+        BarFoo
     }
 }
 
 fn main() {
-    let f6 = File::new("f6.txt");
+    // 不要修改下面代码
+    // 你需要为 FooBar 派生一些特征来让代码工作
+    assert_eq!(Foo + Bar, FooBar);
+    assert_eq!(Foo - Bar, BarFoo);
 
-    println!("{:?}", f6);
-    println!("{}", f6);
+    println!("Success!")
 }
-
-
-
