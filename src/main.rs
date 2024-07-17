@@ -5014,6 +5014,8 @@
 // 修复错误，不要修改 `main` 中的代码!
 use std::ops;
 
+#[derive(Debug)]
+#[derive(PartialEq, PartialOrd)]
 struct Foo;
 struct Bar;
 
