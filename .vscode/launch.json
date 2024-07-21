@@ -10,7 +10,7 @@
       "name": "Debug executable 'world_hello'",
       "cargo": {
         "args": [
-          "build",
+          "build",   
           "--bin=world_hello",
           "--package=world_hello"
         ],

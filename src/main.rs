@@ -5009,7 +5009,6 @@
 //     println!("Success!")
 // }
 
-
 // 4
 
 // 修复错误，不要修改 `main` 中的代码!
@@ -5050,10 +5049,9 @@
 //     println!("Success!")
 // }
 
-
 // 5
 
-// 实现 `fn summary` 
+// 实现 `fn summary`
 // 修复错误且不要移除任何代码行
 // trait Summary {
 //     fn summarize(&self) -> String;
@@ -5144,8 +5142,7 @@
 //     let random_number = 0.288;
 //     let animal = random_animal(random_number);
 //     println!("You've randomly chosen an animal, and it says {}", animal.noise());
-// }   
-
+// }
 
 // fn random_animal(random_number: f64) -> Box<dyn Animal> {
 //     if random_number < 0.5 {
@@ -5159,7 +5156,7 @@
 //     let random_number = 0.288;
 //     let animal = random_animal(random_number);
 //     println!("You've randomly chosen an animal, and it says {}", animal.noise());
-// }   
+// }
 
 // use std::process::Output;
 
@@ -5174,13 +5171,12 @@
 // //     x + y
 // // }
 // use std::ops::Add;
-// fn sum<T>(x: T, y: T) -> T 
-//     where 
+// fn sum<T>(x: T, y: T) -> T
+//     where
 //         T: Add<Output=T>
 //     {
 //         x + y
 //     }
-
 
 // 8
 // 修复代码中的错误
@@ -5220,7 +5216,6 @@
 //     pair.cmp_display();
 // }
 
-
 // 9
 
 // // 填空
@@ -5256,7 +5251,6 @@
 //     assert_eq!(cacher.value(10), 11);
 //     assert_eq!(cacher.value(15), 11);
 // }
-
 
 // fn example2() {
 //     // 还可以使用 `where` 来约束 T
@@ -5294,8 +5288,6 @@
 //     assert_eq!(cacher.value(25), 21);
 // }
 
-
-
 // fn main() {
 //     example1();
 //     example2();
@@ -5303,9 +5295,7 @@
 //     println!("Success!")
 // }
 
-
 // 特征对象
-
 
 // trait Draw {
 //     fn draw(&self) -> String;
@@ -5315,13 +5305,13 @@
 //     fn draw(&self) -> String {
 //         format!("u8:{}", *self)
 //     }
-// } 
+// }
 
 // impl Draw for f64 {
 //     fn draw(&self) -> String {
 //         format!("f64:{}", *self)
 //     }
-// } 
+// }
 // fn draw1(x: Box<dyn Draw>) {
 //     x.draw();
 // }
@@ -5335,7 +5325,7 @@
 //     // do_something(&x);
 //     let y = 8u8;
 
-//     // x 和 y 的类型 T 都实现了 `Draw` 特征，因为 Box<T> 可以在函数调用时隐式地被转换为特征对象 Box<dyn Draw> 
+//     // x 和 y 的类型 T 都实现了 `Draw` 特征，因为 Box<T> 可以在函数调用时隐式地被转换为特征对象 Box<dyn Draw>
 //     // 基于 x 的值创建一个 Box<f64> 类型的智能指针，指针指向的数据被放置在了堆上
 //     draw1(Box::new(x));
 //     // 基于 y 的值创建一个 Box<u8> 类型的智能指针
@@ -5354,7 +5344,7 @@
 //         UiObject::Button,
 //         UiObject::SelectBox,
 //     ];
-    
+
 //     for o in objects {
 //         draw(o);
 //     }
@@ -5365,7 +5355,7 @@
 // }
 
 // pub trait Draw {
-//     fn draw(&self); 
+//     fn draw(&self);
 // }
 
 // pub struct Button {
@@ -5376,7 +5366,7 @@
 
 // impl Draw for Button {
 //     fn draw(&self) {
-        
+
 //     }
 // }
 
@@ -5388,7 +5378,7 @@
 
 // impl Draw for SelectBox {
 //     fn draw(&self) {
-        
+
 //     }
 // }
 
@@ -5456,7 +5446,6 @@
 
 // practice
 
-
 // 1
 
 // use std::char::ParseCharError;
@@ -5508,7 +5497,7 @@
 //     assert_eq!(bird.quack(), "swan swan");
 
 //     println!("Success!")
-// }   
+// }
 
 // // 实现以下函数
 // fn hatch_a_bird(item: u8) -> Box<dyn Bird>{
@@ -5518,7 +5507,6 @@
 //         _ => panic!("Invalid input"),
 //     }
 // }
-
 
 // 2
 // trait Bird {
@@ -5602,9 +5590,7 @@
 //     x.draw();
 // }
 
-
 // 4
-
 
 // trait Foo {
 //     fn method(&self) -> String;
@@ -5668,29 +5654,196 @@
 //     println!("Success!")
 // }
 
-
 // 使用至少两种方法让代码工作
 // 不要添加/删除任何代码行
-trait MyTrait {
-    fn f(&self) -> Box<dyn MyTrait>;
+// trait MyTrait {
+//     fn f(&self) -> Box<dyn MyTrait>;
+// }
+
+// impl MyTrait for u32 {
+//     fn f(&self) -> Box<dyn MyTrait> {Box::new(42)}
+// }
+
+// impl MyTrait for String {
+//     fn f(&self) -> Box<dyn MyTrait> {Box::new(self.clone())}
+// }
+
+// fn my_function(x: Box<dyn MyTrait>) -> Box<dyn MyTrait>{
+//     x.f()
+// }
+
+// fn main() {
+//     my_function(Box::new(13_u32));
+//     my_function(Box::new(String::from("abc")));
+
+//     println!("Success!")
+// }
+
+// 深入了解特征
+// pub trait Interator {
+//     type Item;
+
+//     fn next(&self) -> Option<Self::Item>;
+// }
+
+// // struct Counter{}
+// impl Interator for Counter {
+//     type Item = u32;
+//     fn next(&self) -> Option<Self::Item> {
+
+//     }
+// }
+
+// fn main() {
+//     let c = Counter{..}
+//     c.next();
+// }
+
+// 默认泛型类型参数
+// trait Add<RHS=Self> {
+//     type Output;
+//     fn add(self, rhs:RHS) -> Self::Output;
+
+// }
+
+// example
+// use std::ops::Add;
+// #[derive(PartialEq, PartialOrd, Debug)]
+// struct Point{
+//     x:i32,
+//     y:i32,
+// }
+
+// impl Add for Point {
+//     type Output = Point;
+
+//     fn add(self, other: Point) -> Point {
+//         Point {
+//             x:self.x + other.x,
+//             y: self.y+other.y,
+//         }
+//     }
+// }
+
+// fn main() {
+//     assert_eq!(Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
+//         Point { x: 3, y: 3 });
+// }
+
+// struct Millimeters(u32);
+// struct Meters(u32);
+
+// impl Add<Meters> for Millimeters {
+//     type Output = Millimeters;
+//     fn add(self, other: Meters) -> Millimeters {
+//         Millimeters(self.0 + (other.0 * 1000))
+//     }
+// }
+
+// 调用同名的方法
+// trait Pilot {
+//     fn fly(&self);
+// }
+// trait Wizard {
+//     fn fly(&self);
+// }
+
+// struct Human;
+
+// impl Pilot for Human {
+//     fn fly(&self) {
+//         println!("This is your captain speaking.");
+//     }
+// }
+
+// impl Wizard for Human {
+//     fn fly(&self) {
+//         println!("Up!");
+//     }
+// }
+
+// impl Human {
+//     fn fly(&self) {
+//         println!("*waving arms furiously*");
+//     }
+// }
+
+// fn main() {
+//     let person = Human;
+//     // 默认调用该类型中定义的方法
+//     person.fly();
+
+//     Pilot::fly(&person); //调用Pilot特征上的方法
+//     Wizard::fly(&person);
+
+// }
+
+// trait Animal {
+//     fn baby_name() -> String;
+// }
+
+// struct Dog;
+// impl Dog {
+//     fn baby_name() -> String{
+//         String::from("spake")
+//     }
+// }
+// impl Animal for Dog {
+//     fn baby_name() -> String {
+//         String::from("puppy")
+//     }
+// }
+// // fn main() {
+// //     println!("A baby dog is called a {}", Dog::baby_name());
+// // }
+// // 完全限定语法
+// fn main() {
+//     println!("A baby dog is called a {}", <Dog as Animal>::baby_name());
+//     // <Type as Trait>::function(receiver_if_method, next_arg, ...);
+
+// }
+// 特征定义中的特征约束
+
+// use std::fmt::Display;
+// trait OutLinePrint: Display {
+//     fn OutLinePrint(&self) {
+//         let output = self.to_string();
+//         let len = output.len();
+
+
+//         println!("{}", "*".repeat(len + 4));
+//         println!("*{}*", " ".repeat(len + 2));
+//         println!("* {} *", output);
+//         println!("*{}*", " ".repeat(len + 2));
+//         println!("{}", "*".repeat(len + 4));
+//     }
+// }
+
+// use std::fmt;
+
+
+// struct Point {
+//     x:i32,
+//     y:i32,
+// }
+
+// impl fmt::Display for Point {
+//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+//         write!(f, "({}, {})", self.x, self.y)
+//     }
+// }
+
+use std::fmt;
+
+// 在外部类型上实现外部特征(newtype)
+struct Wrapper(Vec<String>);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
 }
-
-impl MyTrait for u32 {
-    fn f(&self) -> Box<dyn MyTrait> {Box::new(42)}
-}
-
-impl MyTrait for String {
-    fn f(&self) -> Box<dyn MyTrait> {Box::new(self.clone())}
-}
-
-fn my_function(x: Box<dyn MyTrait>) -> Box<dyn MyTrait>{
-    x.f()
-}
-
-
 fn main() {
-    my_function(Box::new(13_u32));
-    my_function(Box::new(String::from("abc")));
-
-    println!("Success!")
+    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    println!("w = {}", w);
 }
