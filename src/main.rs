@@ -4951,7 +4951,7 @@
 // #[derive(PartialEq, PartialOrd)]
 // struct Centimeters(f64);
 
-// // `Inches`, 一个元组结构体可以被打印
+// `Inches`, 一个元组结构体可以被打印
 // #[derive(Debug)]
 // struct Inches(i32);
 
@@ -4965,6 +4965,7 @@
 
 // // 添加一些属性让代码工作
 // // 不要修改其它代码！
+// #[derive(Debug,PartialEq, PartialOrd)]
 // struct Seconds(i32);
 
 // fn main() {
@@ -5012,39 +5013,290 @@
 // 4
 
 // 修复错误，不要修改 `main` 中的代码!
-use std::ops;
+// use std::{ops, path};
 
-#[derive(Debug)]
-#[derive(PartialEq, PartialOrd)]
-struct Foo;
-struct Bar;
+// #[derive(Debug, PartialEq)]
+// struct FooBar;
 
-struct FooBar;
+// struct Foo;
+// struct Bar;
 
-struct BarFoo;
+// #[derive(Debug, PartialEq)]
+// struct BarFoo;
 
-// 下面的代码实现了自定义类型的相加： Foo + Bar = FooBar
-impl ops::Add<Bar> for Foo {
-    type Output = FooBar;
+// // 下面的代码实现了自定义类型的相加： Foo + Bar = FooBar
+// impl ops::Add<Bar> for Foo {
+//     type Output = FooBar;
 
-    fn add(self, _rhs: Bar) -> FooBar {
-        FooBar
+//     fn add(self, _rhs: Bar) -> FooBar {
+//         FooBar
+//     }
+// }
+
+// impl ops::Sub<Bar> for Foo {
+//     type Output = BarFoo;
+
+//     fn sub(self, _rhs: Bar) -> BarFoo {
+//         BarFoo
+//     }
+// }
+
+// fn main() {
+//     // 不要修改下面代码
+//     // 你需要为 FooBar 派生一些特征来让代码工作
+//     assert_eq!(Foo + Bar, FooBar);
+//     assert_eq!(Foo - Bar, BarFoo);
+
+//     println!("Success!")
+// }
+
+
+// 5
+
+// 实现 `fn summary` 
+// 修复错误且不要移除任何代码行
+// trait Summary {
+//     fn summarize(&self) -> String;
+// }
+
+// #[derive(Debug)]
+// struct Post {
+//     title: String,
+//     author: String,
+//     content: String,
+// }
+
+// impl Summary for Post {
+//     fn summarize(&self) -> String {
+//         format!("The author of post {} is {}", self.title, self.author)
+//     }
+// }
+
+// #[derive(Debug)]
+// struct Weibo {
+//     username: String,
+//     content: String,
+// }
+
+// impl Summary for Weibo {
+//     fn summarize(&self) -> String {
+//         format!("{} published a weibo {}", self.username, self.content)
+//     }
+// }
+
+// fn main() {
+//     let post = Post {
+//         title: "Popular Rust".to_string(),
+//         author: "Sunface".to_string(),
+//         content: "Rust is awesome!".to_string(),
+//     };
+//     let weibo = Weibo {
+//         username: "sunface".to_string(),
+//         content: "Weibo seems to be worse than Tweet".to_string(),
+//     };
+
+//     summary(&post);
+//     summary(&weibo);
+
+//     println!("{:?}", post);
+//     println!("{:?}", weibo);
+// }
+
+// // 在下面实现 `fn summary` 函数
+// fn summary(item: &impl Summary) {
+//     println!("Breaking news is {}", item.summarize());
+// }
+
+// 6
+
+struct Sheep {}
+struct Cow {}
+
+trait Animal {
+    fn noise(&self) -> String;
+}
+
+impl Animal for Sheep {
+    fn noise(&self) -> String {
+        "baaaaah!".to_string()
     }
 }
 
-impl ops::Sub<Foo> for Bar {
-    type Output = BarFoo;
-
-    fn sub(self, _rhs: Foo) -> BarFoo {
-        BarFoo
+impl Animal for Cow {
+    fn noise(&self) -> String {
+        "moooooo!".to_string()
     }
 }
+
+// 返回一个类型，该类型实现了 Animal 特征，但是我们并不能在编译期获知具体返回了哪个类型
+// 修复这里的错误，你可以使用虚假的随机，也可以使用特征对象
+// fn random_animal(random_number: f64) -> impl Animal {
+//     if random_number < 0.5 {
+//         Sheep {}
+//     } else {
+//         Sheep{}
+//     }
+// }
+
+// fn main() {
+//     let random_number = 0.288;
+//     let animal = random_animal(random_number);
+//     println!("You've randomly chosen an animal, and it says {}", animal.noise());
+// }   
+
+
+// fn random_animal(random_number: f64) -> Box<dyn Animal> {
+//     if random_number < 0.5 {
+//         Box::new(Sheep {})
+//     } else {
+//         Box::new(Cow {})
+//     }
+// }
+
+// fn main() {
+//     let random_number = 0.288;
+//     let animal = random_animal(random_number);
+//     println!("You've randomly chosen an animal, and it says {}", animal.noise());
+// }   
+
+// use std::process::Output;
+
+// 7
+// fn main() {
+//     assert_eq!(sum(1, 2), 3);
+// }
+
+// // 通过两种方法使用特征约束来实现 `fn sum`
+// // use std::ops::Add;
+// // fn sum<T: Add<Output=T>>(x: T, y: T) -> T {
+// //     x + y
+// // }
+// use std::ops::Add;
+// fn sum<T>(x: T, y: T) -> T 
+//     where 
+//         T: Add<Output=T>
+//     {
+//         x + y
+//     }
+
+
+// 8
+// 修复代码中的错误
+// struct Pair<T> {
+//     x: T,
+//     y: T,
+// }
+
+// impl<T> Pair<T> {
+//     fn new(x: T, y: T) -> Self {
+//         Self {
+//             x,
+//             y,
+//         }
+//     }
+// }
+
+// impl<T: std::fmt::Debug + PartialOrd> Pair<T> {
+//     fn cmp_display(&self) {
+//         if self.x >= self.y {
+//             println!("The largest member is x = {:?}", self.x);
+//         } else {
+//             println!("The largest member is y = {:?}", self.y);
+//         }
+//     }
+// }
+
+// #[derive(Debug, PartialEq,PartialOrd)]
+// struct Unit(i32);
+
+// fn main() {
+//     let pair = Pair{
+//         x: Unit(1),
+//         y: Unit(3)
+//     };
+
+//     pair.cmp_display();
+// }
+
+
+// 9
+
+// 填空
+fn example1() {
+    // `T: Trait` 是最常使用的方式
+    // `T: Fn(u32) -> u32` 说明 `T` 只能接收闭包类型的参数
+    struct Cacher<T: Fn(u32) -> u32> {
+        calculation: T,
+        value: Option<u32>,
+    }
+
+    impl<T: Fn(u32) -> u32> Cacher<T> {
+        fn new(calculation: T) -> Cacher<T> {
+            Cacher {
+                calculation,
+                value: None,
+            }
+        }
+
+        fn value(&mut self, arg: u32) -> u32 {
+            match self.value {
+                Some(v) => v,
+                None => {
+                    let v = (self.calculation)(arg);
+                    self.value = Some(v);
+                    v
+                },
+            }
+        }
+    }
+
+    let mut cacher = Cacher::new(|x| x+1);
+    assert_eq!(cacher.value(10), 11);
+    assert_eq!(cacher.value(15), 16);
+}
+
+
+fn example2() {
+    // 还可以使用 `where` 来约束 T
+    struct Cacher<T>
+        where T: Fn(u32) -> u32,
+    {
+        calculation: T,
+        value: Option<u32>,
+    }
+
+    impl<T> Cacher<T>
+        where T: Fn(u32) -> u32,
+    {
+        fn new(calculation: T) -> Cacher<T> {
+            Cacher {
+                calculation,
+                value: None,
+            }
+        }
+
+        fn value(&mut self, arg: u32) -> u32 {
+            match self.value {
+                Some(v) => v,
+                None => {
+                    let v = (self.calculation)(arg);
+                    self.value = Some(v);
+                    v
+                },
+            }
+        }
+    }
+
+    let mut cacher = Cacher::new(|x| x+1);
+    assert_eq!(cacher.value(20), 21);
+    assert_eq!(cacher.value(25), 26);
+}
+
+
 
 fn main() {
-    // 不要修改下面代码
-    // 你需要为 FooBar 派生一些特征来让代码工作
-    assert_eq!(Foo + Bar, FooBar);
-    assert_eq!(Foo - Bar, BarFoo);
+    example1();
+    example2();
 
     println!("Success!")
 }
