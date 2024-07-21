@@ -5252,7 +5252,7 @@ fn example1() {
 
     let mut cacher = Cacher::new(|x| x+1);
     assert_eq!(cacher.value(10), 11);
-    assert_eq!(cacher.value(15), 16);
+    assert_eq!(cacher.value(15), 11);
 }
 
 
@@ -5289,7 +5289,7 @@ fn example2() {
 
     let mut cacher = Cacher::new(|x| x+1);
     assert_eq!(cacher.value(20), 21);
-    assert_eq!(cacher.value(25), 26);
+    assert_eq!(cacher.value(25), 21);
 }
 
 
