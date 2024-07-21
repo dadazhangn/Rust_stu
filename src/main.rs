@@ -5109,24 +5109,26 @@
 
 // 6
 
-struct Sheep {}
-struct Cow {}
+// use std::str::pattern::SearchStep;
 
-trait Animal {
-    fn noise(&self) -> String;
-}
+// struct Sheep {}
+// struct Cow {}
 
-impl Animal for Sheep {
-    fn noise(&self) -> String {
-        "baaaaah!".to_string()
-    }
-}
+// trait Animal {
+//     fn noise(&self) -> String;
+// }
 
-impl Animal for Cow {
-    fn noise(&self) -> String {
-        "moooooo!".to_string()
-    }
-}
+// impl Animal for Sheep {
+//     fn noise(&self) -> String {
+//         "baaaaah!".to_string()
+//     }
+// }
+
+// impl Animal for Cow {
+//     fn noise(&self) -> String {
+//         "moooooo!".to_string()
+//     }
+// }
 
 // 返回一个类型，该类型实现了 Animal 特征，但是我们并不能在编译期获知具体返回了哪个类型
 // 修复这里的错误，你可以使用虚假的随机，也可以使用特征对象
@@ -5221,82 +5223,173 @@ impl Animal for Cow {
 
 // 9
 
-// 填空
-fn example1() {
-    // `T: Trait` 是最常使用的方式
-    // `T: Fn(u32) -> u32` 说明 `T` 只能接收闭包类型的参数
-    struct Cacher<T: Fn(u32) -> u32> {
-        calculation: T,
-        value: Option<u32>,
-    }
+// // 填空
+// fn example1() {
+//     // `T: Trait` 是最常使用的方式
+//     // `T: Fn(u32) -> u32` 说明 `T` 只能接收闭包类型的参数
+//     struct Cacher<T: Fn(u32) -> u32> {
+//         calculation: T,
+//         value: Option<u32>,
+//     }
 
-    impl<T: Fn(u32) -> u32> Cacher<T> {
-        fn new(calculation: T) -> Cacher<T> {
-            Cacher {
-                calculation,
-                value: None,
-            }
-        }
+//     impl<T: Fn(u32) -> u32> Cacher<T> {
+//         fn new(calculation: T) -> Cacher<T> {
+//             Cacher {
+//                 calculation,
+//                 value: None,
+//             }
+//         }
 
-        fn value(&mut self, arg: u32) -> u32 {
-            match self.value {
-                Some(v) => v,
-                None => {
-                    let v = (self.calculation)(arg);
-                    self.value = Some(v);
-                    v
-                },
-            }
-        }
-    }
+//         fn value(&mut self, arg: u32) -> u32 {
+//             match self.value {
+//                 Some(v) => v,
+//                 None => {
+//                     let v = (self.calculation)(arg);
+//                     self.value = Some(v);
+//                     v
+//                 },
+//             }
+//         }
+//     }
 
-    let mut cacher = Cacher::new(|x| x+1);
-    assert_eq!(cacher.value(10), 11);
-    assert_eq!(cacher.value(15), 11);
+//     let mut cacher = Cacher::new(|x| x+1);
+//     assert_eq!(cacher.value(10), 11);
+//     assert_eq!(cacher.value(15), 11);
+// }
+
+
+// fn example2() {
+//     // 还可以使用 `where` 来约束 T
+//     struct Cacher<T>
+//         where T: Fn(u32) -> u32,
+//     {
+//         calculation: T,
+//         value: Option<u32>,
+//     }
+
+//     impl<T> Cacher<T>
+//         where T: Fn(u32) -> u32,
+//     {
+//         fn new(calculation: T) -> Cacher<T> {
+//             Cacher {
+//                 calculation,
+//                 value: None,
+//             }
+//         }
+
+//         fn value(&mut self, arg: u32) -> u32 {
+//             match self.value {
+//                 Some(v) => v,
+//                 None => {
+//                     let v = (self.calculation)(arg);
+//                     self.value = Some(v);
+//                     v
+//                 },
+//             }
+//         }
+//     }
+
+//     let mut cacher = Cacher::new(|x| x+1);
+//     assert_eq!(cacher.value(20), 21);
+//     assert_eq!(cacher.value(25), 21);
+// }
+
+
+
+// fn main() {
+//     example1();
+//     example2();
+
+//     println!("Success!")
+// }
+
+
+// 特征对象
+// #[derive(Debug)]
+// enum UiObject {
+//     Button,
+//     SelectBox,
+// }
+// fn main() {
+//     let objects = [
+//         UiObject::Button,
+//         UiObject::SelectBox,
+//     ];
+    
+//     for o in objects {
+//         draw(o);
+//     }
+// }
+
+// fn draw(object: UiObject) {
+//     println!("{:?}", object);
+// }
+
+// pub trait draw {
+//     fn draw(&self); 
+// }
+
+// pub struct Button {
+//     pub width: u32,
+//     pub height: u32,
+//     pub label: String,
+// }
+
+// impl draw for Button {
+//     fn draw(&self) {
+        
+//     }
+// }
+
+// pub struct SelectBox {
+//     pub width: u32,
+//     pub height: u32,
+//     pub label: Vec<String>,
+// }
+
+// impl draw for SelectBox {
+//     fn draw(&self) {
+        
+//     }
+// }
+
+// pub struct Screen {
+//     pub componets: Vec<>
+// }
+
+trait Draw {
+    fn draw(&self) -> String;
 }
 
-
-fn example2() {
-    // 还可以使用 `where` 来约束 T
-    struct Cacher<T>
-        where T: Fn(u32) -> u32,
-    {
-        calculation: T,
-        value: Option<u32>,
+impl Draw for u8 {
+    fn draw(&self) -> String {
+        format!("u8:{}", *self)
     }
+} 
 
-    impl<T> Cacher<T>
-        where T: Fn(u32) -> u32,
-    {
-        fn new(calculation: T) -> Cacher<T> {
-            Cacher {
-                calculation,
-                value: None,
-            }
-        }
-
-        fn value(&mut self, arg: u32) -> u32 {
-            match self.value {
-                Some(v) => v,
-                None => {
-                    let v = (self.calculation)(arg);
-                    self.value = Some(v);
-                    v
-                },
-            }
-        }
+impl Draw for f64 {
+    fn draw(&self) -> String {
+        format!("f64:{}", *self)
     }
-
-    let mut cacher = Cacher::new(|x| x+1);
-    assert_eq!(cacher.value(20), 21);
-    assert_eq!(cacher.value(25), 21);
+} 
+fn draw1(x: Box<dyn Draw>) {
+    x.draw();
 }
 
-
+fn draw2(x: &dyn Draw) {
+    x.draw();
+}
 
 fn main() {
-    example1();
-    example2();
+    let x = 1.1f64;
+    // do_something(&x);
+    let y = 8u8;
 
-    println!("Success!")
+    // x 和 y 的类型 T 都实现了 `Draw` 特征，因为 Box<T> 可以在函数调用时隐式地被转换为特征对象 Box<dyn Draw> 
+    // 基于 x 的值创建一个 Box<f64> 类型的智能指针，指针指向的数据被放置在了堆上
+    draw1(Box::new(x));
+    // 基于 y 的值创建一个 Box<u8> 类型的智能指针
+    draw1(Box::new(y));
+    draw2(&x);
+    draw2(&y);
 }
