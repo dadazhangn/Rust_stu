@@ -5305,6 +5305,45 @@
 
 
 // 特征对象
+
+
+// trait Draw {
+//     fn draw(&self) -> String;
+// }
+
+// impl Draw for u8 {
+//     fn draw(&self) -> String {
+//         format!("u8:{}", *self)
+//     }
+// } 
+
+// impl Draw for f64 {
+//     fn draw(&self) -> String {
+//         format!("f64:{}", *self)
+//     }
+// } 
+// fn draw1(x: Box<dyn Draw>) {
+//     x.draw();
+// }
+
+// fn draw2(x: &dyn Draw) {
+//     x.draw();
+// }
+
+// fn main() {
+//     let x = 1.1f64;
+//     // do_something(&x);
+//     let y = 8u8;
+
+//     // x 和 y 的类型 T 都实现了 `Draw` 特征，因为 Box<T> 可以在函数调用时隐式地被转换为特征对象 Box<dyn Draw> 
+//     // 基于 x 的值创建一个 Box<f64> 类型的智能指针，指针指向的数据被放置在了堆上
+//     draw1(Box::new(x));
+//     // 基于 y 的值创建一个 Box<u8> 类型的智能指针
+//     draw1(Box::new(y));
+//     draw2(&x);
+//     draw2(&y);
+// }
+
 // #[derive(Debug)]
 // enum UiObject {
 //     Button,
@@ -5325,7 +5364,7 @@
 //     println!("{:?}", object);
 // }
 
-// pub trait draw {
+// pub trait Draw {
 //     fn draw(&self); 
 // }
 
@@ -5335,7 +5374,7 @@
 //     pub label: String,
 // }
 
-// impl draw for Button {
+// impl Draw for Button {
 //     fn draw(&self) {
         
 //     }
@@ -5347,49 +5386,44 @@
 //     pub label: Vec<String>,
 // }
 
-// impl draw for SelectBox {
+// impl Draw for SelectBox {
 //     fn draw(&self) {
         
 //     }
 // }
 
 // pub struct Screen {
-//     pub componets: Vec<>
+//     pub components: Vec<Box<dyn Draw>>,
 // }
 
-trait Draw {
-    fn draw(&self) -> String;
-}
+// impl Screen {
+//     pub fn run(&self) {
+//         for component in self.components.iter() {
+//             component.draw()
+//         }
+//     }
+// }
 
-impl Draw for u8 {
-    fn draw(&self) -> String {
-        format!("u8:{}", *self)
-    }
-} 
+// fn main() {
+//     let screen = Screen{
+//         components: vec![
+//             Box::new(Button {
+//                 width: 50,
+//                 height: 10,
+//                 label: "OK".to_string(),
+//             }),
+//             Box::new(SelectBox{
+//                 width:75,
+//                 height: 10,
+//                 label: vec![
+//                     String::from("yes"),
+//                     String::from("maybe"),
+//                     String::from("no"),
+//                 ]
+//             })
+//         ]
+//     };
+//     screen.run()
+// }
 
-impl Draw for f64 {
-    fn draw(&self) -> String {
-        format!("f64:{}", *self)
-    }
-} 
-fn draw1(x: Box<dyn Draw>) {
-    x.draw();
-}
-
-fn draw2(x: &dyn Draw) {
-    x.draw();
-}
-
-fn main() {
-    let x = 1.1f64;
-    // do_something(&x);
-    let y = 8u8;
-
-    // x 和 y 的类型 T 都实现了 `Draw` 特征，因为 Box<T> 可以在函数调用时隐式地被转换为特征对象 Box<dyn Draw> 
-    // 基于 x 的值创建一个 Box<f64> 类型的智能指针，指针指向的数据被放置在了堆上
-    draw1(Box::new(x));
-    // 基于 y 的值创建一个 Box<u8> 类型的智能指针
-    draw1(Box::new(y));
-    draw2(&x);
-    draw2(&y);
-}
+// Self 与 self
