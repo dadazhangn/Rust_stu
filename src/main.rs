@@ -5427,3 +5427,31 @@
 // }
 
 // Self 与 self
+// trait Draw {
+//     fn draw(&self) -> Self;
+// }
+
+// #[derive(Clone)]
+// struct Button;
+
+// impl Draw for Button {
+//     fn draw(&self) -> Self {
+//         return self.clone();
+//     }
+// }
+// // self指代的就是当前的实例对象，也就是 button.draw() 中的 button 实例，Self 则指代的是 Button 类型。
+// fn main() {
+//     let button = Button;
+//     let newb = button.draw();
+// }
+
+// 特征对象的限制
+
+// 方法的返回类型不能是 Self
+// 方法没有任何泛型参数
+
+// pub struct Screen {
+//     pub components: Vec<Box<dyn Clone>>,
+// }
+
+// practice
