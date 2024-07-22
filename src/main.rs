@@ -5810,7 +5810,6 @@
 //         let output = self.to_string();
 //         let len = output.len();
 
-
 //         println!("{}", "*".repeat(len + 4));
 //         println!("*{}*", " ".repeat(len + 2));
 //         println!("* {} *", output);
@@ -5820,7 +5819,6 @@
 // }
 
 // use std::fmt;
-
 
 // struct Point {
 //     x:i32,
@@ -5891,20 +5889,18 @@
 //         container.contains(&number_1, &number_2));
 //     println!("First number: {}", container.first());
 //     println!("Last number: {}", container.last());
-    
+
 //     println!("The difference is: {}", difference(&container));
 // }
 
 // use std::process::Output;
 
-
 // struct Container(i32, i32);
-
 
 // trait Contains {
 //     type A;
 //     type B;
-    
+
 //     fn contains(&self, _: &Self::A, _: &Self::B) -> bool;
 //     // fn first(&self) -> Self::A;
 //     // fn last(&self) -> Self::B;
@@ -5930,7 +5926,7 @@
 // }
 
 // // fn difference<C: Contains>(container: &C) -> C::A
-// //     where 
+// //     where
 // //         C::A: std::ops::Sub<Output=C::A> + Copy, {
 // //             container.last() - container.first()
 // //         }
@@ -5950,10 +5946,9 @@
 //         container.contains(&number_1, &number_2));
 //     println!("First number: {}", container.first());
 //     println!("Last number: {}", container.last());
-    
+
 //     println!("The difference is: {}", difference(&container));
 // }
-
 
 // 2
 
@@ -5969,7 +5964,7 @@
 // impl<T: Sub<Output=T>> Sub for Point<T> {
 // // impl<T: Sub<Output=T>> Sub<Point<T>> for Point<T> {
 // // impl<T: Sub<Output=T>> Sub<Self> for Point<T> {
-//     type Output = Self; 
+//     type Output = Self;
 
 //     fn sub(self, other: Self) -> Self::Output {
 //         Point {
@@ -6020,9 +6015,9 @@
 
 //     // 如果你反注释下面一行代码，将看到一个错误: Fully Qualified Syntax
 //     // 毕竟，这里有好几个同名的 `get` 方法
-//     // 
+//     //
 //     // println!("{}", form.get());
-    
+
 //     let username = UsernameWidget::get(&form);
 //     assert_eq!("rustacean".to_owned(), username);
 //     let age = AgeWidget::get(&form); // 你还可以使用以下语法 `<Form as AgeWidget>::get`
@@ -6086,7 +6081,7 @@
 //     fn fav_language(&self) -> String;
 // }
 
-// // CompSciStudent (computer science student) 是 Programmer 
+// // CompSciStudent (computer science student) 是 Programmer
 // // 和 Student 的 subtrait. 实现 CompSciStudent 需要先实现这两个 supertraits.
 // trait CompSciStudent: Programmer + Student {
 //     fn git_username(&self) -> String;
@@ -6159,6 +6154,119 @@
 // }
 
 // fn main() {
-//     let w = Pretty("hello".to_string());
-//     println!("w = {}", w);
+//     let w = Pretty("hello".to_string());-//     println!("w = {}", w);
 // }
+
+// 动态数组
+// fn main() {
+//     // let mut v1 = Vec::new();
+//     // v1.push(1);
+
+//     // // Vec::with_capacity(capacity)
+
+//     // // 宏 vec! 来创建数组，与 Vec::new 有所不同，前者能在创建同时给予初始化值
+//     // let v2 = vec![1,2,3];
+
+//     let v = vec![1,2,3,4,5];
+//     let third = &v[2];
+//     println!("第三个元素是: {}", third);
+
+//     match v.get(2) {
+//         Some(third) => println!("第三个元素是 {third}"),
+//         None => println!("去你的第三个元素，根本没有！"),
+//     }
+// }
+
+// &v[2] 表示借用 v 中的第三个元素，最终会获得该元素的引用。
+// v.get(2) 也是访问第三个元素，但是有所不同的是，它返回了 Option<&T>，因此还需要额外的 match 来匹配解构出具体的值
+
+// fn main() {
+
+// let v = vec![1, 2, 3, 4, 5];
+
+// let does_not_exist = &v[100];
+// let does_not_exist = v.get(100);
+
+// let mut v = vec![1, 2, 3, 4, 5];
+
+// let x = &v[0];
+
+// v.push(6);
+
+// println!("The first element is: {x}");
+
+// for i in &v {
+//     println!("{i}");
+// }
+
+// for i in &mut v {
+//     *i+=10;
+// }
+
+//    for i in &v {
+//     println!("{i}");
+// }
+
+// 存储不同类型的元素
+
+// }
+
+// 枚举实现
+// #[derive(Debug)]
+// enum IpAddr {
+//     V4(String),
+//     V6(String),
+// }
+
+// fn main() {
+//     let v = vec![
+//         IpAddr::V4("127.0.0.1".to_string()),
+//         IpAddr::V6("::1".to_string()),
+//     ];  
+
+//     for ip in &v {
+//         println!("{:?}", ip);
+//     }
+// }
+
+
+// // 特征对象实现
+// trait IpAddr {
+//     fn dispaly(&self);
+// }
+
+// struct V4(String);
+// impl IpAddr for V4 {
+//     fn dispaly(&self) {
+//         println!("{:?}", self.0);
+//     }
+// }
+
+// struct V6(String);
+// impl IpAddr for V6 {
+//     fn dispaly(&self) {
+//         println!("{:?}", self.0);
+//     }
+// }
+
+
+// fn main() {
+//     let v: Vec<Box<dyn IpAddr>> = vec![
+//         Box::new(V4("127.0.0.1".to_string())),
+//         Box::new(V6("::.1".to_string())),
+//     ];
+
+//     for ip in v{
+//         ip.dispaly();
+//     }
+// }
+
+
+// Vector 常用方法
+// 初始化
+fn main() { 
+    let v = vec![0;3];  //// 默认值为 0，初始长度为 3
+    let v_from = Vec::from([0,0,0]);
+
+    assert_eq!(v, v_from);
+}
