@@ -6264,9 +6264,107 @@
 
 // Vector 常用方法
 // 初始化
-fn main() { 
-    let v = vec![0;3];  //// 默认值为 0，初始长度为 3
-    let v_from = Vec::from([0,0,0]);
+// fn main() { 
+//     let v = vec![0;3];  //// 默认值为 0，初始长度为 3
+//     let v_from = Vec::from([0,0,0]);
 
-    assert_eq!(v, v_from);
+//     assert_eq!(v, v_from);
+// }
+
+// fn main() {
+//     let mut v = Vec::with_capacity(10);
+//     v.extend([1,2,3]);
+
+//     println!("Vectory 的长度是{}, 容量是{}", v.len(), v.capacity());
+
+//     v.reserve(100);   //调整v的容量 至少要有100
+//     println!("Vectory(reserve)的长度是： {}, 容量是{}", v.len(), v.capacity());
+
+//     v.shrink_to_fit();  //释放剩余的容量，一般情况下，不会主动去释放容量
+//     println!("Vectory(shrink_to_fit)的长度是： {}, 容量是{}", v.len(), v.capacity());
+// }
+
+// 常见方法示例
+// fn main() {
+//     let mut v = vec![1,2];
+//     assert!(!v.is_empty());    //检查是否为空
+
+//     v.insert(2, 3);  //在指定索引插入数据，索引值不能大于 v 的长度
+    
+//     assert_eq!(v.remove(1), 2);    //移除指定位置的元素并返回
+//     assert_eq!(v.pop(), Some(3));   //删除并返回 v 尾部的元素   
+//     assert_eq!(v.pop(), Some(1));   //v:[]
+//     assert_eq!(v.pop(), None);      // pop 方法返回的是 Option 枚举值
+//     v.clear();   //清空v
+
+//     let mut v1 = [11,22].to_vec();  // append 操作会导致 v1 清空数据，增加可变声明
+//     v.append(&mut v1);    // 将 v1 中的所有元素附加到 v 中, v1: []
+//     v.truncate(1);   // 截断到指定长度，多余的元素被删除, v: [11]
+//     v.retain(|x| *x >10);   // 保留满足条件的元素，即删除不满足条件的元素
+
+//     let mut v3 = vec![11,22,33,44,55];
+//     let mut m: Vec<_> = v3.drain(1..=3).collect();  
+//     // 删除指定范围的元素，同时获取被删除元素的迭代器, v3: [11, 55], m: [22, 33, 44]
+//     println!("{:?}", m);
+
+//     let v4 = m.split_off(1);   // 指定索引处切分成两个 vec,
+//     println!("{:?}", v4);
+
+
+// }
+
+// fn main() {
+//     let v = vec![11,22,33,44,55];
+//     let silce = &v[1..=3];
+//     assert_eq!(silce, &[22,33,44]);
+// }
+
+// Vector的排序
+//整数数组的排序
+// fn main() {
+//     let mut v = vec![1, 5, 10, 2, 15];
+//     v.sort_unstable();
+//     assert_eq!(v, vec![1, 2, 5, 10, 15]);
+// }
+
+
+// 浮点数数组的排序
+// fn main() {
+//     let mut v = vec![1.0, 5.6, 10.3, 2.0, 15f32];    
+//     v.sort_unstable();
+//     assert_eq!(v, vec![1.0, 2.0, 5.6, 10.3, 15f32]);
+// }
+
+// fn main() {
+//     let mut v = vec![1.0, 5.6, 10.3, 2.0, 15f32];    
+//     v.sort_unstable_by(|a,b| a.partial_cmp(b).unwrap());
+//     assert_eq!(v, vec![1.0, 2.0, 5.6, 10.3, 15f32]);
+// }
+
+// 对结构体数组进行排序
+#[derive(Debug)]
+struct Person {
+    name: String,
+    age: u32,
+}
+
+impl Person {
+    fn new(name:String, age:u32) -> Person {
+        Person {
+            name,
+            age,
+        }
+    }
+}
+
+fn main() {
+    let mut people = vec![
+        Person::new("Zone".to_string(), 22),
+        Person::new("Alpha".to_string(), 54),
+        Person::new("John".to_string(), 63),
+    ];
+
+    people.sort_unstable_by(|a, b| b.age.cmp(&a.age));
+ 
+    println!("{:?}", people);
 }
