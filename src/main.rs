@@ -6620,3 +6620,92 @@
 //     println!("{:?}", team_hashMap);
 
 // }
+
+// fn main() {
+//     use std::collections::HashMap;
+
+//     let name = String::from("Sunface");
+//     let age = 18;
+
+//     let mut handsome_boys = HashMap::new();
+//     handsome_boys.insert(name, age);
+
+//     println!("因为过于无耻，{}已经被从帅气男孩名单中除名", name);
+//     println!("还有，他的真实年龄远远不止{}岁", age);
+// }
+
+// use std::collections::HashMap;
+
+// // 查询 HashMap
+// fn main() {
+//     let mut scores = HashMap::new();
+//     scores.insert(String::from("Blue"), 10);
+//     scores.insert(String::from("red"), 20);
+//     scores.insert(String::from("Yellow"), 50);
+
+//     // let team_name = String::from("Blue");
+//     // // let score = scores.get(&team_name);    //score: Option<&i32>
+//     // // println!("{:?}", score);
+
+//     // let score = scores.get(&team_name).copied().unwrap_or(0);
+//     // println!("{}", score);
+
+//     for (key, value) in &scores {
+//         println!("{}, {}", key, value);
+//     }
+
+
+// }
+
+// use std::collections::HashMap;
+
+// // 更新 HashMap 中的值
+// fn main() {
+//     let mut scores = HashMap::new();
+//     scores.insert("Blue", 10);
+
+//     // 覆盖
+//     let old = scores.insert("Blue", 20);
+//     assert_eq!(old, Some(10));
+
+//     // 查询新值
+//     let new = scores.get("Blue");
+//     assert_eq!(new, Some(&20));
+
+//     // 查询Yellow对应的值，若不存在则插入新值
+//     let v = scores.entry("Yellow").or_insert(5);
+//     assert_eq!(*v, 5); // 不存在，插入5
+
+//     let v = scores.entry("Yellow").or_insert(50);
+//     assert_eq!(*v, 50);
+
+// }
+
+// use std::collections::HashMap;
+
+// // 在文本中统计词语出现的次数
+// fn main() {
+//     let text =  "hello world wonderful world";
+//     let mut map = HashMap::new();
+//     // 根据空格来切分字符串(英文单词都是通过空格切分)
+//     for word in text.split_whitespace() {
+//         let count = map.entry(word).or_insert(0);
+//         *count+=1;
+//     }
+//     println!("{:?}", map);
+// }
+
+// 哈希函数
+// 高性能三方库
+// use std::hash::BuildHasherDefault;
+// use std::collections::HashMap;
+
+// // 引入第三方哈希函数
+// use twox_hash::XxHash64;
+// fn main() {
+//     // 指定HashMap使用第三方的哈希函数XxHash64
+//     let mut hash: HashMap<_, _,  BuildHasherDefault<XxHash64>> = Default::default();
+//     hash.insert(42, "the answer");
+//     assert_eq!(hash.get(&42), Some(&"the answer"));
+// }
+
