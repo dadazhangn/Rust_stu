@@ -6881,3 +6881,86 @@
 
 
 
+// 生命周期
+// 悬垂指针
+// fn main() {
+//     let v1;
+//     {
+//         let x = 2;
+//         v1 = &x;
+//     }
+//     println!("v1: {}", v1);
+// }
+
+// 函数中的生命周期
+// fn main() {
+//     let string1 = String::from("Hello");
+//     let string2 = "rust";
+//     let result = longest(string1.as_str(), string2);
+//     println!("{}", result);
+// // }
+// fn longest<'a>(str1: & 'a str, str2: & 'a str) -> & 'a str{
+//     if str1.len()> str2.len() {
+//         str1
+//     } else {
+//         str2
+//     }
+// }
+
+// fn main() {
+//     let string1 = String::from("long string is long");
+
+//     {
+//         let string2 = String::from("xyz");
+//         let result = longest(string1.as_str(), string2.as_str());
+//         println!("The longest string is {}", result);
+//     }
+// }
+
+// fn longest<'a>(_str1: &str, _str2: &str) -> String {
+//     String::from("really long string")
+// }
+
+// fn main() {
+//     let s = longest("not", "import");
+//     println!("{}", s);
+// }
+
+// 结构体中的生命周期
+// struct ImportException<'a> {
+//     part: & 'a str,
+// }
+// fn main() {
+//     let novel = String::from("Call me Ishmael. Some years ago...");
+//     let first_sentence = novel.split('.').next().expect("Could not find a '.' ");
+//     let i= ImportException {
+//         part:first_sentence,
+//     };
+// }
+
+// struct ImportException<'a> {
+//     part: & 'a str,
+// }
+// fn main() {
+//     let i;
+//     {
+//         let novel = String::from("Call me Ishmael. Some years ago...");
+//         let first_sentence = novel.split('.').next().expect("Could not find a '.'");
+//         i = ImportantExcerpt {
+//             part: first_sentence,
+//         };
+//     }
+//     println!("{:?}",i);
+// }
+
+
+
+// 生命周期消除
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+    for (i, item) in bytes.iter().enumerate() {
+        if item ==b ' ' {
+            return &s[0..i];
+        }
+    }
+}
