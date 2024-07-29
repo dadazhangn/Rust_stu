@@ -6956,11 +6956,211 @@
 
 
 // 生命周期消除
-fn first_word(s: &str) -> &str {
-    let bytes = s.as_bytes();
-    for (i, item) in bytes.iter().enumerate() {
-        if item ==b ' ' {
-            return &s[0..i];
-        }
-    }
+// fn first_word(s: &str) -> &str {
+//     let bytes = s.as_bytes();
+
+//     for (i, &item) in bytes.iter().enumerate() {
+//         if item == b' ' {
+//             return &s[0..i];
+//         }
+//     }
+
+//     &s[..]
+// }
+// fn main() {
+//     first_word("s");
+// }
+
+// 方法中的生命周期
+// struct Point<T> {
+//     x:T,
+//     y:T,
+// }
+// impl<T> Point<T> {
+//     fn x(&self) -> &T {
+//         &self.x
+//     }
+// }
+
+// use std::fmt::Display;
+
+// struct ImportantExcerpt<'a> {
+//     part: & 'a str,
+// }
+
+// impl<'a> ImportantExcerpt<'a> {
+//     fn announce_and_return_part(&self, announcement: &str) -> &str {
+//         println!("Attention please: {}", announcement);
+//         self.part
+//     }
+// }
+
+// 第一规则，给予每个输入参数一个生命周期
+// impl<'a> ImportantExcerpt<'a> {
+//     fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &str {
+//         println!("Attention please: {}", announcement);
+//         self.part
+//     }
+// }
+// 若存在多个输入生命周期，且其中一个是 &self 或 &mut self，则 &self 的生命周期被赋给所有的输出生命周期
+// impl<'a> ImportantExcerpt<'a> {
+//     fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &'a str {
+//         println!("Attention please: {}", announcement);
+//         self.part
+//     }
+// }
+
+// impl<'a: 'b, 'b> ImportantExcerpt<'a> {
+//     fn announce_and_return_part(&'a self, announcement: &'b str) -> &'b str {
+//         println!("Attention please: {}", announcement);
+//         self.part
+//     }
+// }
+
+// impl<'a> ImportantExcerpt<'a> {
+//     fn announce_and_return_part<'b>(&'a self, announcement: &'b str) -> &'b str 
+//         where 'a: 'b,
+//       {
+//         println!("Attention please: {}", announcement);
+//         self.part
+//     }
+// }
+
+// 静态生命周期
+// fn main() {
+//     let s: &'static str = "我没啥优点，就是活得久，嘿嘿";
+
+// }
+
+// 一个复杂例子: 泛型、特征约束
+// use std::fmt::Display;
+// fn longest_with_an_announcement<'a, T>(
+//     x: &'a str,
+//     y: &'a str,
+//     ann: T,
+// ) -> &'a str 
+//     where 
+//         T: Display, 
+// {
+//     println!("Announcement! {}", ann);
+//     if x.len() > y.len() {
+//         x
+//     } else {
+//         y
+//     }
+// }
+
+// practice
+// 1
+/* 为 `i` 和 `borrow2` 标注合适的生命周期范围 */
+
+
+// `i` 拥有最长的生命周期，因为它的作用域完整的包含了 `borrow1` 和 `borrow2` 。
+// 而 `borrow1` 和 `borrow2` 的生命周期并无关联，因为它们的作用域没有重叠
+// fn main() {
+//     let i = 3;                                             
+//     {                                                    
+//         let borrow1 = &i; // `borrow1` 生命周期开始. ──┐
+//         //                                                │
+//         println!("borrow1: {}", borrow1); //              │
+//     } // `borrow1` 生命周期结束. ──────────────────────────────────┘
+//     {                                                    
+//         let borrow2 = &i; 
+                                                        
+//         println!("borrow2: {}", borrow2);               
+//     }                                                   
+// }   
+
+// 2
+// {
+//     let x = 5;            // ----------+-- 'b
+//                           //           |
+//     let r = &x;           // --+-- 'a  |
+//                           //   |       |
+//     println!("r: {}", r); //   |       |
+//                           // --+       |
+// }                         // ----------+
+
+/* 像上面的示例一样，为 `r` 和 `x` 标准生命周期，然后从生命周期的角度. */
+
+// fn main() {  
+//     {
+//         let r;                // ---------+-- 'a
+//                               //          |
+//         {                     //          |
+//             let x = 5;        // -+-- 'b  |
+//             r = &x;           //  |       |
+//         }                     // -+       |
+//                               //          |
+//         println!("r: {}", r); //          |
+//     }                         // ---------+
+// }
+
+// // 引用参数中的生命周期 'a 至少要跟函数活得一样久
+// fn print_one<'a>(x: &'a i32) {
+//     println!("`print_one`: x is {}", x);
+// }
+
+// // 可变引用依然需要标准生命周期
+// fn add_one<'a>(x: &'a mut i32) {
+//     *x += 1;
+// }
+
+// // 下面代码中，每个参数都拥有自己独立的生命周期，事实上，这个例子足够简单，因此它们应该被标记上相同的生命周期 `'a`，但是对于复杂的例子而言，独立的生命周期标注是可能存在的
+// fn print_multi<'a, 'b>(x: &'a i32, y: &'b i32) {
+//     println!("`print_multi`: x is {}, y is {}", x, y);
+// }
+
+// // 返回一个通过参数传入的引用是很常见的，但是这种情况下需要标注上正确的生命周期
+// fn pass_x<'a, 'b>(x: &'a i32, _: &'b i32) -> &'a i32 { x }
+
+// fn main() {
+//     let x = 7;
+//     let y = 9;
+    
+//     print_one(&x);
+//     print_multi(&x, &y);
+    
+//     let z = pass_x(&x, &y);
+//     print_one(z);
+
+//     let mut t = 3;
+//     add_one(&mut t);
+//     print_one(&t);
+// }
+
+// 3
+/* 添加合适的生命周期标注，让下面的代码工作 */
+// fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+//     if x.len() > y.len() {
+//         x
+//     } else {
+//         y
+//     }
+// }
+
+// fn main() {}
+
+// 4
+/* 使用三种方法修复下面的错误  */
+fn invalid_output<'a>(x: &'a String ) -> &'a String { 
+    &String::from("foo") 
+}
+
+fn main() {
+}
+
+/* 使用三种方法修复下面的错误  */
+// fn invalid_output<'a>() -> String { 
+//     String::from("foo") 
+// }
+
+// fn main() {
+// }
+
+fn invalid_output>() -> &'static String { 
+    &String::from("foo") 
+}
+
+fn main() {
 }
