@@ -7366,9 +7366,176 @@
 //     panic!("crash and burn");
 // }
 
-// backtrace 栈展开
-fn main() {
-    let v = vec![1, 2, 3];
 
-    v[99];
-}
+
+
+// 统计文本中的单词
+// use std::collections::HashMap;
+// use std::env; 
+// use std::fs::File; 
+// use std::io::prelude::BufRead; 
+// use std::io::BufReader; 
+// #[derive(Debug)] 
+// struct WordCounter(HashMap<String, u64>); 
+// impl WordCounter {  
+//     fn new() -> WordCounter {  
+//         WordCounter(HashMap::new())
+//      }   
+//     fn increment(& mut self, word: &str) { 
+//          let key = word.to_string();  
+//          let count = self.0.entry(key).or_insert(0);  
+//          *count += 1;
+//     }  
+//     fn display(self) { 
+//          for (key, value) in self.0.iter()  {  
+//             println!("{}: {}", key, value);  
+//         }  
+//     }
+// }  
+// fn main() {  
+//     let arguments: Vec<String> = env::args().collect();  
+
+//     if arguments.len() < 2 {
+//         eprintln!("Usage: {} <filename>", arguments[0]);
+//         return;
+//     }
+//     // 获取第二个命令行参数作为文件名
+//     let filename = &arguments[1];
+
+//     println!("Processing file: {}", filename);  
+//     let file = File::open(filename).expect("Could not open file");  
+//     let reader = BufReader::new(file);  
+//     let mut word_counter = WordCounter::new();   
+//     for line in reader.lines() { 
+//          let line = line.expect("Could not read line"); 
+//           let words = line.split(" ");  
+//           for word in words { 
+//              if word == "" {
+//                   continue
+//                   }
+//               else { 
+//                  word_counter.increment(word); 
+//                  } 
+//               }  
+//             }  
+//     word_counter.display(); 
+// }
+
+
+// backtrace 栈展开
+// fn main() {
+//     let v = vec![1, 2, 3];
+
+//     v[99];
+// }
+
+// 何时该使用 panic!
+// enum Result<T, E> {
+//     OK(T),
+//     Err(E),
+// }
+
+// use std::net::IpAddr;
+// fn  main() {
+//     let home: IpAddr = "127.0.0.1".parse().unwrap();
+//     println!("{}", home);
+// }
+
+// practice
+// 1
+
+// 填空
+// fn drink(beverage: &str) {
+//     if beverage == "lemonade" {
+//         println!("Success!");
+//         // 实现下面的代码
+//         panic!("drinked, duang.....peng!")
+//      }
+
+//     println!("Exercise Failed if printing out this line!");
+// }
+
+// fn main() {
+//     let str = "lemonade";
+//     drink(str);
+
+//     println!("Exercise Failed if printing out this line!");
+// }
+
+// 2
+// 修复所有的 panic，让代码工作
+// fn main() {
+//     assert_eq!("abc".as_bytes(), [97, 98, 99]);
+
+//     let v = vec![1, 2, 3];
+//     let ele = v[1];
+//     let ele = v.get(1).unwrap();
+
+//     // 大部分时候编译器是可以帮我们提前发现溢出错误，并阻止编译通过。但是也有一些时候，这种溢出问题直到运行期才会出现
+//     let v = production_rate_per_hour(2);
+
+//     divide(15, 1);
+
+//     println!("Success!")
+// }
+
+// fn divide(x:u8, y:u8) {
+//     println!("{}", x / y)
+// }
+
+// fn production_rate_per_hour(speed: u32) -> f64 {
+//     let cph: u32 = 221;
+//     match speed {
+//         1..=4 => (speed * cph) as f64,
+//         5..=8 => (speed * cph) as f64 * 0.9,
+//         9..=10 => (speed * cph) as f64 * 0.77,
+//         _ => 0 as f64,
+//     }
+// }
+
+// pub fn working_items_per_minute(speed: u8) -> u32 {
+//     (production_rate_per_hour(speed) / 60 as f64) as u32
+// }
+
+// 3
+
+
+// 可恢复的错误 Result
+// enum Result<T, E> {
+//     OK(T),
+//     Err(E),
+// }
+
+// use std::{error, io::ErrorKind, };
+// use::std::fs::File;
+// fn main() {
+//     let f = File::open("hello.txt");
+//     let f = match f {
+//         Ok(file) => file,
+//         Err(error) => match error.kind() {
+//             ErrorKind::NotFound => match File::create("hello.txt") {
+//                 Ok(fc) => fc,
+//                 Err(e) => panic!("problem creating the file: {:?}", e),
+//             },
+//             other_error => panic!("problem opening the file: {:?}", other_error),
+           
+//         }
+//     };
+// }
+
+
+// 失败就 panic: unwrap 和 expect
+
+// use std::fs::File;
+
+// fn main() {
+//     // let f = File::open("hello.txt").unwrap();
+
+
+//     let f = File::open("hello.txt").expect("Faild to open hello.txt");
+
+// }
+
+
+//从文件中读取用户名，然后返回结果
+fn read_username_from_file()
