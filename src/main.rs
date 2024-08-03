@@ -7536,6 +7536,73 @@
 
 // }
 
+// use std::{fs::File, io::{self, Read}};
 
-//从文件中读取用户名，然后返回结果
-fn read_username_from_file()
+
+// //从文件中读取用户名，然后返回结果
+// fn read_username_from_file() -> Result<String, io::Error> {
+//     // 打开文件，f是`Result<文件句柄,io::Error>`
+//     let f = File::open("hello.txt");
+//     let mut f = match f {
+//         // 打开文件成功，将file句柄赋值给f
+//         Ok(file) => file,
+//         // 打开文件失败，将错误返回(向上传播)
+//         Err(e) => return Err(e), 
+//     };
+//     let mut s = String::new();
+//     match f.read_to_string(&mut s) {
+//         Ok(_) => Ok(s),
+//         // 将错误向上传播
+//         Err(e)  => Err(e),
+//     }
+
+// }
+
+// use std::{fs::File, io::{self, Read}};
+
+
+// fn read_username_from_file() -> Result<String, io::Error> {
+//     let mut f = File::open("hello.txt")?;
+//     let mut s = String::new();
+//     f.read_to_string(&mut s)?;
+//     Ok(s)
+// }
+
+// use std::{fs::File, io::{self, Read}};
+// use std::{fs, io};
+
+// fn read_username_from_file()-> Result<String, io::Error> {
+//         // let mut s = String::new();
+//         // File::open("hello.txt")?.read_to_string(&mut s)?;
+//         // Ok(s)
+
+//          // read_to_string是定义在std::io中的方法，因此需要在上面进行引用
+//         fs::read_to_string("hello.txt")
+
+// }
+
+// fn first(arr: &[i32]) -> Option<&i32> {
+//     let v = arr.get(2)?;
+//     Some(v)
+// }
+
+// 带返回值的 main 函数
+
+// use std::{error::Error, fs::File};
+
+// // fn main() {
+// //     let f = File::open("hello.txt")?;
+// // }
+
+// fn main() -> Result<(), Box<dyn Error>>{
+//     let f = File::open("hello.txt")?;
+//     Ok(())
+// }
+
+// try!
+// macro_rules! try {
+//     ($e:expr) => (match $e {
+//         Ok(val) => val,
+//         Err(err) => return Err(::std::convert::From::from(err)),
+//     });
+// }
