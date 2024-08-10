@@ -7892,3 +7892,124 @@
 //     let n = first_word(&s);
 //     println!("{n}");
 // }
+
+// 格式化输出
+// fn main() {
+//     // let s = "hello";
+//     // println!("{} world", s);
+//     // let s1 = format!("{}, world", s);
+//     // print!("{}", s1);
+//     // print!("{}\n", "!");
+
+//     // 输出错误信息
+//     eprintln!("Error: Could not complete task")
+
+
+// }
+
+
+// #[derive(Debug)]
+// struct Person {
+//     name: String,
+//     age: u8
+// }
+
+// fn main() {
+//     let i = 3.1415926;
+//     let s = String::from("hello");
+//     let v = vec![1, 2, 3];
+//     let p = Person{name: "sunface".to_string(), age: 18};
+//     println!("{:?}, {:?}, {:?}, {:?}", i, s, v, p);
+// }
+
+// use std::fmt;
+
+// // 为自定义类型实现 Display 特征
+// struct Person {
+//     name: String,
+//     age: u8,
+// }
+
+// impl fmt::Display for Person {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         write!(
+//             f,
+//             "大佬在上，请受我一拜，小弟姓名{}，年芳{}，家里无田又无车，生活苦哈哈",
+//             self.name, self.age
+//         )
+//     }
+// }
+
+// fn main() {
+//     let p = Person{
+//         name: "sunface".to_string(),
+//         age: 22,
+//     };
+
+//     println!("{}", p);
+// }
+
+// use std::fmt;
+
+
+// // 为外部类型实现 Display 特征
+// struct Array(Vec<i32>);
+
+// impl fmt::Display for Array {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         write!(
+//             f, 
+//             "数组是：{:?}", self.0
+//         )
+//     }
+// }
+
+// fn main() {
+//     let arr = Array(vec![1,2,3]);
+//     println!("{}", arr);
+// }
+
+// 位置参数
+// fn main() {
+//     println!("{}{}", 1, 2); // =>"12"
+//     println!("{1}{0}", 1, 2); // =>"21"
+//     // => Alice, this is Bob. Bob, this is Alice
+//     println!("{0}, this is {1}. {1}, this is {0}", "Alice", "Bob");
+//     println!("{1}{}{0}{}", 1, 2); // => 2112
+// }
+
+// 具名参数
+// fn main() {
+//     println!("{argument}", argument = "test"); // => "test"
+//     println!("{name} {}", 1, name = 2); // => "2 1"
+//     println!("{a} {c} {b}", a = "a", b = 'b', c = 3); // => "a 3 b"
+    // println!("{abc} {1}", abc = "def", 2);
+
+// }
+
+// 格式化参数
+// fn main() {
+//     let v = 3.1415926;
+//     // Display => 3.14
+//     println!("{:.2}", v);
+//         // Debug => 3.14
+//     println!("{:.2?}", v);
+// }   
+
+// 宽度
+fn main() {
+    //-----------------------------------
+    // 以下全部输出 "Hello x    !"
+    // 为"x"后面填充空格，补齐宽度5
+    println!("Hello {:5}!", "x");
+    // 使用参数5来指定宽度
+    println!("Hello {:1$}!", "x", 5);
+    // 使用x作为占位符输出内容，同时使用5作为宽度
+    println!("Hello {1:0$}!", 5, "x");
+    // 使用有名称的参数作为宽度
+    println!("Hello {:width$}!", "x", width = 5);
+    //-----------------------------------
+
+    // 使用参数5为参数x指定宽度，同时在结尾输出参数5 => Hello x    !5
+    println!("Hello {:1$}!{}", "x", 5);
+}
