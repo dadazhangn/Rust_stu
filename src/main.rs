@@ -7997,19 +7997,436 @@
 // }   
 
 // 宽度
-fn main() {
-    //-----------------------------------
-    // 以下全部输出 "Hello x    !"
-    // 为"x"后面填充空格，补齐宽度5
-    println!("Hello {:5}!", "x");
-    // 使用参数5来指定宽度
-    println!("Hello {:1$}!", "x", 5);
-    // 使用x作为占位符输出内容，同时使用5作为宽度
-    println!("Hello {1:0$}!", 5, "x");
-    // 使用有名称的参数作为宽度
-    println!("Hello {:width$}!", "x", width = 5);
-    //-----------------------------------
+// fn main() {
+//     //-----------------------------------
+//     // 以下全部输出 "Hello x    !"
+//     // 为"x"后面填充空格，补齐宽度5
+//     println!("Hello {:5}!", "x");
+//     // 使用参数5来指定宽度
+//     println!("Hello {:1$}!", "x", 5);
+//     // 使用x作为占位符输出内容，同时使用5作为宽度
+//     println!("Hello {1:0$}!", 5, "x");
+//     // 使用有名称的参数作为宽度
+//     println!("Hello {:width$}!", "x", width = 5);
+//     //-----------------------------------
 
-    // 使用参数5为参数x指定宽度，同时在结尾输出参数5 => Hello x    !5
-    println!("Hello {:1$}!{}", "x", 5);
-}
+//     // 使用参数5为参数x指定宽度，同时在结尾输出参数5 => Hello x    !5
+//     println!("Hello {:1$}!{}", "x", 5);
+// }
+
+
+
+// rust高阶
+// &'static 和 T: 'static
+// fn main() {
+//     let mark_twain = "hello world";
+//     print_author(mark_twain);
+// }
+
+// fn print_author(author: &'static str) {
+//     println!("{}", author);
+// }
+
+// use std::fmt::Display;
+
+// fn main() {
+//     let mark_twain = "hello world";
+//     print(&mark_twain);
+// }
+
+// fn print<T: Display + 'static>(message: &T) {
+//     println!("{}", message);
+// }
+
+// use std::{slice::from_raw_parts, str::from_utf8_unchecked};
+
+// fn get_memory_location() -> (usize, usize) {
+//   // “Hello World” 是字符串字面量，因此它的生命周期是 `'static`.
+//   // 但持有它的变量 `string` 的生命周期就不一样了，它完全取决于变量作用域，对于该例子来说，也就是当前的函数范围
+//   let string = "Hello World";
+//   let pointer = string.as_ptr() as usize;
+//   let length = string.len();
+//   (pointer, length)
+//   // `string` 在这里被 drop 释放
+//   // 虽然变量被释放，无法再被访问，但是数据依然还会继续存活
+// }
+
+// fn get_str_at_location(pointer: usize, length: usize) -> &'static str{
+//     // 使用裸指针需要 `unsafe{}` 语句块
+//     unsafe {from_utf8_unchecked(from_raw_parts(pointer as *const u8, length))}
+// }
+
+
+// fn main() {
+//     let (pointer, length) = get_memory_location();
+//     let message = get_str_at_location(pointer, length);
+//     println!(
+//         "The {} bytes as 0x{:X} stored: {}", 
+//         length, pointer, message
+//     );
+//     // 如果大家想知道为何处理裸指针需要 `unsafe`，可以试着反注释以下代码
+//     // let message = get_str_at_location(1000, 10);
+
+// }
+
+// T: 'static
+// use std::fmt::Debug;
+
+// // fn print_it<T: Debug + 'static>(input: T) {
+// //     println!("'static value passed in is: {:?}", input);
+// // }
+
+// fn print_it<T: Debug + 'static>(input: &T) {
+//     println!("'static value passed in is: {:?}", input);
+// }
+
+// fn print_it1(input: impl Debug + 'static) {
+//     println!("'static value passed in is: {:?}", input);
+// }
+
+// fn main() {
+//     let i = 5;
+//     print_it(&i);
+//     // print_it1(&i);
+// }
+
+// use std::fmt::Display;
+
+
+// fn main() {
+//     let r1;
+//     let r2;
+//     {
+//         static STATIC_EXAMPLE: i32 = 44;
+//         r1 = &STATIC_EXAMPLE;
+//         let x = "'static str";
+//         r2 = x;
+//         // r1 和 r2 持有的数据都是 'static 的，因此在花括号结束后，并不会被释放
+//     }
+
+//     println!("'static i32: {}", r1);
+//     println!("'static str: {}", r2);
+
+//     let r3: &str;
+//     {
+//         let s1 = "String".to_string();
+//         // s1 虽然没有 'static 生命周期，但是它依然可以满足 T: 'static 的约束
+//         // 充分说明这个约束是多么的弱。。
+//         static_bound(&s1);
+//         // s1 是 String 类型，没有 'static 的生命周期，因此下面代码会报错
+//         r3 = &s1;
+//         // s1 在这里被 drop
+//     }
+//     println!("{}", r3);
+//     fn static_bound<T: Display+ 'static>(t: &T) {
+//         println!("{}", t);
+//     }
+
+// }
+
+// fn main() {
+//     {
+//         let static_string = "I'm in read-only memory";
+//         println!("static_string: {}", static_string);
+
+//         // 当 `static_string` 超出作用域时，该引用不能再被使用，但是数据依然会存在于 binary 所占用的内存中
+//     }
+
+//     println!("static_string reference remains alive: {}", static_string);
+// }
+
+// practice
+// 1
+
+/* 使用两种方法填空 */
+// fn main() {
+//     let v = "hello";
+//     need_static(v);
+
+//     println!("Success!")
+// }
+
+// fn need_static(r : &'static str) {
+//     assert_eq!(r, "hello");
+// }
+
+
+
+/* 使用两种方法填空 */
+// fn main() {
+//     const v:&str = "hello";
+//     need_static(v);
+
+//     println!("Success!")
+// }
+
+// fn need_static(r : &'static str) {
+//     assert_eq!(r, "hello");
+// }
+
+// 2
+// #[derive(Debug)]
+// struct Config {
+//     a: String,
+//     b: String,
+// }
+// static mut config: Option<&mut Config> = None;
+
+// /* 让代码工作，但不要修改函数的签名 */
+// fn init() -> Option<&'static mut Config> {
+//     let c = Box::new(Config {
+//         a: "A".to_string(),
+//         b: "B".to_string(),
+//         // a: Box::leak(Box::new("A")).to_string(),
+//         // b: Box::leak(Box::new("B")).to_string(),
+//     });
+//     Some(Box::leak(c))
+// }
+
+
+// fn main() {
+//     unsafe {
+//         config = init();
+
+//         println!("{:?}",config)
+//     }
+// }
+
+// 3
+// fn main() {
+//     {
+//         // 字符串字面量能跟程序活得一样久，因此 `static_string` 的生命周期是 `'static`
+//         let static_string = "I'm in read-only memory";
+//         println!("static_string: {}", static_string);
+
+//         // 当 `static_string` 超出作用域时，该引用就无法再被使用，但是引用指向的数据( 字符串字面量 ) 依然保存在二进制 binary 所占用的内存中
+//     }
+
+//     println!("static_string reference remains alive: {}", static_string);
+// }
+
+// 4
+// 声明一个 static 常量，它拥有 `'static` 生命周期.
+// static NUM: i32 = 18;
+
+// // 返回常量 `Num` 的引用，注意，这里的生命周期从 `'static` 强转为 `'a`
+// fn coerce_static<'a>(_: &'a i32) -> &'a i32 {
+//     &NUM
+// }
+
+// fn main() {
+//     {
+//         let lifetime_num = 9;
+
+//         let coerced_static = coerce_static(&lifetime_num);
+
+//         println!("coerced_static: {}", coerced_static);
+//     }
+
+//     println!("NUM: {} stays accessible!", NUM);
+// }
+
+// 5
+/* 让代码工作 */
+// use std::fmt::Debug;
+
+// fn print_it<T: Debug + 'static>( input: T) {
+//     println!( "'static value passed in is: {:?}", input );
+// }
+
+// fn print_it1( input: impl Debug + 'static ) {
+//     println!( "'static value passed in is: {:?}", input );
+// }
+
+
+// fn print_it2<T: Debug + 'static>( input: &T) {
+//     println!( "'static value passed in is: {:?}", input );
+// }
+
+// fn main() {
+//     // i 是有所有权的数据，并没有包含任何引用，因此它是 'static
+//     let i = 5;
+//     print_it(i);
+
+//     // 但是 &i 是一个引用，生命周期受限于作用域，因此它不是 'static
+//     print_it(i);
+
+//     print_it1(i);
+
+//     // 但是下面的代码可以正常运行 !
+//     print_it2(&i);
+// }
+
+
+// 6
+// use std::fmt::Display;
+
+// fn main() {
+//   let mut string = "First".to_owned();
+
+//   string.push_str(string.to_uppercase().as_str());
+//   print_a(&string);
+//   print_b(&string);
+//   print_c(&string); // Compilation error
+//   print_d(&string); // Compilation error
+//   print_e(&string);
+//   print_f(&string);
+//   print_g(&string); // Compilation error
+// }
+
+// fn print_a<T: Display + 'static>(t: &T) {
+//   println!("{}", t);
+// }
+
+// fn print_b<T>(t: &T)
+// where
+//   T: Display + 'static,
+// {
+//   println!("{}", t);
+// }
+
+// fn print_c(t: &'static dyn Display) {
+//   println!("{}", t)
+// }
+
+// fn print_d(t: &'static impl Display) {
+//   println!("{}", t)
+// }
+
+// fn print_e(t: &(dyn Display + 'static)) {
+//   println!("{}", t)
+// }
+
+// fn print_f(t: &(impl Display + 'static)) {
+//   println!("{}", t)
+// }
+
+// fn print_g(t: &'static String) {
+//   println!("{}", t);
+// }
+
+// Closure
+// fn main() {
+//     let x = 1;
+//     let sum = |y| x+y;
+
+//     assert_eq!(3, sum(2));
+// }
+
+// use std::{thread, time::Duration};
+
+// // 传统函数实现
+// // 开始健身，好累，我得发出声音：muuuu...
+// fn muuuuu(intensity: u32) -> u32 {
+//     println!("muuuuu..");
+//     thread::sleep(Duration::from_secs(2));
+//     intensity  //强度
+// }
+
+// fn workout(intensity: u32, random_number: u32) {
+//     if intensity< 25 {
+//         println!("今天活力满满，先做{}个俯卧撑",muuuuu(intensity));
+//         println!("旁边有妹子，再来{}组卧推", muuuuu(intensity));
+//     } else if random_number == 3 {
+//         println!("昨天训练过度，今天休息下");
+//     } else {
+//         println!("今天有氧运动{}分钟", muuuuu(intensity));
+//     }
+// }
+
+// fn main() {
+//     // 强度
+//     let intensity = 10;
+//     // 随机值来决定某个选择
+//     let random_number = 7;
+
+//     workout(intensity, random_number);
+// }
+
+// 闭包实现
+// use std::{thread, time::Duration};
+
+// 传统函数实现
+// 开始健身，好累，我得发出声音：muuuu...
+// fn muuuuu(intensity: u32) -> u32 {
+//     println!("muuuuu..");
+//     thread::sleep(Duration::from_secs(2));
+//     intensity  //强度
+// }
+
+// fn workout(intensity: u32, random_number: u32) {
+//     let action = || {
+//         println!("muuuuu..");
+//         thread::sleep(Duration::from_secs(2));
+//         intensity  //强度
+//     };
+//     if intensity< 25 {
+//         println!("今天活力满满，先做{}个俯卧撑",action());
+//         println!("旁边有妹子，再来{}组卧推", action());
+//     } else if random_number == 3 {
+//         println!("昨天训练过度，今天休息下");
+//     } else {
+//         println!("今天有氧运动{}分钟", action());
+//     }
+// }
+
+// fn main() {
+//     // 强度
+//     let intensity = 10;
+//     // 随机值来决定某个选择
+//     let random_number = 7;
+
+//     workout(intensity, random_number);
+// }
+
+// fn main() {
+//     // 闭包类型标注
+//     // let sum = |x: i32, y:i32| -> i32{ x + y };
+//     let sum = |x, y| x + y;
+//     let v = sum(1, 2);
+// }
+
+// 结构体中的闭包
+// struct Catch<T> 
+// where 
+//     T: Fn(u32) -> u32,
+// {
+//     query: T,
+//     value: Option<u32>,
+// }
+
+// impl<T> Catch<T> 
+// where 
+//     T: Fn(u32) -> u32,
+// {
+//     fn new(query: T) -> Catch<T> {
+//         Catch {
+//             query,
+//             value: None,
+//         }
+//     }
+//     //  先查询缓存值 `self.value`，若不存在，则调用 `query` 加载
+//     fn value(&mut self, args: u32) -> u32{
+//         match self.value {
+//             Some(v) => v,
+//             None => {
+//                 let v = (self.query)(args);
+//                 self.value = Some(v);
+//                 v
+//             }
+//         }
+//     }
+
+// }
+
+// 捕获作用域中的值
+// fn main() {
+//     let x = 4;
+//     let equal_to_x = |y| y == x;
+
+//     let z = 4;
+
+//     assert!(equal_to_x(z));
+// }
+
+// 三种 Fn 特征
