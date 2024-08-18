@@ -8556,3 +8556,111 @@
 // }
 
 // next
+// fn main() {
+//     // let v = vec![1,2,3];
+
+//     // let v_iter = v.iter();
+
+//     let arr = [1,2,3];
+//     let mut arr_iter = arr.into_iter();
+
+//     assert_eq!(arr_iter.next(), Some(1));
+//     assert_eq!(arr_iter.next(), Some(2));
+//     assert_eq!(arr_iter.next(), Some(3));
+
+// }
+
+// 模拟实现for循环
+// fn main() {
+    
+
+// }
+
+// fn my_for() ->() {
+//     let values = [1,2,3];
+//     {
+//         let result = match IntoIterator::into_iter(values) {
+//             mut iter => loop {
+//                 match iter.next() {
+//                     Some(x) => println!("{}", x),
+//                     None => break,
+//                 }
+//             },
+//         };
+//         result
+//     }
+// }
+
+// IntoIterator 特征
+// fn main() {
+//     let values = vec![1,2,3];
+
+//     // into_iter 会夺走所有权
+//     for v in values.into_iter() {
+//         println!("{}", v);
+//     }
+
+//     // println!("{:?}", values);
+
+//     let values = vec![1,2,3];
+//     let _values_iter = values.iter();
+
+//     // values_iter 只是借用了 values 中的元素
+//     println!("{:?}", _values_iter);
+
+//     let mut values = vec![1,2,3,4];
+//     let mut values_mut_iter = values.iter_mut();
+
+//     // 取出第一个元素，并修改为0
+//     if let Some(v) = values_mut_iter.next() {
+//         *v = 0;
+//     };
+
+//     println!("{:?}", values);
+
+// }
+
+
+// 消费者与适配器
+// 消费者适配器
+// fn main() {
+//     let v1 = vec![1,2,3,4];
+//     let v1_inter = v1.iter();
+
+//     let sum = v1_inter.sum();
+//     assert_eq!(10, sum);
+
+//     println!("{:?}", v1);
+//     println!("{:?}", v1_inter);
+// }
+
+// 迭代器适配器
+// fn main() {
+//     let v1 = vec![1,2,3];
+//     let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
+//     println!("{:?}", v2);
+
+// }
+
+// use std::collections::HashMap;
+
+
+// fn main() {
+//     let names = ["dazhang", "daming"];
+//     let ages = [22,24];
+
+//     let folks: HashMap<_, _> = names.into_iter().zip(ages.into_iter()).collect();
+    
+//     println!("{:?}", folks);
+// }
+
+// 闭包作为适配器参数/
+// struct Shoe {
+//     size: u32,
+//     style: String,
+// }
+
+// fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+//     shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+// }
+// 实现 Iterator 特征
