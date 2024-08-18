@@ -8430,3 +8430,129 @@
 // }
 
 // 三种 Fn 特征
+// FnOnce
+// fn fn_once<F>(func: F) 
+// where 
+//     F: FnOnce(usize) -> bool + Copy
+// {
+//     println!("{}", func(3));
+//     println!("{}", func(4));
+// }
+
+// fn main() {
+//     let x = vec![1, 2, 3];
+//     fn_once(|z| z== x.len());
+// }
+
+// use std::thread;
+
+// fn main() {
+//     let v = vec![1,2,3];
+//     let handle = thread::spawn(move || {
+//         println!("here the vector is {:?}", v);
+//     });
+//     handle.join().unwrap();
+// }
+
+// FnMut
+// fn main() {
+//     let mut s = String::new();
+//     let mut update_string = |str| s.push_str(str); 
+//     update_string("hello");
+//     println!("{:?}", s);
+
+// }
+
+
+// fn main() {
+//     let mut s = String::new();
+//     let update_string = |str| s.push_str(str);
+//     exec(update_string);
+//     println!("{:?}", s);
+// }
+// // fn exec<'a, F: FnMut(&'a str)> (mut f: F) {
+// //     f("hello");
+// // }
+
+// fn exec<'a, F: Fn(&'a str)> (mut f: F) {
+//     f("hello");
+// }
+
+// fn main() {
+//     let s = "hello".to_string();
+//     let update_string = |str| println!("{}, {}", s, str);
+//     exec(update_string);
+//     println!("{:?}", s);
+// }
+
+// fn exec<'a, F: Fn(&'a str)> (f: F) {
+//     f("hello");
+// }
+
+// 三种 Fn 的关系
+// fn main() {
+//     let s = String::new();
+//     let update_string = || println!("{}", s);
+
+//     exec(update_string);
+//     exec1(update_string);
+//     exec2(update_string);
+// }
+
+// fn exec<F: FnOnce()>(f: F) {
+//     f()
+// }
+
+// fn exec1<F: FnMut()>(mut f: F) {
+//     f()
+// }
+
+// fn exec2<F: Fn()>(f: F) {
+//     f()
+// }
+
+// fn main() {
+//     let mut s = String::new();
+//     let update_string = |str| -> String {s.push_str(str); s};
+
+//     exec(update_string);
+// }
+
+// fn exec<'a, F: FnMut(&'a str)-> String>(mut f: F) {
+//     f("hello");
+// }
+
+// 闭包作为函数返回值
+// fn factory() -> Fn(i32) -> i32 {
+//     let mut num= 5;
+//     |x| x + num 
+// }
+
+// fn main() {
+//     let f = factory(1);
+//     // let answer = f(1);
+//     // assert_eq!(6, answer);
+// }
+
+
+// fn factory(x: i32) -> Box<dyn Fn(i32) -> i32> {
+//     let num = 5;
+//     if x > 1 {
+//         Box::new(|x| x + num)
+//     } else {
+//         Box::new(|x| x - num)
+//     }
+// }
+
+
+// 迭代器
+// 惰性初始化
+// fn main() {
+//     let v1 = vec![1,2,3];
+//     let v1_iter = v1.iter();
+//     for var in v1_iter {
+//         println!("{}", var)
+//     }
+// }
+
+// next
