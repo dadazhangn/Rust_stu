@@ -8663,4 +8663,143 @@
 // fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
 //     shoes.into_iter().filter(|s| s.size == shoe_size).collect()
 // }
-// 实现 Iterator 特征
+// 实现iterator特征
+// 创建一个计数器
+// struct Counter {
+//     count: u32,
+// }
+
+// impl  Counter{
+//     fn new() -> Counter {
+//         Counter {
+//             count: 0
+//         }
+//     }
+// }
+
+// impl Iterator for Counter {
+//     type Item = u32;
+
+//     fn next(&mut self) -> Option<Self::Item> {
+//         self.count += 1;
+//         if self.count < 6 {
+//             Some(self.count)
+//         } else {
+//             None
+//         }
+//     }
+// }
+
+
+// fn main() {
+//     // let mut counter = Counter::new();
+//     // println!("{:?}", counter.next());
+//     // println!("{:?}", counter.next());
+//     // println!("{:?}", counter.next());
+//     // println!("{:?}", counter.next());
+//     // println!("{:?}", counter.next());
+//     // println!("{:?}", counter.next());
+
+//     // 实现 Iterator 特征的其它方法
+
+//     let sum: u32 = Counter::new()
+//                         .zip(Counter::new().skip(1))
+//                         .map(|(a, b)| a * b)
+//                         .filter(|x| x % 3 == 0)
+//                         .sum();
+//     assert_eq!(18, sum);
+// }
+
+// enumerate
+// fn main() {
+//     let v = vec![1u64, 2,3,4,5,6];
+//     for (i, v) in v.iter().enumerate() {
+//         println!("第{}个值是{}", i,v);
+//     }
+// }
+// fn main() {
+//     let v = vec![1u64, 2,3,4,5,6];
+//     let val = v.iter().enumerate()
+//     .filter(|&(idx, _)| idx % 2 == 0)
+//     .map(|(_, val)| val)
+//     .fold(0u64, |sum, acm| sum + acm);
+// }
+// 迭代器的性能
+
+// fn sum_for(x: &[f64]) -> f64 {
+//     let mut result = 0f64;
+//     for i in 0..x.len() {
+//         result += x[i];
+//     }
+//     result
+// }
+
+// fn sum_iter(x: &[f64]) -> f64{
+//     x.iter().sum::<f64>()
+// }
+
+
+// // 避免栈上数据的拷贝
+// fn main() {
+//     // 在栈上创建一个长度为1000的数组
+//     let arr = [0; 1000];
+//     // 将arr所有权转移arr1，由于 `arr` 分配在栈上，因此这里实际上是直接重新深拷贝了一份数据
+//     let arr1 = arr;
+//     // arr 和 arr1 都拥有各自的栈上数组，因此不会报错
+//     println!("{}",arr.len());
+//     println!("{}",arr1.len());
+
+//     // 在堆上创建长度为1000的数组，然后用智能指针指向它
+//     let arr3 = Box::new([0; 1000]);
+//     // 将堆上数组的所有权转移给 arr1，由于数据在堆上，因此仅仅拷贝了智能指针的结构体，底层数据并没有被拷贝
+//     // 所有权顺利转移给 arr4，arr 不再拥有所有权\
+//     let arr4 = arr3;
+//     println!("{}", arr4.len());
+//     // 由于 arr3 不再拥有底层数组的所有权，因此下面代码将报错
+//     // println!("{}", arr3.len());
+
+// }
+
+// 将动态大小类型变为 Sized 固定大小类型
+// 递归类型
+// enum List {
+//     Cons(i32, Box<List>),
+//     Nil,
+// }
+
+// use core::str;
+
+// // 特征对象
+// trait Draw {
+//     fn draw(&self);
+// }
+
+// struct Button {
+//     id: u32,
+// }
+
+// impl Draw for Button {
+//     fn draw(&self) {
+//         println!("这是屏幕上的第{}号按钮", self.id);
+//     }
+// }
+
+// struct Select{
+//     id: u32,
+// }
+
+// impl Draw for Select {
+//     fn draw(&self) {
+//         println!("这是一个选择框{}", self.id);
+//     }
+// }
+
+// fn main() {
+//     let elems: Vec<Box<dyn Draw>> = vec![Box::new(Button{id: 1}), Box::new(Select{id: 2})];
+
+//     for e in elems {
+//         e.draw();
+//     }
+// }
+
+// Box 内存布局
