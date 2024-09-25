@@ -8803,3 +8803,89 @@
 // }
 
 // Box 内存布局
+// fn main() {
+//     let arr = vec![Box::new(1), Box::new(2)];
+//     let (first, second) = (&arr[0], &arr[1]);
+//     let sum = **first + **second;
+//     println!("{sum}");
+// }
+
+// fn main() {
+//     let s = gen_static_str();
+//     println!("{}", s);
+// }
+
+// fn gen_static_str() -> &'static str{
+//     let mut s = String::new();
+//     s.push_str("hello world");
+
+//     Box::leak(s.into_boxed_str())
+// }
+
+// 智能指针解引用
+// fn main() {
+//     let s = Box::new(1);
+//     let sum = 1 + *s;
+//     println!("{sum}");
+// }
+
+// 定义自己的智能指针
+// struct MyBox<T>(T);
+
+// impl<T> MyBox<T> {
+//     fn new(x: T) -> MyBox<T> {
+//         MyBox(x)
+//     }
+// }
+// // 为智能指针实现 Deref 特征
+// use std::ops::Deref;
+// impl<T> Deref for MyBox<T>{
+//     type Target = T;
+//     fn deref(&self) -> &Self::Target {
+//         &self.0
+//     }
+// }
+
+// fn main() {
+//     let s = MyBox::new(2);
+//     let sum = *s + 1;
+//     println!("{}", sum);
+// }
+
+// 三种 Deref 转换
+// struct MyBox<T> {
+//     v: T
+// }
+
+// impl<T> MyBox<T> {
+//     fn new(x: T) -> MyBox<T> {
+//         MyBox { v: x }
+//     }
+// }
+
+// use std::ops::Deref;
+// impl<T> Deref for MyBox<T> {
+//     type Target = T;
+//     fn deref(&self) -> &Self::Target {
+//         &self.v
+//     }
+// }
+
+// use std::ops::DerefMut;
+// impl<T> DerefMut for MyBox<T> {
+//     fn deref_mut(&mut self) -> &mut Self::Target {
+//         &mut self.v
+//     }
+// }
+
+// fn main() {
+//     let mut s = MyBox::new(String::from("hello, "));
+//     display(&mut s);
+// }
+
+// fn display(s: &mut String) {
+//     s.push_str("world");
+//     println!("{}", s);
+// }
+
+// Drop
