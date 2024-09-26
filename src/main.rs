@@ -8890,3 +8890,71 @@
 // }
 
 // Drop
+// struct HasDrop1;
+// struct HasDrop2;
+
+// impl Drop for HasDrop1 {
+//     fn drop(&mut self) {
+//         println!("Dropping HasDrop1");
+//     }
+// }
+// impl Drop for HasDrop2 {
+//     fn drop(&mut self) {
+//         println!("Dropping HasDrop2");
+//     }
+// }
+
+// struct HasTwoDrops {
+//     one: HasDrop1,
+//     two: HasDrop2,
+// }
+
+// impl Drop for HasTwoDrops {
+//     fn drop(&mut self) {
+//         println!("Dropping HasTwoDrops!")
+//     }
+// }
+
+// struct Foo;
+
+// impl Drop for Foo {
+//     fn drop(&mut self) {
+//         println!("Dropping Foo");
+//     }
+// }
+
+// fn main() {
+//     let _x: HasTwoDrops = HasTwoDrops {
+//         one: HasDrop1,
+//         two: HasDrop2,
+//     };
+//     let _foo = Foo;
+//     println!("Running...");
+// }
+
+// 手动回收
+// #[derive(Debug)]
+// struct Foo;
+
+// impl Drop for Foo {
+//     fn drop(&mut self) {
+//         println!("Droppong Foo!");
+//     }
+// }
+
+// fn main() {
+//     let foo = Foo;
+//    drop(foo);
+//     // println!("Running!: {:?}", foo);
+// }
+// 互斥的 Copy 和 Drop
+// #[derive(Copy)]
+// struct Foo;
+
+// impl Drop for Foo {
+//     fn drop(&mut self) {
+//         println!("Dropping Foo!");
+//     }
+// }
+
+
