@@ -9488,20 +9488,113 @@
 
 // 传输多种类型的数据
 
-use std::sync::mpsc;
-enum Fruit {
-    Apple(u8),
-    Orange(String)
-}
-fn main() {
-    let (tx, rx) = mpsc::channel();
-    tx.send(Fruit::Orange("Sweet".to_string())).unwrap();
-    tx.send(Fruit::Apple(3)).unwrap();
+// use std::sync::mpsc;
+// enum Fruit {
+//     Apple(u8),
+//     Orange(String)
+// }
+// fn main() {
+//     let (tx, rx) = mpsc::channel();
+//     tx.send(Fruit::Orange("Sweet".to_string())).unwrap();
+//     tx.send(Fruit::Apple(3)).unwrap();
 
-    for _ in 0..2 {
-        match rx.recv().unwrap() {
-            Fruit::Apple(count) => println!("recived {} apples", count),
-            Fruit::Orange(flavor) => println!("revice {} oranges", flavor),
-        }
+//     for _ in 0..2 {
+//         match rx.recv().unwrap() {
+//             Fruit::Apple(count) => println!("recived {} apples", count),
+//             Fruit::Orange(flavor) => println!("revice {} oranges", flavor),
+//         }
+//     }
+// }
+
+// 新手容易遇到的坑
+// use std::sync::mpsc;
+
+// fn main() {
+
+//     use std::thread;
+
+//     let (tx, rx) = mpsc::channel();
+//     let num_threads = 3;
+//     for i in 0.. num_threads {
+//         let thread_send = tx.clone();
+//         thread::spawn(move || {
+//             thread_send.send(i).unwrap();
+//             println!("thread {:?} finished", i);
+//         });
+//     }
+
+//     drop(tx);
+
+//     for x in rx {
+//         println!("GOT: {}", x);
+//     }
+
+//     println!("finish iterating")
+// }
+
+// 单线程中使用 Mutex
+// use std::sync::Mutex;
+
+// fn main() {
+//      // 使用`Mutex`结构体的关联函数创建新的互斥锁实例
+//      let m = Mutex::new(5);
+//      {
+//         // 获取锁， 然后deref为m的引用
+//         let mut num = m.lock().unwrap();
+//         *num = 6;
+//         // 锁自动被drop
+//      }
+//      println!("m = {:?}", m);
+// }
+
+// 多线程中使用 Mutex
+
+// use std::{rc::Rc, sync::Mutex, thread};
+
+
+// fn main() {
+//     // 通过RC实现Mutex的多所有权
+//     let counter = Rc::new(Mutex::new(0));
+//     let mut handles = vec![];
+
+//     for _ in 0..10 {
+//         let count = Rc::clone(&counter);
+//         // 创建子线程，并将mutex的所有权拷贝到子线程中
+//         let handle = thread::spawn(move || {
+//             let mut num = counter.lock().unwrap();
+//             *num+=1;
+//         });
+//         handles.push(handle);
+//     }
+    
+//     // 等待所有子线程完成
+//     for handle in handles {
+//         handle.join().unwrap();
+//     }
+//     // 计算结果
+//     println!("result: {:?}", *counter.lock().unwrap());
+// }
+
+// 多线程安全的 Arc<T>
+
+use std::{sync::{Arc, Mutex}, thread};
+
+fn main() {
+    let counter = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let count = counter.clone();
+        let handle = thread::spawn(move || {
+            let mut num = count.lock().unwrap();
+            *num += 1;
+        });
+        handles.push(handle);
     }
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("result: {:?}", *counter.lock().unwrap());
+
 }
