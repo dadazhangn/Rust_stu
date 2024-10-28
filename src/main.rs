@@ -9314,39 +9314,194 @@
 // }
 
 
-use std::sync::Arc;
-// 三方库 thread-local 它允许每个线程持有值的独立拷贝
-use std::{cell, thread};
-use std::cell::Cell;
-use thread_local::ThreadLocal;
+// use std::sync::Arc;
+// // 三方库 thread-local 它允许每个线程持有值的独立拷贝
+// use std::{cell, thread};
+// use std::cell::Cell;
+// use thread_local::ThreadLocal;
 
+// fn main() {
+//     let tls = Arc::new(ThreadLocal::new());
+//     let mut v = vec![];
+//     // 创建多个线程
+//     for _ in 0..5 {
+//         let tls2 = tls.clone();
+//         let handle = thread::spawn(move || {
+//         // 将计数器加1
+//         // 请注意，由于线程 ID 在线程退出时会被回收，因此一个线程有可能回收另一个线程的对象
+//         // 这只能在线程退出后发生，因此不会导致任何竞争条件
+//         let cell = tls2.get_or(|| Cell::new(0));
+//         cell.set(cell.get() + 1);
+//         });
+//         v.push(handle);
+//     }
+//     for handle in v {
+//         handle.join().unwrap();
+//     }
+
+//     // 一旦所有子线程结束，收集它们的线程局部变量中的计数器值，然后进行求和
+//     let tls = Arc::try_unwrap(tls).unwrap();
+//     let total = tls.into_iter().fold(0, |x, y| {
+//     // 打印每个线程局部变量中的计数器值，发现不一定有5个线程，
+//     // 因为一些线程已退出，并且其他线程会回收退出线程的对象
+//     println!("x: {}, y: {}", x, y.get());
+//     x + y.get()
+//     });
+
+//     assert_eq!(total, 5);
+// }
+
+
+// 线程间的消息传递
+// 多发送者，单接收者
+// use std::sync::mpsc;
+// use std::thread;
+
+// fn main() {
+//     // 创建一个消息通道，返回一个元组
+//     let (tx, rx) = mpsc::channel();
+
+//     // 创建线程并发送消息
+//     thread::spawn(move || {
+//         // 发送一个数字1, send方法返回Result<T,E>，通过unwrap进行快速错误处理
+//         tx.send(1).unwrap();
+//         // 下面代码将报错，因为编译器自动推导出通道传递的值是i32类型，那么Option<i32>类型将产生不匹配错误
+//         // tx.send(Some(1)).unwrap()
+//     });
+
+//     // 在主线程中接收子线程发送的消息并输出
+//     println!("revice: {}", rx.recv().unwrap());
+// }
+
+// // 不阻塞的 try_recv 方法
+// use std::sync::mpsc;
+// use std::thread;
+
+// fn main() {
+//     let(tx, rx) = mpsc::channel();
+//     thread::spawn(move || {
+//         tx.send(1).unwrap();
+//     });
+//     println!("revice: {}", rx.try_recv().unwrap());
+// }
+// 传输具有所有权的数据
+
+// use std::sync::mpsc;
+// use std::thread;
+
+// fn main() {
+//     let(tx, rx) = mpsc::channel();
+//     thread::spawn(move || {
+//         let str = String::from("我走了");
+//         tx.send(str).unwrap();
+//         println!("the value is: {:?}", str);
+//     });
+//     let reviced = rx.recv().unwrap();
+//     println!("Got: {:?}", reviced);
+// }
+
+// 使用 for 进行循环接收
+// use std::sync::mpsc;
+// use std::thread;
+
+// fn main() {
+//     let (tx, rx) = mpsc::channel();
+//     thread::spawn(move || {
+//         let vals = vec![
+//             String::from("hello"),
+//             String::from("you"),
+//             String::from("me"),
+//             String::from("him"),
+//         ];
+//         tx.send(vals).unwrap();
+//     });
+//     let reviced = rx.recv().unwrap();
+//     for rec in reviced {
+//         println!("reviced: {:?}", rec);
+//     }
+// }
+
+// 使用多发送者
+// use std::sync::mpsc;
+// use std::thread;
+
+// fn main() {
+//     let (tx, rx) = mpsc::channel();
+//     let tx1 = tx.clone();
+//     thread::spawn(move || {
+//         tx.send(String::from("hi from raw tx")).unwrap();
+//     });
+
+//     thread::spawn(move || {
+//         tx1.send(String::from("hi from cloned tx")).unwrap();
+//     });
+
+//     for recived in rx {
+//         println!("Got: {}", recived);
+//     }
+// }
+
+// 同步和异步通道
+// 异步通道
+// use std::sync::mpsc;
+// use std::thread;
+// use std::time::Duration;
+
+// fn main() {
+//     let (tx, rx)= mpsc::channel();
+
+//     let handle = thread::spawn(move || {
+//         println!("发送之前");
+//         tx.send(1).unwrap();
+//         println!("发送之后");
+//     });
+
+//     println!("睡眠之前");
+//     thread::sleep(Duration::from_secs(3));
+//     println!("睡眠之后");
+
+//     println!("revice: {}", rx.recv().unwrap());
+//     handle.join().unwrap();
+
+    
+// }
+
+// // 同步通道
+// fn main() {
+//     let (tx, rx)= mpsc::sync_channel(0);
+
+//     let handle = thread::spawn(move || {
+//         println!("发送之前");
+//         tx.send(1).unwrap();
+//         println!("发送之后");
+//     });
+
+//     println!("睡眠之前");
+//     thread::sleep(Duration::from_secs(3));
+//     println!("睡眠之后");
+
+//     println!("revice: {}", rx.recv().unwrap());
+//     handle.join().unwrap();
+
+    
+// }
+
+// 传输多种类型的数据
+
+use std::sync::mpsc;
+enum Fruit {
+    Apple(u8),
+    Orange(String)
+}
 fn main() {
-    let tls = Arc::new(ThreadLocal::new());
-    let mut v = vec![];
-    // 创建多个线程
-    for _ in 0..5 {
-        let tls2 = tls.clone();
-        let handle = thread::spawn(move || {
-        // 将计数器加1
-        // 请注意，由于线程 ID 在线程退出时会被回收，因此一个线程有可能回收另一个线程的对象
-        // 这只能在线程退出后发生，因此不会导致任何竞争条件
-        let cell = tls2.get_or(|| Cell::new(0));
-        cell.set(cell.get() + 1);
-        });
-        v.push(handle);
-    }
-    for handle in v {
-        handle.join().unwrap();
-    }
+    let (tx, rx) = mpsc::channel();
+    tx.send(Fruit::Orange("Sweet".to_string())).unwrap();
+    tx.send(Fruit::Apple(3)).unwrap();
 
-    // 一旦所有子线程结束，收集它们的线程局部变量中的计数器值，然后进行求和
-    let tls = Arc::try_unwrap(tls).unwrap();
-    let total = tls.into_iter().fold(0, |x, y| {
-    // 打印每个线程局部变量中的计数器值，发现不一定有5个线程，
-    // 因为一些线程已退出，并且其他线程会回收退出线程的对象
-    println!("x: {}, y: {}", x, y.get());
-    x + y.get()
-    });
-
-    assert_eq!(total, 5);
+    for _ in 0..2 {
+        match rx.recv().unwrap() {
+            Fruit::Apple(count) => println!("recived {} apples", count),
+            Fruit::Orange(flavor) => println!("revice {} oranges", flavor),
+        }
+    }
 }
