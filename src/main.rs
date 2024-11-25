@@ -9577,24 +9577,118 @@
 
 // 多线程安全的 Arc<T>
 
-use std::{sync::{Arc, Mutex}, thread};
+// use std::{sync::{Arc, Mutex}, thread};
+
+// fn main() {
+//     let counter = Arc::new(Mutex::new(0));
+//     let mut handles = vec![];
+
+//     for _ in 0..10 {
+//         let count = counter.clone();
+//         let handle = thread::spawn(move || {
+//             let mut num = count.lock().unwrap();
+//             *num += 1;
+//         });
+//         handles.push(handle);
+//     }
+//     for handle in handles {
+//         handle.join().unwrap();
+//     }
+
+//     println!("result: {:?}", *counter.lock().unwrap());
+
+// }
+
+// use std::sync::Mutex;
+
+// 死锁
+// 单线程死锁
+// fn main() {
+//     let data = Mutex::new(0);
+
+//     let d1 = data.lock();
+//     let d1 = data.lock();
+// }
+
+// 多线程死锁
+// use std::{sync::{Mutex, MutexGuard}, thread};
+// use std::thread::sleep;
+// use std::time::Duration;
+// use lazy_static::lazy_static;
+// lazy_static! {
+//     static ref MUTEX1: Mutex<i64> = Mutex::new(0);
+//     static ref MUTEX2: Mutex<i64> = Mutex::new(0);
+// }
+// fn main() {
+//     // 存放子程序的句柄
+//     let mut chlidren = vec![];
+//     for i_thread in 0..2 {
+//         chlidren.push(thread::spawn(move || {
+//             for _ in 0..1  {
+//                 // 线程1
+//                 if i_thread % 2 == 0 {
+//                     // 锁住MUTEX1
+//                     let guard: MutexGuard<i64> = MUTEX1.lock.unwarp();
+//                 } 
+//             }
+//         }));
+//     }
+// }
+
+// 读写锁 RwLock
+// use std::sync::RwLock;
+
+// fn main() {
+//     let lock = RwLock::new(5);
+//     // 同一时间允许多个读
+//     {
+//         let r1 = lock.read().unwrap();
+//         let r2 = lock.read().unwrap();        
+//     }
+//     // 读锁在此处drop
+//     // 同一时间只允许多个写
+
+//     {
+//         let mut w = lock.write().unwrap();
+//         *w +=1;
+//         assert_eq!(*w, 6);
+//           // 以下代码会阻塞发生死锁，因为读和写不允许同时存在
+//         // 写锁w直到该语句块结束才被释放，因此下面的读锁依然处于`w`的作用域中
+//         // println!("{:?}",r1);
+//         // let r1 = lock.read();
+//     }// 写锁在此处被drop
+// }
+
+// 使用 Atomic 作为全局变量
+use std::ops::Sub;
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::thread::{self, JoinHandle};
+use std::time::Instant;
+
+const N_TIMES: u64 = 10000000;
+const N_THREADS: usize = 10;
+
+static R: AtomicU64 = AtomicU64::new(0);
+
+fn add_n_times(n: u64) -> JoinHandle<()> {
+    thread::spawn(move || {
+        for _ in 0..n {
+            R.fetch_add(1, Ordering::Relaxed);
+        }
+    })
+}
 
 fn main() {
-    let counter = Arc::new(Mutex::new(0));
-    let mut handles = vec![];
+    let s = Instant::now();
+    let mut threads = Vec::with_capacity(N_THREADS);
 
-    for _ in 0..10 {
-        let count = counter.clone();
-        let handle = thread::spawn(move || {
-            let mut num = count.lock().unwrap();
-            *num += 1;
-        });
-        handles.push(handle);
-    }
-    for handle in handles {
-        handle.join().unwrap();
+    for _ in 0..N_THREADS {
+        threads.push(add_n_times(N_TIMES));
     }
 
-    println!("result: {:?}", *counter.lock().unwrap());
-
+    for thread in threads {
+        thread.join().unwrap();
+    }
+    assert_eq!(N_TIMES * N_THREADS as u64, R.load(Ordering::Relaxed));
+    println!("{:?}", Instant::now().sub(s));
 }
