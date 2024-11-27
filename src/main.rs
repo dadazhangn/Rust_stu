@@ -9739,15 +9739,46 @@
 // }
 
 // 基于 Send 和 Sync 的线程安全
-use std::thread;
-use std:: rc::Rc;
+// use std::thread;
+// use std:: rc::Rc;
+
+// // use rand::thread_rng;
+
+// fn main() {
+//     let v = Rc::new(5);
+//     let t = thread::spawn(move || {
+//         println!("{}", v);
+//     });
+//     t.join().unwrap();
+// }
+
+// use std::thread;
+
+// fn main() {
+//     let p = 5 as *mut u8;
+
+//     let t = thread::spawn(move || {
+//         println!("{:?}", p);
+//     });
+
+//     t.join().unwrap();
+// }
+
+// use std::thread;
 
 // use rand::thread_rng;
 
-fn main() {
-    let v = Rc::new(5);
-    let t = thread::spawn(move || {
-        println!("{}", v);
-    });
-    t.join().unwrap();
-}
+// #[derive(Debug)]
+// struct MyBox(* mut u8);
+
+// unsafe impl Send for MyBox { }
+
+// fn main() {
+//     let p = MyBox(5 as *mut u8);
+//     let t = thread::spawn(move || {
+//         println!("{:?}", p);
+//     });
+
+//     t.join().unwrap();
+
+// }
