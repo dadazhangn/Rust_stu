@@ -9783,3 +9783,79 @@
 
 // }
 
+// fn fib(n: u64) -> u64 {
+//     if n < 2 {
+//         return n;
+//     }
+//     fib(n - 1) + fib(n - 2)
+// }
+
+// fn main() {
+//     let n = 40;
+//     let result = fib(n);
+//     println!(" f{} = {}", n, result);
+// // }
+// fn main() {
+//     let s = [[5, 6, 7], [8, 9, 10], [21, 15, 32]];
+//     let mut elements_searched = 0;
+//     let target_value = 10;
+//     'outer: for i in 0..=2 {
+//         for j in 0..=2 {
+//             elements_searched += 1;
+//             if s[i][j] == target_value {
+//                 break 'outer;
+//             }
+//         }
+//     }
+//     dbg!(elements_searched);
+// }
+
+// fn main() {
+//     let mut a: [i8; 5] = [5, 4, 3, 2, 1];
+//     a[2] = 0;
+//     println!("a: {a:?}");
+// }
+
+// fn check_order(tuple: (i32, i32, i32)) -> bool {
+//     let (left, middle, right) = tuple;
+//     left < middle && middle < right
+// }
+
+// fn main() {
+//     let tuple = (1, 2, 3);
+//     println!(
+//         "{tuple:?}: {}",
+//         if check_order(tuple) { "ordered" } else { "unordered" }
+//     );
+// }
+
+// fn transpose(matrix: [[i32; 3]; 3]) -> [[i32; 3]; 3] {
+//     let mut res = [[0; 3]; 3];
+//     for i in 0..3 {
+//         for j in 0..3 {
+//             res[j][i] = matrix[i][j];
+//         }
+//     }
+//     res
+// }
+
+// fn main() {
+//     let matrix = [
+//         [101, 102, 103], // <-- the comment makes rustfmt add a newline
+//         [201, 202, 203],
+//         [301, 302, 303],
+//     ];
+
+//     dbg!(matrix);
+//     let transposed = transpose(matrix);
+//     dbg!(transposed);
+// }
+
+fn main() {
+    let a: [i32; 6] = [10, 20, 30, 40, 50, 60];
+    println!("a: {a:?}");
+
+    let s: &[i32] = &a[2..4];
+
+    println!("s: {s:?}");
+}
