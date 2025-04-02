@@ -9851,11 +9851,85 @@
 //     dbg!(transposed);
 // }
 
+// fn main() {
+//     let a: [i32; 6] = [10, 20, 30, 40, 50, 60];
+//     println!("a: {a:?}");
+
+//     let s: &[i32] = &a[2..4];
+
+//     println!("s: {s:?}");
+// }
+
+// fn main() {
+//     let x_ref = {
+//         let x = 5;
+//         &x
+//     };
+//     dbg!(x_ref); // 这里会报错，因为 x 的生命周期已经结束
+// }
+
+
+// fn magnitude(vector: &[f64;3]) -> f64 {
+//     let mut mag_squared = 0.0;
+//     for coord in vector {
+//         mag_squared += coord * coord;
+//     }
+//     mag_squared.sqrt()
+// }
+
+// fn normalize(vector: &mut [f64;3]) {
+//     let mag = magnitude(vector);
+//     for item in vector {
+//         *item/=mag;
+//     }
+// }
+
+// fn main() {
+//     println!("Magnitude of a unit vector: {}", magnitude(&[0.0, 1.0, 0.0]));
+
+//     let mut v = [1.0, 2.0, 9.0];
+//     println!("Magnitude of {v:?} : {}", magnitude(&v));
+//     normalize(&mut v);
+//     println!("Magnitude of {v:?} after normalization: {}", magnitude(&v));
+// }
+
+// struct PoundsOForce(f64);
+// struct Newtons(f64);
+
+// fn compute_thruster_force() -> PoundsOForce{
+//     todo!()
+// }
+
+// fn set_thruster_force(force: PoundsOForce) {
+//     // 这里是设置推进器的逻辑
+// }
+
+
+// fn main() {
+//     let force = compute_thruster_force();
+//     set_thruster_force(force);
+// }
+
+const DIGEST_SIZE: usize = 3;
+const FILL_VALUE: u8 = callculate_fill_value();
+
+const fn callculate_fill_value() -> u8{
+    if DIGEST_SIZE < 10 {
+        42 
+    } else {
+        13
+    }
+}
+
+fn computed_digest(text: &str) -> [u8; DIGEST_SIZE] {
+    let mut digest = [FILL_VALUE; DIGEST_SIZE];
+    for (idx, &b) in text.as_bytes().iter().enumerate() {
+        digest[idx % DIGEST_SIZE]  = digest[idx % DIGEST_SIZE].wrapping_add(b);
+    }
+    digest
+ }
+
 fn main() {
-    let a: [i32; 6] = [10, 20, 30, 40, 50, 60];
-    println!("a: {a:?}");
-
-    let s: &[i32] = &a[2..4];
-
-    println!("s: {s:?}");
+    let digest = computed_digest("hello");
+    println!("digest: {:?}", digest);
 }
